@@ -4,7 +4,7 @@
       <div *ngIf="!button.isComplex">
         <button type="button"
                 class="nw-button"
-                [class]="button.styleClass"
+                [ngClass]="button.styleClass"
                 [title]="button.title"
                 (click)="execCommand(button.command)">
           {{ button.title }}
