@@ -26,6 +26,7 @@
   <div class="nw-editor-container">
     <div class="nw-editor__src-container" *ngIf="editMode">
       <textarea [(ngModel)]="content"
+                (ngModelChange)="onChange($event)"
                 class="nw-editor__src"></textarea>
     </div>
     <div class="nw-editor">

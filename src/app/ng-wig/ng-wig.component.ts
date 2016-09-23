@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, ViewEncapsulation} from '@angular/core';
 import {NgWigToolbarService} from './ng-wig-toolbar.service';
 
 @Component({
@@ -8,7 +8,7 @@ import {NgWigToolbarService} from './ng-wig-toolbar.service';
   providers: [NgWigToolbarService],
   encapsulation: ViewEncapsulation.None
 })
-export class NgWigComponent implements OnInit {
+export class NgWigComponent implements OnInit, OnChanges {
 
   @Input() content: string;
 
@@ -19,7 +19,7 @@ export class NgWigComponent implements OnInit {
 
   constructor(private _ngWigToolbarService: NgWigToolbarService) {
 
-    this.container = document.querySelector('#ng-wig-editable') as HTMLElement;
+
     this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons();
     function string2array(keysString) {
       return keysString.split(',').map(Function.prototype.call, String.prototype.trim);
@@ -57,11 +57,32 @@ export class NgWigComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.container.bind('blur keyup change focus click', () => {
-    //   //view --> model
-    //   this.ngModelController.$setViewValue($container.html());
-    //   $scope.$applyAsync();
-    // });
+    this.container = document.querySelector('#ng-wig-editable') as HTMLElement;
+
+    //view --> model
+    ('keyup change focus click'.split(' ')).forEach(event =>
+      this.container.addEventListener(event, () => {
+        this.content = this.container.innerHTML;
+      },false)
+    );
+
+    //model --> view
+    //
+    // this.ngModelController.$render = () => this.ngModelController.$viewValue
+    //   ? $container.html(this.ngModelController.$viewValue)
+    //   : placeholder ? $container.empty()
+    //   : $container.html('<p></p>');
+
+
+  }
+
+  ngOnChanges(changes) {
+    this.container.innerHTML = this.content;
+  }
+
+  onChange(changes) {
+    //debugger
+    this.container.innerHTML = this.content;
   }
 
 }
