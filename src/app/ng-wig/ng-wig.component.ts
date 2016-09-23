@@ -65,23 +65,14 @@ export class NgWigComponent implements OnInit, OnChanges {
         this.content = this.container.innerHTML;
       },false)
     );
-
-    //model --> view
-    //
-    // this.ngModelController.$render = () => this.ngModelController.$viewValue
-    //   ? $container.html(this.ngModelController.$viewValue)
-    //   : placeholder ? $container.empty()
-    //   : $container.html('<p></p>');
-
-
   }
 
   ngOnChanges(changes) {
-    this.container.innerHTML = this.content;
+    this.container.innerHTML = changes.content.currentValue;
   }
 
-  onChange(changes) {
-    //debugger
+  onChange(event) {
+    //model -> view
     this.container.innerHTML = this.content;
   }
 
