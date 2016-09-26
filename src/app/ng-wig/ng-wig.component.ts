@@ -19,7 +19,6 @@ export class NgWigComponent implements OnInit, OnChanges {
 
   constructor(private _ngWigToolbarService: NgWigToolbarService) {
 
-
     this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons();
     function string2array(keysString) {
       return keysString.split(',').map(Function.prototype.call, String.prototype.trim);
