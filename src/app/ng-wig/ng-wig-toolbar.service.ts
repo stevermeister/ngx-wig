@@ -42,14 +42,14 @@ export class NgWigToolbarService {
   }
 
   getToolbarButtons() {
-      var toolbarButtons = [];
+      let toolbarButtons = [];
       this._defaultButtonsList.forEach(buttonKey => {
-        if(!this._buttonLibrary[buttonKey]) {
+        if (!this._buttonLibrary[buttonKey]) {
           throw 'There is no "' + buttonKey + '" in your library. Possible variants: ' + Object.keys(this._buttonLibrary);
         }
 
-        var button = Object.assign({}, this._buttonLibrary[buttonKey]);
-        //button.isActive = () => {return !!this.command && document.queryCommandState(this.command);}
+        let button = Object.assign({}, this._buttonLibrary[buttonKey]);
+        // button.isActive = () => {return !!this.command && document.queryCommandState(this.command);}
         toolbarButtons.push(button);
       });
       return toolbarButtons;

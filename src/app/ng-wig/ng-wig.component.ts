@@ -31,7 +31,9 @@ export class NgWigComponent implements OnInit, OnChanges {
   }
 
   execCommand(command, options) {
-    if (this.editMode) return false;
+    if (this.editMode) {
+      return false;
+    }
 
     if (document.queryCommandSupported && !document.queryCommandSupported(command)) {
       throw 'The command "' + command + '" is not supported';
@@ -58,11 +60,11 @@ export class NgWigComponent implements OnInit, OnChanges {
 
     this.container = document.querySelector('#ng-wig-editable') as HTMLElement;
 
-    //view --> model
+    // view --> model
     ('keyup change focus click'.split(' ')).forEach(event =>
       this.container.addEventListener(event, () => {
         this.content = this.container.innerHTML;
-      },false)
+      }, false)
     );
   }
 
@@ -71,7 +73,7 @@ export class NgWigComponent implements OnInit, OnChanges {
   }
 
   onChange(event) {
-    //model -> view
+    // model -> view
     this.container.innerHTML = this.content;
   }
 

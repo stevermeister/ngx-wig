@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { NgWigComponent } from './ng-wig/ng-wig.component';
-import { NgWigToolbarService } from './ng-wig/ng-wig-toolbar.service'
+import { NgWigToolbarService } from './ng-wig/ng-wig-toolbar.service';
 
 @NgModule({
   declarations: [
