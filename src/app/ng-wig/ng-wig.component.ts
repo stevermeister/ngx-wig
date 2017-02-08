@@ -1,14 +1,22 @@
-import {Component, Input, OnInit, OnChanges, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, ViewEncapsulation, forwardRef} from '@angular/core';
 import {NgWigToolbarService} from './ng-wig-toolbar.service';
+import {NG_VALUE_ACCESSOR, ControlValueAccessor, NG_VALIDATORS} from '@angular/forms';
 
 @Component({
   selector: 'ng-wig',
   templateUrl: './ng-wig.component.html',
   styleUrls: ['./ng-wig.component.css'],
-  providers: [NgWigToolbarService],
+  providers: [
+    NgWigToolbarService,
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NgWigComponent),
+      multi: true
+    }
+  ],
   encapsulation: ViewEncapsulation.None
 })
-export class NgWigComponent implements OnInit, OnChanges {
+export class NgWigComponent implements OnInit, OnChanges, ControlValueAccessor {
 
   @Input() content: string;
 
@@ -16,9 +24,9 @@ export class NgWigComponent implements OnInit, OnChanges {
   public editMode: boolean = false;
   public container: HTMLElement;
   public toolbarButtons: Object[] = [];
+  private propagateChange: any = (_: any) => { };
 
   constructor(private _ngWigToolbarService: NgWigToolbarService) {
-
     this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons();
     function string2array(keysString) {
       return keysString.split(',').map(Function.prototype.call, String.prototype.trim);
@@ -57,8 +65,11 @@ export class NgWigComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-
     this.container = document.querySelector('#ng-wig-editable') as HTMLElement;
+
+    if (this.content) {
+      this.container.innerHTML = this.content;
+    }
 
     // view --> model
     ('keyup change focus click'.split(' ')).forEach(event =>
@@ -69,12 +80,26 @@ export class NgWigComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
-    this.container.innerHTML = changes.content.currentValue;
+    if (this.container) {
+      this.container.innerHTML = changes.content.currentValue;
+    }
   }
 
   onChange(event) {
     // model -> view
     this.container.innerHTML = this.content;
   }
+
+  writeValue(value: any) {
+    if (value) {
+      this.content = value;
+    }
+  }
+
+  registerOnChange(fn: any) {
+    this.propagateChange = fn;
+  }
+
+  registerOnTouched() {  }
 
 }
