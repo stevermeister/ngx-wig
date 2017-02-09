@@ -4,20 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { NgWigComponent } from './ng-wig/ng-wig.component';
-import { NgWigToolbarService } from './ng-wig/ng-wig-toolbar.service';
+import { Ng2WigModule } from './ng2wig/ng2wig.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NgWigComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    Ng2WigModule
   ],
-  providers: [NgWigToolbarService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

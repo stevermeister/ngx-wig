@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NgWigComponent } from './ng-wig/ng-wig.component'
 
 @Component({
   selector: 'app-root',
@@ -7,4 +6,5 @@ import { NgWigComponent } from './ng-wig/ng-wig.component'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
 }
