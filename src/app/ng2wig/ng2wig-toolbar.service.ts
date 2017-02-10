@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class NgWigToolbarService {
+export class Ng2WigToolbarService {
 
   private _buttonLibrary = {
   list1: {title: 'Unordered List', command: 'insertunorderedlist', styleClass: 'list-ul'},
@@ -14,7 +14,7 @@ export class NgWigToolbarService {
 
   constructor() { }
 
-  setButtons(buttons) {
+  setButtons(buttons: string[]) {
     // if(!angular.isArray(buttons)) {
     //   throw 'Argument "buttons" should be an array';
     // }
@@ -22,17 +22,17 @@ export class NgWigToolbarService {
     this._defaultButtonsList = buttons;
   };
 
-  addStandardButton(name, title, command, styleClass) {
+  addStandardButton(name: string, title: string, command: string, styleClass: string) {
     if(!name || !title || !command) {
       throw 'Arguments "name", "title" and "command" are required';
     }
 
     styleClass = styleClass || '';
-    this._buttonLibrary[name] = {title: title, command: command, styleClass: styleClass}
+    this._buttonLibrary[name] = {title: title, command: command, styleClass: styleClass};
     this._defaultButtonsList.push(name);
   }
 
-  addCustomButton(name, pluginName) {
+  addCustomButton(name: string, pluginName: string) {
     if(!name || !pluginName) {
       throw 'Arguments "name" and "pluginName" are required';
     }
@@ -42,7 +42,7 @@ export class NgWigToolbarService {
   }
 
   getToolbarButtons() {
-      let toolbarButtons = [];
+      let toolbarButtons: string[] = [];
       this._defaultButtonsList.forEach(buttonKey => {
         if (!this._buttonLibrary[buttonKey]) {
           throw 'There is no "' + buttonKey + '" in your library. Possible variants: ' + Object.keys(this._buttonLibrary);

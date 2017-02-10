@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { NgWigComponent } from './ng-wig.component';
+import { Ng2WigComponent } from './ng2wig.component';
 
 describe('Component: NgWig', () => {
   it('should create an instance', () => {
-    let component = new NgWigComponent();
+    let component = new Ng2WigComponent();
     expect(component).toBeTruthy();
   });
 });
