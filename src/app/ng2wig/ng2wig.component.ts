@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges, ViewEncapsulation, forwardRef, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, ViewEncapsulation, forwardRef, SimpleChanges, Output, EventEmitter} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
 
@@ -332,8 +332,8 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
   encapsulation: ViewEncapsulation.None
 })
 export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor {
-
   @Input() content: string;
+  @Output() contentChange = new EventEmitter();
 
   public isSourceModeAllowed: boolean = true;
   public editMode: boolean = false;
@@ -346,7 +346,6 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
     function string2array(keysString: string) {
       return keysString.split(',').map(Function.prototype.call, String.prototype.trim);
     }
-
   }
 
   toggleEditMode() {
@@ -361,14 +360,12 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
     if (document.queryCommandSupported && !document.queryCommandSupported(command)) {
       throw 'The command "' + command + '" is not supported';
     }
-
     if (command === 'createlink' || command === 'insertImage') {
       options = window.prompt('Please enter the URL', 'http://');
       if (!options) {
         return;
       }
     }
-
     // use insertHtml for `createlink` command to account for IE/Edge purposes, in case there is no selection
     let selection = document.getSelection().toString();
     if (command === 'createlink' && selection === '') {
@@ -381,22 +378,20 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
 
   ngOnInit() {
     this.container = document.querySelector('#ng-wig-editable') as HTMLElement;
-
     if (this.content) {
       this.container.innerHTML = this.content;
     }
-
     // view --> model
     ('keyup change focus click'.split(' ')).forEach(event =>
       this.container.addEventListener(event, () => {
         this.content = this.container.innerHTML;
+        this.contentChange.emit(this.content);
       }, false)
     );
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.container) {
-      debugger;
       this.container.innerHTML = changes['content'].currentValue;
     }
   }
