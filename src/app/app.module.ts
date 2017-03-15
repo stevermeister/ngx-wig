@@ -1,3 +1,4 @@
+import { DemoComponent } from './plugins/demo.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +18,7 @@ import { Ng2WigModule } from './ng2wig/ng2wig.module';
     Ng2WigModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DemoComponent],
 })
 export class AppModule { }
