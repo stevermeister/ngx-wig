@@ -1,6 +1,10 @@
-import {Component, Input, OnInit, OnChanges, ViewEncapsulation, forwardRef, SimpleChanges, Output, EventEmitter} from '@angular/core';
+import {AfterViewInit, Component, ComponentFactoryResolver, Input, OnInit, OnChanges, ViewEncapsulation, forwardRef, SimpleChanges, Output, EventEmitter, ViewChild} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
+
+import { PluginComponent } from '../plugins/plugin.component';
+import { PluginDirective } from '../plugins/plugin.directive';
+import { PluginsService } from '../plugins/plugins.service';
 
 @Component({
   selector: 'ng2wig',
@@ -8,7 +12,7 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
               <div class="ng-wig">
                 <ul class="nw-toolbar">
                   <li class="nw-toolbar__item" *ngFor="let button of toolbarButtons">
-                    <div *ngIf="!button.isComplex">
+                    <div>
                       <button type="button"
                               class="nw-button"
                               [ngClass]="button.styleClass"
@@ -27,6 +31,9 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
                           (click)="toggleEditMode()">
                     Edit HTML
                   </button>
+                </li>
+                <li class="nw-toolbar__item">
+                    <template ng2wigPluginHost></template>
                 </li>
                 </ul>
               
@@ -331,9 +338,11 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class Ng2WigComponent implements AfterViewInit, OnInit, OnChanges, ControlValueAccessor {
   @Input() content: string;
+  @Input() plugins: string;
   @Output() contentChange = new EventEmitter();
+  @ViewChild(PluginDirective) pluginHost: PluginDirective;
 
   public isSourceModeAllowed: boolean = true;
   public editMode: boolean = false;
@@ -341,7 +350,7 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public toolbarButtons: Object[] = [];
   private propagateChange: any = (_: any) => { };
 
-  constructor(private _ngWigToolbarService: Ng2WigToolbarService) {
+  constructor(private _ngWigToolbarService: Ng2WigToolbarService, private _componentFactoryResolver: ComponentFactoryResolver, private _pluginsService: PluginsService) {
     this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons();
     function string2array(keysString: string) {
       return keysString.split(',').map(Function.prototype.call, String.prototype.trim);
@@ -374,6 +383,21 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
     else {
       document.execCommand(command, false, options);
     }
+  }
+
+  ngAfterViewInit() {
+      const pluginNames = this.plugins.split(',');
+      pluginNames.forEach(pluginName => {
+          const plugin = this._pluginsService.getPlugin(pluginName);
+          if (plugin) {
+            const componentFactory = this._componentFactoryResolver.resolveComponentFactory(plugin.component);
+
+            const viewContainerRef = this.pluginHost.viewContainerRef;
+
+            const componentRef = viewContainerRef.createComponent(componentFactory);
+            (<PluginComponent>componentRef.instance).options = plugin.options;
+          }
+      });
   }
 
   ngOnInit() {

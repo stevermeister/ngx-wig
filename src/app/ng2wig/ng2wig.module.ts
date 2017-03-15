@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { Ng2WigComponent } from './ng2wig.component';
 import { Ng2WigToolbarService } from './ng2wig-toolbar.service';
+import { PluginsModule } from './../plugins/plugins.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { Ng2WigToolbarService } from './ng2wig-toolbar.service';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    PluginsModule
   ],
   providers: [Ng2WigToolbarService],
   bootstrap: [Ng2WigComponent],

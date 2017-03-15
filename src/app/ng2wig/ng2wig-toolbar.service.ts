@@ -32,15 +32,6 @@ export class Ng2WigToolbarService {
     this._defaultButtonsList.push(name);
   }
 
-  addCustomButton(name: string, pluginName: string) {
-    if(!name || !pluginName) {
-      throw 'Arguments "name" and "pluginName" are required';
-    }
-
-    this._buttonLibrary[name] = {pluginName: pluginName, isComplex: true};
-    this._defaultButtonsList.push(name);
-  }
-
   getToolbarButtons() {
       let toolbarButtons: string[] = [];
       this._defaultButtonsList.forEach(buttonKey => {
