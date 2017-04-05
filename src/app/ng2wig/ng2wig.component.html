@@ -1,0 +1,39 @@
+<div class="ng-wig">
+    <ul class="nw-toolbar">
+        <li class="nw-toolbar__item" *ngFor="let button of toolbarButtons">
+            <div *ngIf="!button.isComplex">
+                <button type="button"
+                        class="nw-button"
+                        [ngClass]="button.styleClass"
+                        [title]="button.title"
+                        (click)="execCommand(button.command)">
+                {{ button.title }}
+                </button>
+            </div>
+        </li>
+        <li class="nw-toolbar__item">
+            <button type="button"
+                    class="nw-button nw-button--source"
+                    title="Edit HTML"
+                    [ngClass]="{ 'nw-button--active': editMode }"
+                    *ngIf="isSourceModeAllowed"
+                    (click)="toggleEditMode()">
+            Edit HTML
+            </button>
+        </li>
+    </ul>
+    <div class="nw-editor-container">
+        <div class="nw-editor__src-container" *ngIf="editMode">
+            <textarea [(ngModel)]="content"
+                        (ngModelChange)="onChange($event)"
+                        class="nw-editor__src"></textarea>
+        </div>
+        <div class="nw-editor">
+            <div id="ng-wig-editable"
+                    class="nw-editor__res"
+                    [ngClass]="{'nw-invisible': editMode}"
+                    contenteditable>
+            </div>
+        </div>
+    </div>
+</div>
