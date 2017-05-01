@@ -4,17 +4,18 @@ import { Injectable } from '@angular/core';
 export class Ng2WigToolbarService {
 
   private _buttonLibrary = {
-  list1: {title: 'Unordered List', command: 'insertunorderedlist', styleClass: 'list-ul'},
-  list2: {title: 'Ordered List', command: 'insertorderedlist', styleClass: 'list-ol'},
-  bold: {title: 'Bold', command: 'bold', styleClass: 'bold'},
-  italic: {title: 'Italic', command: 'italic', styleClass: 'italic'},
-  link: {title: 'Link', command: 'createlink', styleClass: 'link'}
-};
+    list1: {title: 'Unordered List', command: 'insertunorderedlist', styleClass: 'list-ul'},
+    list2: {title: 'Ordered List', command: 'insertorderedlist', styleClass: 'list-ol'},
+    bold: {title: 'Bold', command: 'bold', styleClass: 'bold'},
+    italic: {title: 'Italic', command: 'italic', styleClass: 'italic'},
+    link: {title: 'Link', command: 'createlink', styleClass: 'link'}
+  };
+
   private _defaultButtonsList = ['list1', 'list2', 'bold', 'italic', 'link'];
 
-  constructor() { }
+  public constructor() { }
 
-  setButtons(buttons: string[]) {
+  public setButtons(buttons: string[]): void {
     // if(!angular.isArray(buttons)) {
     //   throw 'Argument "buttons" should be an array';
     // }
@@ -22,8 +23,14 @@ export class Ng2WigToolbarService {
     this._defaultButtonsList = buttons;
   };
 
-  addStandardButton(name: string, title: string, command: string, styleClass: string) {
-    if(!name || !title || !command) {
+  public addStandardButton(
+    name: string,
+    title: string,
+    command: string,
+    styleClass: string
+  ) {
+
+    if (!name || !title || !command) {
       throw 'Arguments "name", "title" and "command" are required';
     }
 
@@ -32,8 +39,8 @@ export class Ng2WigToolbarService {
     this._defaultButtonsList.push(name);
   }
 
-  addCustomButton(name: string, pluginName: string) {
-    if(!name || !pluginName) {
+  public addCustomButton(name: string, pluginName: string): void {
+    if (!name || !pluginName) {
       throw 'Arguments "name" and "pluginName" are required';
     }
 
@@ -41,18 +48,29 @@ export class Ng2WigToolbarService {
     this._defaultButtonsList.push(name);
   }
 
-  getToolbarButtons() {
-      let toolbarButtons: string[] = [];
-      this._defaultButtonsList.forEach(buttonKey => {
-        if (!this._buttonLibrary[buttonKey]) {
-          throw 'There is no "' + buttonKey + '" in your library. Possible variants: ' + Object.keys(this._buttonLibrary);
-        }
+  public getToolbarButtons(buttonsList?: string): string[] {
+    let buttons = this._defaultButtonsList;
+    const toolbarButtons: string[] = [];
 
-        let button = Object.assign({}, this._buttonLibrary[buttonKey]);
-        // button.isActive = () => {return !!this.command && document.queryCommandState(this.command);}
-        toolbarButtons.push(button);
-      });
-      return toolbarButtons;
+    if (typeof buttonsList !== 'undefined') {
+      buttons = buttonsList.split(',');
+    }
+
+    buttons.forEach(buttonKey => {
+      if (!buttonKey) {
+        return;
+      }
+
+      if (!this._buttonLibrary[buttonKey]) {
+        throw 'There is no "' + buttonKey + '" in your library. Possible variants: ' + Object.keys(this._buttonLibrary);
+      }
+
+      let button = Object.assign({}, this._buttonLibrary[buttonKey]);
+      // button.isActive = () => {return !!this.command && document.queryCommandState(this.command);}
+      toolbarButtons.push(button);
+    });
+
+    return toolbarButtons;
   }
 
 }

@@ -1,7 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 
 import { Ng2WigComponent } from './ng2wig.component';
 import { Ng2WigToolbarService } from './ng2wig-toolbar.service';
@@ -11,9 +10,8 @@ import { Ng2WigToolbarService } from './ng2wig-toolbar.service';
     Ng2WigComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
-    HttpModule
   ],
   providers: [Ng2WigToolbarService],
   bootstrap: [Ng2WigComponent],
