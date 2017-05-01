@@ -4,17 +4,18 @@ import { Injectable } from '@angular/core';
 export class Ng2WigToolbarService {
 
   private _buttonLibrary = {
-  list1: {title: 'Unordered List', command: 'insertunorderedlist', styleClass: 'list-ul'},
-  list2: {title: 'Ordered List', command: 'insertorderedlist', styleClass: 'list-ol'},
-  bold: {title: 'Bold', command: 'bold', styleClass: 'bold'},
-  italic: {title: 'Italic', command: 'italic', styleClass: 'italic'},
-  link: {title: 'Link', command: 'createlink', styleClass: 'link'}
-};
+    list1: {title: 'Unordered List', command: 'insertunorderedlist', styleClass: 'list-ul'},
+    list2: {title: 'Ordered List', command: 'insertorderedlist', styleClass: 'list-ol'},
+    bold: {title: 'Bold', command: 'bold', styleClass: 'bold'},
+    italic: {title: 'Italic', command: 'italic', styleClass: 'italic'},
+    link: {title: 'Link', command: 'createlink', styleClass: 'link'}
+  };
+
   private _defaultButtonsList = ['list1', 'list2', 'bold', 'italic', 'link'];
 
-  constructor() { }
+  public constructor() { }
 
-  setButtons(buttons: string[]) {
+  public setButtons(buttons: string[]): void {
     // if(!angular.isArray(buttons)) {
     //   throw 'Argument "buttons" should be an array';
     // }
@@ -22,8 +23,14 @@ export class Ng2WigToolbarService {
     this._defaultButtonsList = buttons;
   };
 
-  addStandardButton(name: string, title: string, command: string, styleClass: string) {
-    if(!name || !title || !command) {
+  public addStandardButton(
+    name: string,
+    title: string,
+    command: string,
+    styleClass: string
+  ) {
+
+    if (!name || !title || !command) {
       throw 'Arguments "name", "title" and "command" are required';
     }
 
@@ -32,7 +39,7 @@ export class Ng2WigToolbarService {
     this._defaultButtonsList.push(name);
   }
 
-  addCustomButton(name: string, pluginName: string) {
+  public addCustomButton(name: string, pluginName: string): void {
     if (!name || !pluginName) {
       throw 'Arguments "name" and "pluginName" are required';
     }
@@ -41,7 +48,7 @@ export class Ng2WigToolbarService {
     this._defaultButtonsList.push(name);
   }
 
-  getToolbarButtons(buttonsList?: string): string[] {
+  public getToolbarButtons(buttonsList?: string): string[] {
     let buttons = this._defaultButtonsList;
     const toolbarButtons: string[] = [];
 

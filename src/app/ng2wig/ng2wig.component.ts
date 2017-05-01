@@ -385,7 +385,7 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public hasFocus: boolean = false;
   private propagateChange: any = (_: any) => { };
 
-  constructor(private _ngWigToolbarService: Ng2WigToolbarService) {}
+  public constructor(private _ngWigToolbarService: Ng2WigToolbarService) {}
 
   public toggleEditMode(): void {
     this.editMode = !this.editMode;
