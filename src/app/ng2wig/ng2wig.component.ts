@@ -45,6 +45,7 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
                 </ul>
 
                 <div class="nw-editor-container"
+                     (click)="container.focus()"
                      [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }">
                   <div class="nw-editor__src-container"
                        *ngIf="editMode">
@@ -57,7 +58,6 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
                        [ngClass]="{'nw-invisible': editMode}">
                     <div class="nw-editor__placeholder"
                          [innerText]="placeholder"
-                         (click)="container.focus()"
                          *ngIf="shouldShowPlaceholder()">
                     </div>
                     <div #ngWigEditable
