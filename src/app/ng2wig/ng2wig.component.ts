@@ -19,7 +19,8 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
   selector: 'ng2wig',
   template: `
               <div class="ng-wig">
-                <ul class="nw-toolbar">
+                <ul class="nw-toolbar"
+                    *ngIf="toolbarButtons.length">
                   <li class="nw-toolbar__item" *ngFor="let button of toolbarButtons">
                     <div *ngIf="!button.isComplex">
                       <button type="button"
@@ -43,17 +44,28 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
                 </li>
                 </ul>
 
-                <div class="nw-editor-container">
-                  <div class="nw-editor__src-container" *ngIf="editMode">
+                <div class="nw-editor-container"
+                     [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }">
+                  <div class="nw-editor__src-container"
+                       *ngIf="editMode">
                     <textarea [(ngModel)]="content"
                               (ngModelChange)="onChange($event)"
-                              class="nw-editor__src"></textarea>
+                              class="nw-editor__src">
+                    </textarea>
                   </div>
-                  <div class="nw-editor">
+                  <div class="nw-editor"
+                       [ngClass]="{'nw-invisible': editMode}">
+                    <div class="nw-editor__placeholder"
+                         [innerText]="placeholder"
+                         (click)="container.focus()"
+                         *ngIf="shouldShowPlaceholder()">
+                    </div>
                     <div #ngWigEditable
                          class="nw-editor__res"
-                         [ngClass]="{'nw-invisible': editMode}"
-                         contenteditable>
+
+                         contenteditable
+                         (focus)="hasFocus = true"
+                         (blur)="hasFocus = false">
                     </div>
                   </div>
                 </div>
@@ -149,15 +161,25 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
 
         .nw-editor-container {
             border: 1px solid #CCCCCC;
-            border-top: none;
             border-radius: 0 0 3px 3px;
             position: relative;
+        }
+
+        .nw-editor-container--with-toolbar {
+            border-top: none;
         }
 
         .nw-editor__res {
             min-height: 100%;
             padding: 0 8px;
             display: table-cell;
+        }
+
+        .nw-editor__placeholder {
+            padding: 1px 8px;
+            color: lightgray;
+            display: table-cell;
+            width: 100%;
         }
 
         .nw-editor__src,
@@ -347,6 +369,10 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
 export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor {
   @Input() content: string;
 
+  @Input() placeholder: string;
+
+  @Input() buttons: string;
+
   @Output() contentChange = new EventEmitter();
 
   @ViewChild('ngWigEditable')
@@ -356,20 +382,16 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public editMode: boolean = false;
   public container: HTMLElement;
   public toolbarButtons: Object[] = [];
+  public hasFocus: boolean = false;
   private propagateChange: any = (_: any) => { };
 
-  constructor(private _ngWigToolbarService: Ng2WigToolbarService) {
-    this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons();
-    function string2array(keysString: string) {
-      return keysString.split(',').map(Function.prototype.call, String.prototype.trim);
-    }
-  }
+  constructor(private _ngWigToolbarService: Ng2WigToolbarService) {}
 
-  toggleEditMode() {
+  public toggleEditMode(): void {
     this.editMode = !this.editMode;
   }
 
-  execCommand(command: string, options: string) {
+  public execCommand(command: string, options: string): boolean {
     if (this.editMode) {
       return false;
     }
@@ -393,11 +415,17 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
     }
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
+    this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons(this.buttons);
+    function string2array(keysString: string) {
+      return keysString.split(',').map(Function.prototype.call, String.prototype.trim);
+    }
+
     this.container = this.ng2wigEditable.nativeElement;
     if (this.content) {
       this.container.innerHTML = this.content;
     }
+
     // view --> model
     ('keyup change focus click'.split(' ')).forEach(event =>
       this.container.addEventListener(event, () => {
@@ -407,27 +435,32 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
     );
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (this.container) {
       this.container.innerHTML = changes['content'].currentValue;
     }
   }
 
-  onChange(event: Event) {
+  public onChange(event: Event): void {
     // model -> view
     this.container.innerHTML = this.content;
   }
 
-  writeValue(value: any) {
+  public writeValue(value: any): void {
     if (value) {
       this.content = value;
     }
   }
 
-  registerOnChange(fn: any) {
+  public registerOnChange(fn: any): void {
     this.propagateChange = fn;
   }
 
-  registerOnTouched() {  }
+  public registerOnTouched(): void {  }
 
+  public shouldShowPlaceholder(): boolean {
+    return this.placeholder
+        && !this.hasFocus
+        && !this.container.innerText;
+  }
 }
