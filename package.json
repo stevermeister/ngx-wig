@@ -24,7 +24,6 @@
     "@angular/platform-browser-dynamic": "2.4.9",
     "@angular/platform-server": "2.4.9",
     "@angular/forms": "2.4.9",
-    "@angular/router": "3.4.9",
     "core-js": "^2.4.1",
     "rxjs": "^5.1.0",
     "zone.js": "^0.7.6"
