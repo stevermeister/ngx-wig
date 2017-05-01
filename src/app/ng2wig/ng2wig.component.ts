@@ -62,7 +62,6 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
                     </div>
                     <div #ngWigEditable
                          class="nw-editor__res"
-
                          contenteditable
                          (focus)="hasFocus = true"
                          (blur)="hasFocus = false">
