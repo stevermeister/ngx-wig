@@ -366,23 +366,26 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
   encapsulation: ViewEncapsulation.None
 })
 export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor {
-  @Input() content: string;
+  @Input()
+  public content: string;
 
-  @Input() placeholder: string;
+  @Input()
+  public placeholder: string;
 
-  @Input() buttons: string;
+  @Input()
+  public buttons: string;
 
-  @Output() contentChange = new EventEmitter();
+  @Output()
+  public contentChange = new EventEmitter();
 
   @ViewChild('ngWigEditable')
-  ng2wigEditable: ElementRef;
+  public ng2wigEditable: ElementRef;
 
   public isSourceModeAllowed: boolean = true;
   public editMode: boolean = false;
   public container: HTMLElement;
   public toolbarButtons: Object[] = [];
   public hasFocus: boolean = false;
-  private propagateChange: any = (_: any) => { };
 
   public constructor(private _ngWigToolbarService: Ng2WigToolbarService) {}
 
@@ -462,4 +465,6 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
         && !this.hasFocus
         && !this.container.innerText;
   }
+
+  private propagateChange: any = (_: any) => { };
 }
