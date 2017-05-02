@@ -47,5 +47,8 @@
     "ts-node": "~2.0.0",
     "tslint": "~4.4.2",
     "typescript": "~2.0.0"
-  }
+  },
+  "jsnext:main": "dist/ng2wig.module.js",
+  "main": "dist/ng2wig.module.js",
+  "types": "dist/ng2wig.module.d.ts"
 }
