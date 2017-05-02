@@ -11,7 +11,7 @@ import { Ng2WigToolbarService } from './ng2wig-toolbar.service';
   ],
   imports: [
     CommonModule,
-    FormsModule,
+    FormsModule
   ],
   providers: [Ng2WigToolbarService],
   bootstrap: [Ng2WigComponent],
