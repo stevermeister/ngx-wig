@@ -1,9 +1,21 @@
 import { Injectable } from '@angular/core';
 
+type TButton = {
+  title?: string,
+  command?: string,
+  styleClass?: string,
+  pluginName?: string,
+  isComplex?: boolean
+};
+
+type TButtonLibrary = {
+  [name: string]: TButton
+};
+
 @Injectable()
 export class Ng2WigToolbarService {
 
-  private _buttonLibrary = {
+  private _buttonLibrary: TButtonLibrary = {
     list1: {title: 'Unordered List', command: 'insertunorderedlist', styleClass: 'list-ul'},
     list2: {title: 'Ordered List', command: 'insertorderedlist', styleClass: 'list-ol'},
     bold: {title: 'Bold', command: 'bold', styleClass: 'bold'},
@@ -48,9 +60,9 @@ export class Ng2WigToolbarService {
     this._defaultButtonsList.push(name);
   }
 
-  public getToolbarButtons(buttonsList?: string): string[] {
+  public getToolbarButtons(buttonsList?: string): {}[] {
     let buttons = this._defaultButtonsList;
-    const toolbarButtons: string[] = [];
+    const toolbarButtons: TButton[] = [];
 
     if (typeof buttonsList !== 'undefined') {
       buttons = buttonsList.split(',');
