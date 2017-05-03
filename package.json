@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build": "./node_modules/.bin/ngc -p ./src/tsconfig-aot.json"
+    "build": "./node_modules/.bin/ngc -p ./src/tsconfig-aot.json",
+    "prepublish": "rm -rf ./dist && npm run build"
   },
   "repository": {
     "type": "git",
