@@ -438,7 +438,7 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (this.container) {
+    if (this.container && changes['content']) {
       this.container.innerHTML = changes['content'].currentValue;
     }
   }
