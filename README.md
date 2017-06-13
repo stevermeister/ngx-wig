@@ -40,10 +40,6 @@ it's just attribute directive for textarea:
 
     <ng2wig  [content]="text1" [placeholder]="'Enter instructions here.'"></ng2wig>
 
-### ngModel sync
-
-    <ng2wig [content]="text1"></ng2wig>
-    <ng2wig [content]="text1"></ng2wig>
 
 ### Set buttons
 
