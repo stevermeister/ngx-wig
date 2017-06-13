@@ -3,9 +3,7 @@ ng2Wig
 
 ## Dependencies
 
-*it's only AngularJS! No jQuery or other WYSIWYG monsters*
-
- - ng2Wig+ - Angular2+
+*it's only Angular! No jQuery or other WYSIWYG monsters*
  
  
 ## Installation
