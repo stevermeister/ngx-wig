@@ -47,7 +47,7 @@ it's just attribute directive for textarea:
     <ng2wig [content]="text1"></ng2wig>
     <ng2wig [content]="text1"></ng2wig>
 
-### Set buttons ([plunker](https://plnkr.co/edit/9Fjqwnf74jJAKNx2cMYI?p=preview))
+### Set buttons
 
     <ng2wig  [content]="text1" [buttons]="formats, bold, italic"></ng2wig>
 
