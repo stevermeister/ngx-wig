@@ -59,6 +59,9 @@ it's just attribute directive for textarea:
         `
     })
     export class AppComponent {
+    
+        piblic result: string;
+
         public updateResult(content: string): void {
             this.result = content;
         }
