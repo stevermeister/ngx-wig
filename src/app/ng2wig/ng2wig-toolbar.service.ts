@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 
 type TButton = {
   title?: string,
@@ -25,7 +25,7 @@ export class Ng2WigToolbarService {
 
   private _defaultButtonsList = ['list1', 'list2', 'bold', 'italic', 'link'];
 
-  public constructor() { }
+  public constructor() {}
 
   public setButtons(buttons: string[]): void {
     // if(!angular.isArray(buttons)) {
