@@ -46,26 +46,10 @@ it's just attribute directive for textarea:
 
 ### Output changed content
     
-    import { Component } from '@angular/core';
-
-    @Component({
-        selector: 'app',
-        template: `
-                <ng2wig
-                    [content]="text1" 
-                    (contentChange)="updateResult($event)">
-                </ng2wig>
-                <h1 [innerHTML]="result"></h1>   
-        `
-    })
-    export class AppComponent {
-    
-        piblic result: string;
-
-        public updateResult(content: string): void {
-            this.result = content;
-        }
-    }
+    <ng2wig [content]="data"
+        (contentChange)="result = $event">
+    </ng2wig>
+    <div [innerHTML]="result"></div>
     
 
 ## Contribution (Development Setup)
