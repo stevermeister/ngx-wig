@@ -9,11 +9,13 @@ import {
   SimpleChanges,
   Output,
   ViewChild,
-  EventEmitter
+  EventEmitter,
+  Optional,
 } from '@angular/core';
 
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
+import { Ng2WigConfig } from './ng2wig-config';
 
 @Component({
   selector: 'ng2wig',
@@ -25,7 +27,7 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
                     <div *ngIf="!button.isComplex">
                       <button type="button"
                               class="nw-button"
-                              [ngClass]="button.styleClass"
+                              [ngClass]="[button.styleClass, iconsTheme]"
                               [title]="button.title"
                               (click)="execCommand(button.command)">
                         {{ button.title }}
@@ -36,7 +38,8 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
                   <button type="button"
                           class="nw-button nw-button--source"
                           title="Edit HTML"
-                          [ngClass]="{ 'nw-button--active': editMode }"
+                          [class.nw-button--active] = "editMode"
+                          [ngClass]="iconsTheme"
                           *ngIf="isSourceModeAllowed"
                           (click)="toggleEditMode()">
                     Edit HTML
@@ -244,9 +247,10 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
             height: 30px;
             margin: 0;
             padding: 0;
-            opacity: 0.5;
+            opacity: 0.5;  
+            line-height: 30px;
 
-            background-color: transparent;
+          background-color: transparent;
             background-position: center center;
             background-repeat: no-repeat;
             border: none;
@@ -256,43 +260,85 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
 
             cursor: pointer;
         }
-
-        .nw-button:before {
-            font-size: 12px;
-            font-family: FontAwesome;
+        
+        
+        .nw-button-fa:before {
+          font-size: 12px;
+          font-family: FontAwesome;
         }
 
-        .nw-button.bold:before {
+        .nw-button-fa.bold:before {
             content: '\\f032';
         }
 
-        .nw-button.italic:before {
+        .nw-button-fa.italic:before {
             content: '\\f033';
         }
 
-        .nw-button.list-ul:before {
+        .nw-button-fa.list-ul:before {
             content: '\\f0ca';
         }
 
-        .nw-button.list-ol:before {
+        .nw-button-fa.list-ol:before {
             content: '\\f0cb';
         }
 
-        .nw-button.link:before {
+        .nw-button-fa.link:before {
             content: '\\f0c1';
         }
 
-        .nw-button.font-color:before {
+        .nw-button-fa.font-color:before {
             content: '\\f031';
         }
 
-        .nw-button.nw-button--source:before {
+        .nw-button-fa.nw-button--source:before {
             content: '\\f040';
         }
 
-        .nw-button.clear-styles:before {
+        .nw-button-fa.clear-styles:before {
             content: '\\f12d';
         }
+
+        
+        
+        .nw-button-mdi:before {
+          vertical-align: middle;
+          font-size: 14px;
+          font-family: "Material Design Icons";
+        }
+
+        .nw-button-mdi.bold:before {
+          content: '\\f264';
+        }
+
+        .nw-button-mdi.italic:before {
+          content: '\\f277';
+        }
+
+        .nw-button-mdi.list-ul:before {
+          content: '\\f279';
+        }
+
+        .nw-button-mdi.list-ol:before {
+          content: '\\f27B';
+        }
+
+        .nw-button-mdi.link:before {
+          content: '\\f339';
+        }
+
+        .nw-button-mdi.font-color:before {
+          content: '\\f6D5';
+        }
+
+        .nw-button-mdi.nw-button--source:before {
+          content: '\\f3EB';
+        }
+
+        .nw-button-mdi.clear-styles:before {
+          content: '\\f1fE';
+        }
+        
 
         .nw-button:focus {
             outline: none;
@@ -386,8 +432,17 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public container: HTMLElement;
   public toolbarButtons: Object[] = [];
   public hasFocus: boolean = false;
+  public iconsTheme: string = 'nw-button-mdi';
 
-  public constructor(private _ngWigToolbarService: Ng2WigToolbarService) {}
+  public constructor(
+    private _ngWigToolbarService: Ng2WigToolbarService,
+    @Optional() config: Ng2WigConfig
+  ) {
+    if (config && config.iconsTheme) {
+      this.iconsTheme = `nw-button-${config.iconsTheme}`;
+    }
+  }
+
 
   public toggleEditMode(): void {
     this.editMode = !this.editMode;
