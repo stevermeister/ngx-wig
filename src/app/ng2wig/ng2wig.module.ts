@@ -19,7 +19,10 @@ import { Ng2WigConfig } from './ng2wig-config';
     CommonModule,
     FormsModule
   ],
-  providers: [Ng2WigToolbarService],
+  providers: [
+    Ng2WigConfig,
+    Ng2WigToolbarService
+  ],
   bootstrap: [Ng2WigComponent],
   exports: [Ng2WigComponent]
 })

@@ -1,3 +1,3 @@
 export class Ng2WigConfig {
-  public iconsTheme: string;
+  public iconsTheme: string = 'mdi';
 }

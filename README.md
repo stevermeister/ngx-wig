@@ -10,7 +10,7 @@ ng2Wig
 
 ng2Wig could be simply installed via npm:
 
-    npm install ng2wig --save
+    npm install ngx-wig --save
 
 
 ## Usage
