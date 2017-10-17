@@ -25,14 +25,6 @@ import { Ng2WigConfig } from './ng2wig-config';
 export class Ng2WigModule {
 
   public static forRoot(config: Ng2WigConfig): ModuleWithProviders {
-    return Ng2WigModule._getModuleWithCustomConfig(config);
-  }
-
-  public static forChild(config: Ng2WigConfig): ModuleWithProviders {
-    return Ng2WigModule._getModuleWithCustomConfig(config);
-  }
-
-  private static _getModuleWithCustomConfig(config: Ng2WigConfig): ModuleWithProviders {
     return {
       ngModule: Ng2WigModule,
       providers: [
