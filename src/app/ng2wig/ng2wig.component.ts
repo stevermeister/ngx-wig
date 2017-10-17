@@ -432,15 +432,13 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public container: HTMLElement;
   public toolbarButtons: Object[] = [];
   public hasFocus: boolean = false;
-  public iconsTheme: string = 'nw-button-mdi';
+  public iconsTheme: string;
 
   public constructor(
     private _ngWigToolbarService: Ng2WigToolbarService,
-    @Optional() config: Ng2WigConfig
+    config: Ng2WigConfig
   ) {
-    if (config && config.iconsTheme) {
-      this.iconsTheme = `nw-button-${config.iconsTheme}`;
-    }
+    this.iconsTheme = `nw-button-${config.iconsTheme}`;
   }
 
 
