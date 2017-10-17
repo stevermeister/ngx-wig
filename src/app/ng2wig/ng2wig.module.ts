@@ -1,8 +1,6 @@
 import {
   ModuleWithProviders,
-  NgModule,
-  Optional,
-  SkipSelf } from '@angular/core';
+  NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -26,19 +24,12 @@ import { Ng2WigConfig } from './ng2wig-config';
 
 export class Ng2WigModule {
 
-  static forRoot(config: Ng2WigConfig): ModuleWithProviders {
+  public static forRoot(config: Ng2WigConfig): ModuleWithProviders {
     return {
       ngModule: Ng2WigModule,
       providers: [
         { provide: Ng2WigConfig, useValue: config }
       ]
     };
-  }
-
-  public constructor (@Optional() @SkipSelf() parentModule: Ng2WigModule) {
-    if (parentModule) {
-      throw new Error(
-        'Ng2WigModule is already loaded. Import it in the AppModule only');
-    }
   }
 }
