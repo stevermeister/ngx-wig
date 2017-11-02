@@ -1,4 +1,4 @@
-ng2Wig
+ngx-Wig
 =====
 
 ## Dependencies
@@ -8,16 +8,16 @@ ng2Wig
  
 ## Installation
 
-ng2Wig could be simply installed via npm:
+ngx-wig could be simply installed via npm:
 
     npm install ngx-wig --save
 
 
 ## Usage
 
-First, import the ng2wig to your module:
+First, import the ngx-wig to your module:
 
-    import {Ng2WigModule} from 'ng2wig';
+    import {Ng2WigModule} from 'ngx-wig';
     
     @NgModule({
       imports: [ Ng2WigModule]
