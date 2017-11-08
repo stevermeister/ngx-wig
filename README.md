@@ -40,20 +40,17 @@ it's just attribute directive for textarea:
 
     <ng2wig  [content]="text1" [placeholder]="'Enter instructions here.'"></ng2wig>
 
-### ngModel sync
-
-    <ng2wig [content]="text1"></ng2wig>
-    <ng2wig [content]="text1"></ng2wig>
-
 ### Set buttons
 
     <ng2wig  [content]="text1" [buttons]="formats, bold, italic"></ng2wig>
 
-
-### onContentChange Hook
-
-        <ng2wig [content]="text1" (contentChange)="update($event)"></ng2wig>
-
+### Output changed content
+    
+    <ng2wig [content]="data"
+        (contentChange)="result = $event">
+    </ng2wig>
+    <div [innerHTML]="result"></div>
+    
 
 ## Contribution (Development Setup)
 
