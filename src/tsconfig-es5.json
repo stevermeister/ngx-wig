@@ -10,9 +10,9 @@
     ],
     "module": "es2015",
     "moduleResolution": "node",
-    "outDir": "../../out-tsc/es2015",
+    "outDir": "../../out-tsc/es5",
     "sourceMap": false,
-    "target": "es2015",
+    "target": "es5",
     "typeRoots": [
       "../node_modules/@types"
     ]
