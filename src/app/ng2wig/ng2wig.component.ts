@@ -247,7 +247,7 @@ import { Ng2WigConfig } from './ng2wig-config';
             height: 30px;
             margin: 0;
             padding: 0;
-            opacity: 0.5;  
+            opacity: 0.5;
             line-height: 30px;
 
           background-color: transparent;
@@ -260,8 +260,8 @@ import { Ng2WigConfig } from './ng2wig-config';
 
             cursor: pointer;
         }
-        
-        
+
+
         .nw-button-fa:before {
           font-size: 12px;
           font-family: FontAwesome;
@@ -299,8 +299,8 @@ import { Ng2WigConfig } from './ng2wig-config';
             content: '\\f12d';
         }
 
-        
-        
+
+
         .nw-button-mdi:before {
           vertical-align: middle;
           font-size: 14px;
@@ -338,7 +338,7 @@ import { Ng2WigConfig } from './ng2wig-config';
         .nw-button-mdi.clear-styles:before {
           content: '\\f1fE';
         }
-        
+
 
         .nw-button:focus {
             outline: none;
@@ -499,6 +499,7 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public onChange(event: Event): void {
     // model -> view
     this.container.innerHTML = this.content;
+    this.contentChange.emit(this.content);
   }
 
   public writeValue(value: any): void {
