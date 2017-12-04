@@ -1,6 +1,6 @@
 {
   "name": "ngx-wig",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
@@ -14,26 +14,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stevermeister/ng2wig"
+    "url": "https://github.com/stevermeister/ngx-wig"
   },
   "dependencies": {
-    "@angular/common": ">=4.0.0 <5.1.0",
-    "@angular/compiler": ">=4.0.0 <5.1.0",
-    "@angular/compiler-cli": ">=4.0.0 <5.1.0",
-    "@angular/core": ">=4.0.0 <5.1.0",
-    "@angular/forms": ">=4.0.0 <5.1.0",
-    "@angular/platform-browser": ">=4.0.0 <5.1.0",
-    "@angular/platform-browser-dynamic": ">=4.0.0 <5.1.0",
-    "@angular/platform-server": ">=4.0.0 <5.1.0",
-    "@angular/router": ">=4.0.0 <5.1.0",
+    "@angular/common": ">=4.0.0 <5.0.0",
+    "@angular/compiler": ">=4.0.0 <5.0.0",
+    "@angular/compiler-cli": ">=4.0.0 <5.0.0",
+    "@angular/core": ">=4.0.0 <5.0.0",
+    "@angular/forms": ">=4.0.0 <5.0.0",
+    "@angular/platform-browser": ">=4.0.0 <5.0.0",
+    "@angular/platform-browser-dynamic": ">=4.0.0 <5.0.0",
+    "@angular/platform-server": ">=4.0.0 <5.0.0",
+    "@angular/router": ">=4.0.0 <5.0.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.4.1",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
     "@angular/cli": "1.2.7",
-    "@angular/compiler-cli": ">=4.0.0 <5.1.0",
-    "@angular/language-service": ">=4.0.0 <5.1.0",
+    "@angular/compiler-cli": ">=4.0.0 <5.0.0",
+    "@angular/language-service": ">=4.0.0 <5.0.0",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
