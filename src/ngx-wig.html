@@ -1,0 +1,52 @@
+<div class="ng-wig">
+  <ul class="nw-toolbar"
+      *ngIf="toolbarButtons.length">
+    <li class="nw-toolbar__item" *ngFor="let button of toolbarButtons">
+      <div *ngIf="!button.isComplex">
+        <button type="button"
+                class="nw-button"
+                [ngClass]="[button.styleClass, iconsTheme]"
+                [title]="button.title"
+                (click)="execCommand(button.command)">
+          {{ button.title }}
+        </button>
+      </div>
+    </li><!--
+    --><li class="nw-toolbar__item">
+    <button type="button"
+            class="nw-button nw-button--source"
+            title="Edit HTML"
+            [class.nw-button--active] = "editMode"
+            [ngClass]="iconsTheme"
+            *ngIf="isSourceModeAllowed"
+            (click)="toggleEditMode()">
+      Edit HTML
+    </button>
+  </li>
+  </ul>
+
+  <div class="nw-editor-container"
+       (click)="container.focus()"
+       [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }">
+    <div class="nw-editor__src-container"
+         *ngIf="editMode">
+      <textarea [(ngModel)]="content"
+                (ngModelChange)="onChange($event)"
+                class="nw-editor__src">
+      </textarea>
+    </div>
+    <div class="nw-editor"
+         [ngClass]="{'nw-invisible': editMode}">
+      <div class="nw-editor__placeholder"
+           [innerText]="placeholder"
+           *ngIf="shouldShowPlaceholder()">
+      </div>
+      <div #ngWigEditable
+           class="nw-editor__res"
+           contenteditable
+           (focus)="hasFocus = true"
+           (blur)="hasFocus = false">
+      </div>
+    </div>
+  </div>
+</div>

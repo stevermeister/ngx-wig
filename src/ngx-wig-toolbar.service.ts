@@ -1,5 +1,3 @@
-import { Injectable, Optional } from '@angular/core';
-
 type TButton = {
   title?: string,
   command?: string,
@@ -12,8 +10,7 @@ type TButtonLibrary = {
   [name: string]: TButton
 };
 
-@Injectable()
-export class Ng2WigToolbarService {
+export class NgxWigToolbarService {
 
   private _buttonLibrary: TButtonLibrary = {
     list1: {title: 'Unordered List', command: 'insertunorderedlist', styleClass: 'list-ul'},
@@ -24,8 +21,6 @@ export class Ng2WigToolbarService {
   };
 
   private _defaultButtonsList = ['list1', 'list2', 'bold', 'italic', 'link'];
-
-  public constructor() {}
 
   public setButtons(buttons: string[]): void {
     // if(!angular.isArray(buttons)) {
