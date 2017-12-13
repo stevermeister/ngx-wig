@@ -1,5 +1,8 @@
-ngx-Wig
+ngx-wig
 =====
+
+![screen shot 2017-12-12 at 14 52 51](https://user-images.githubusercontent.com/1526680/33888069-37bde1f0-df4c-11e7-993e-d48ffe0fffbf.png)
+
 
 ## Dependencies
 
@@ -22,47 +25,68 @@ Any higher version may be not fully compatible with Angular version lower than 5
 
 First, import the ngx-wig to your module:
 
-    import {Ng2WigModule} from 'ngx-wig';
+```typescript
+import {NgxWigModule} from 'ngx-wig';
 
-    @NgModule({
-      imports: [ Ng2WigModule]
-    });
-
+@NgModule({
+  imports: [ NgxWigModule ]
+});
+```
 
 it's just attribute directive for textarea:
 
-    <ng2wig [content]="text1"></ng2wig>
-
-
+```html
+<ngx-wig [content]="text1"></ngx-wig>
+```
 
 ## Examples
 
 ### Quick start
 
-    <ng2wig [content]="text1"></ng2wig>
+```html
+<ngx-wig [content]="text1"></ngx-wig>
+```
 
 ### Placeholder
 
-    <ng2wig  [content]="text1" [placeholder]="'Enter instructions here.'"></ng2wig>
+```html
+<ngx-wig  [content]="text1" [placeholder]="'Enter instructions here.'"></ngx-wig>
+```
 
 ### ngModel sync
 
-    <ng2wig [content]="text1"></ng2wig>
-    <ng2wig [content]="text1"></ng2wig>
+```html
+<ngx-wig [content]="text1"></ngx-wig>
+<ngx-wig [content]="text1"></ngx-wig>
+```
 
 ### Set buttons
 
-    <ng2wig  [content]="text1" [buttons]="formats, bold, italic"></ng2wig>
-
+```html
+<ngx-wig  [content]="text1" [buttons]="formats, bold, italic"></ngx-wig>
+```
 
 ### onContentChange Hook
 
-        <ng2wig [content]="text1" (contentChange)="update($event)"></ng2wig>
+```html
+<ngx-wig [content]="text1" (contentChange)="update($event)"></ngx-wig>
+```
 
 
-## Contribution (Development Setup)
+## Development
 
-    npm install
-    npm start
+To generate all `*.js`, `*.d.ts` and `*.metadata.json` files:
 
+```bash
+$ npm run build
+```
 
+To lint all `*.ts` files:
+
+```bash
+$ npm run lint
+```
+
+## License
+
+MIT © [Stepan Suvorov](https://github.com/stevermeister)

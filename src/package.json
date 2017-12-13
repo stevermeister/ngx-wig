@@ -1,0 +1,28 @@
+{
+  "name": "ngx-wig",
+  "version": "1.0.0-alpha",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevermeister/ngx-wig"
+  },
+  "author": {
+    "name": "Stepan Suvorov",
+    "email": "stevermeister@gmail.com"
+  },
+  "keywords": [
+    "angular", "WYSIWYG", "editor"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevermeister/ngx-wig/issues"
+  },
+  "main": "ngx-wig.umd.js",
+  "module": "ngx-wig.js",
+  "jsnext:main": "ngx-wig.js",
+  "typings": "ngx-wig.d.ts",
+  "peerDependencies": {
+    "@angular/core": "^5.0.0",
+    "rxjs": "^5.1.0",
+    "zone.js": "^0.8.4"
+  }
+}
