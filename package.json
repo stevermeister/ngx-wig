@@ -12,7 +12,7 @@
     "lite": "lite-server",
     "playground:build": "tsc -p playground -w",
     "playground": "concurrently \"npm run build:watch\" \"npm run playground:build\" \"npm run lite\"",
-    "test": "tsc && karma start"
+    "test": "tsc && karma start karma.conf.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,9 @@
     "email": "stevermeister@gmail.com"
   },
   "keywords": [
-    "angular", "WYSIWYG", "editor"
+    "angular",
+    "WYSIWYG",
+    "editor"
   ],
   "license": "MIT",
   "bugs": {
@@ -56,6 +58,8 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-typescript": "3.0.8",
+    "karma-typescript-angular2-transform": "1.0.2",
     "lite-server": "^2.3.0",
     "node-sass": "^4.5.2",
     "node-sass-tilde-importer": "^1.0.0",
