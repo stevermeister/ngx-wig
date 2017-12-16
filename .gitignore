@@ -36,3 +36,4 @@ dist/*
 playground/index.js
 
 coverage/*
+init-test-bed.spec.js
