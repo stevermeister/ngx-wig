@@ -1,6 +1,8 @@
 ngx-wig
 =====
 
+[![Build Status](https://travis-ci.org/stevermeister/ngx-wig.svg?branch=master)](https://travis-ci.org/stevermeister/ngx-wig)
+
 ![screen shot 2017-12-12 at 14 52 51](https://user-images.githubusercontent.com/1526680/33888069-37bde1f0-df4c-11e7-993e-d48ffe0fffbf.png)
 
 
