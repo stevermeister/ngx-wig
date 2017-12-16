@@ -33,3 +33,4 @@ dist/*
 
 # Playground tmp files
 .playground
+playground/index.js
