@@ -38,15 +38,26 @@ describe('NgxWigComponent', () => {
   it('should configure the EditHTML button', () => {
     expect(page.editHTMLBtn.classes['nw-button-mdi']).toBeDefined();
   });
+
+  it('should enable edit mode', () => {
+    page.editHTMLBtn.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    const editHTMLTxt = fixture.debugElement.query(By.css('textarea'));
+    expect(editHTMLTxt).toBeDefined();
+    expect(page.editHTMLBtn.classes['nw-button--active']).toBeDefined();
+    expect(page.editorDiv.classes['nw-invisible']).toBeDefined();
+  });
 });
 
 class Page {
   unorderedListBtn: DebugElement;
   editHTMLBtn: DebugElement;
+  editorDiv: DebugElement;
 
   addPageElements() {
     const buttons = fixture.debugElement.queryAll(By.css('button'));
     this.unorderedListBtn = buttons[0];
     this.editHTMLBtn = buttons[5];
+    this.editorDiv = fixture.debugElement.query(By.css('.nw-editor'));
   }
 }
