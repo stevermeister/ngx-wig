@@ -18,6 +18,7 @@ module.exports = function (config) {
     files: [
       './init-test-bed.spec.ts',
       './src/*.ts',
+      { pattern: 'src/**/*.html', included: true, watched: true },
     ],
 
 
@@ -42,7 +43,7 @@ module.exports = function (config) {
         lib: ['ES2015', 'DOM']
       }
     },
-    
+
 
 
     // test results reporter to use
