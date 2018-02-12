@@ -35,9 +35,9 @@
 
 .nw-toolbar {
   display: block;
-  margin: 0 !important;
-  padding: 0 !important;
-  list-style: none !important;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   font-size: 12px;
   color: #6B7277;
   background: -webkit-linear-gradient(90deg, #ffffff 0%, #f9f9f9 100%);
