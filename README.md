@@ -77,7 +77,7 @@ it's just attribute directive for textarea:
 ### Reactive FormControl ( [demo](https://stackblitz.com/edit/angular-srbxem?file=app/app.component.html) )
 
 ```html
-<ngx-wig  [content]="text1" [buttons]="formats, bold, italic"></ngx-wig>
+<ngx-wig  [content]="name" [buttons]="'bold, italic'"></ngx-wig>
 ```
 
 
