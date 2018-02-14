@@ -43,36 +43,43 @@ it's just attribute directive for textarea:
 
 ## Examples
 
-### Quick start
+### Quick start ( [demo](https://stackblitz.com/edit/angular-2uzcl1?file=app/app.component.html) )
 
 ```html
 <ngx-wig [content]="text1"></ngx-wig>
 ```
 
-### Placeholder
+### Placeholder  ( [demo](https://stackblitz.com/edit/angular-hzfneh?file=app/app.component.html) )
 
 ```html
 <ngx-wig  [content]="text1" [placeholder]="'Enter instructions here.'"></ngx-wig>
 ```
 
-### ngModel sync
+### ngModel sync ( [demo](https://stackblitz.com/edit/angular-edza1i?file=app/app.component.html) )
 
 ```html
 <ngx-wig [content]="text1"></ngx-wig>
 <ngx-wig [content]="text1"></ngx-wig>
 ```
 
-### Set buttons
+### Set buttons ( [demo](https://stackblitz.com/edit/angular-y5b6bz?file=app/app.component.html) )
 
 ```html
 <ngx-wig  [content]="text1" [buttons]="formats, bold, italic"></ngx-wig>
 ```
 
-### onContentChange Hook
+### onContentChange Hook  ( [demo](https://stackblitz.com/edit/angular-adxhiw?file=app/app.component.ts) )
 
 ```html
 <ngx-wig [content]="text1" (contentChange)="update($event)"></ngx-wig>
 ```
+
+### Reactive FormControl ( [demo](https://stackblitz.com/edit/angular-srbxem?file=app/app.component.html) )
+
+```html
+<ngx-wig  [content]="text1" [buttons]="formats, bold, italic"></ngx-wig>
+```
+
 
 
 ## Development
