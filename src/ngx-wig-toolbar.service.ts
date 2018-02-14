@@ -60,7 +60,7 @@ export class NgxWigToolbarService {
     const toolbarButtons: TButton[] = [];
 
     if (typeof buttonsList !== 'undefined') {
-      buttons = buttonsList.split(',');
+      buttons = string2array(buttonsList);
     }
 
     buttons.forEach(buttonKey => {
@@ -80,4 +80,8 @@ export class NgxWigToolbarService {
     return toolbarButtons;
   }
 
+}
+
+function string2array(keysString: string) {
+  return keysString.split(',').map(Function.prototype.call, String.prototype.trim);
 }

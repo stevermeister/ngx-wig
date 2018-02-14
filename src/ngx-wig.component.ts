@@ -90,10 +90,6 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
 
   public ngOnInit(): void {
     this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons(this.buttons);
-    function string2array(keysString: string) {
-      return keysString.split(',').map(Function.prototype.call, String.prototype.trim);
-    }
-
     this.container = this.ngxWigEditable.nativeElement;
     if (this.content) {
       this.container.innerHTML = this.content;
