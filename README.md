@@ -80,6 +80,12 @@ it's just attribute directive for textarea:
 <ngx-wig  [content]="name" [buttons]="'bold, italic'"></ngx-wig>
 ```
 
+### Two-way binding ( [demo](https://stackblitz.com/edit/ngx-wig-2-way-binding) )
+
+```html
+<ngx-wig [(content)]="name"></ngx-wig>
+```
+
 
 
 ## Development
