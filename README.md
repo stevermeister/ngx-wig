@@ -83,7 +83,7 @@ it's just attribute directive for textarea:
 ### Two-way binding ( [demo](https://stackblitz.com/edit/ngx-wig-2-way-binding) )
 
 ```html
-<ngx-wig [(content)]="name"></ngx-wig>
+<ngx-wig [(ngModel)]="name"></ngx-wig>
 ```
 
 
