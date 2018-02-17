@@ -107,7 +107,11 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.container && changes['content']) {
-      this.container.innerHTML = changes['content'].currentValue;
+      // clear the previous content
+      this.container.innerHTML = '';
+
+      // add the new content
+      this.pasteHtmlAtCaret(changes['content'].currentValue);
     }
   }
 
@@ -135,6 +139,37 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     return this.placeholder
       && !this.hasFocus
       && !this.container.innerText;
+  }
+
+  private pasteHtmlAtCaret(html) {
+    let sel, range;
+
+    if (window.getSelection) {
+      sel = window.getSelection();
+
+      if (sel.getRangeAt && sel.rangeCount) {
+        range = sel.getRangeAt(0);
+        range.deleteContents();
+
+        // append the content in a temporary div
+        let el = document.createElement('div');
+        el.innerHTML = html;
+        let frag = document.createDocumentFragment(), node, lastNode;
+        while ( (node = el.firstChild) ) {
+          lastNode = frag.appendChild(node);
+        }
+        range.insertNode(frag);
+
+        // Preserve the selection
+        if (lastNode) {
+          range = range.cloneRange();
+          range.setStartAfter(lastNode);
+          range.collapse(true);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+      }
+    }
   }
 
   private propagateChange: any = (_: any) => { };
