@@ -71,7 +71,8 @@ it's just attribute directive for textarea:
 ### onContentChange Hook  ( [demo](https://stackblitz.com/edit/angular-adxhiw?file=app/app.component.ts) )
 
 ```html
-<ngx-wig [content]="text1" (contentChange)="update($event)"></ngx-wig>
+<ngx-wig [content]="text1" (contentChange)="result = $event"></ngx-wig>
+<div [innerHTML]="result"></div>
 ```
 
 ### Reactive FormControl ( [demo](https://stackblitz.com/edit/angular-srbxem?file=app/app.component.html) )
