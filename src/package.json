@@ -1,6 +1,6 @@
 {
   "name": "ngx-wig",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/stevermeister/ngx-wig"
@@ -10,7 +10,9 @@
     "email": "stevermeister@gmail.com"
   },
   "keywords": [
-    "angular"
+    "angular",
+    "WYSIWYG",
+    "editor"
   ],
   "license": "MIT",
   "bugs": {
