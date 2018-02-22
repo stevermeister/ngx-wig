@@ -33,7 +33,7 @@ dist/*
 
 # Playground tmp files
 .playground
-playground/index.js	
+playground/index.js
 
-coverage/*	
-init-test-bed.spec.js 
+coverage/*
+init-test-bed.spec.js
