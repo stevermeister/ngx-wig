@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
+import { NgxWigToolbarService, TButton } from './ngx-wig-toolbar.service';
 
 @Component({
   selector: 'ngx-wig',
@@ -49,7 +49,7 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public isSourceModeAllowed = true;
   public editMode = false;
   public container: HTMLElement;
-  public toolbarButtons: Object[] = [];
+  public toolbarButtons: TButton[] = [];
   public hasFocus = false;
   public iconsTheme: string;
 

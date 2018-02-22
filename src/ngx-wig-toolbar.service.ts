@@ -1,4 +1,4 @@
-type TButton = {
+export type TButton = {
   title?: string,
   command?: string,
   styleClass?: string,
