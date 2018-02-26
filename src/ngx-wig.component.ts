@@ -41,6 +41,9 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public buttons: string;
 
   @Input()
+  public disabled: boolean;
+
+  @Input()
   public isSourceModeAllowed: boolean = false;
 
   @Output()
@@ -54,6 +57,7 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public toolbarButtons: TButton[] = [];
   public hasFocus = false;
   public iconsTheme: string;
+
 
   public constructor(
     private _ngWigToolbarService: NgxWigToolbarService
@@ -177,4 +181,8 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   }
 
   private propagateChange: any = (_: any) => { };
+
+  setDisabledState( isDisabled : boolean ) : void {
+    this.disabled = isDisabled;
+  }
 }

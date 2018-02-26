@@ -7,7 +7,8 @@
                 class="nw-button"
                 [ngClass]="[button.styleClass, iconsTheme]"
                 [title]="button.title"
-                (click)="execCommand(button.command)">
+                (click)="execCommand(button.command)"
+                [disabled]="disabled">
           {{ button.title }}
         </button>
       </div>
@@ -19,7 +20,8 @@
             [class.nw-button--active] = "editMode"
             [ngClass]="iconsTheme"
             *ngIf="isSourceModeAllowed"
-            (click)="toggleEditMode()">
+            (click)="toggleEditMode()"
+            [disabled]="disabled">
       Edit HTML
     </button>
   </li>
@@ -36,14 +38,15 @@
       </textarea>
     </div>
     <div class="nw-editor"
-         [ngClass]="{'nw-invisible': editMode}">
+         [ngClass]="{ 'nw-disabled': disabled,'nw-invisible': editMode}">
       <div class="nw-editor__placeholder"
            [innerText]="placeholder"
            *ngIf="shouldShowPlaceholder()">
       </div>
       <div #ngWigEditable
            class="nw-editor__res"
-           contenteditable
+           [attr.contenteditable]="disabled"
+           [ngClass]="{ disabled: disabled}"
            (focus)="hasFocus = true"
            (blur)="hasFocus = false">
       </div>
