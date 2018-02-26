@@ -6,7 +6,7 @@ export type TButton = {
   isComplex?: boolean
 };
 
-type TButtonLibrary = {
+export type TButtonLibrary = {
   [name: string]: TButton
 };
 

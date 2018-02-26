@@ -86,6 +86,8 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     } else {
       document.execCommand(command, false, options);
     }
+    
+    this.container.focus();
   }
 
   public ngOnInit(): void {

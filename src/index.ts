@@ -5,7 +5,7 @@ import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export * from './ngx-wig.component';
-export { NgxWigToolbarService } from './ngx-wig-toolbar.service';
+export * from './ngx-wig-toolbar.service';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ export { NgxWigToolbarService } from './ngx-wig-toolbar.service';
   exports: [
     NgxWigComponent,
   ],
-  providers: [NgxWigToolbarService]
+  providers: [ NgxWigToolbarService ]
 })
 export class NgxWigModule {
 }

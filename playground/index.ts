@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { Component } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { NgxWigModule }  from '../src/index';
+import { NgxWigModule }  from 'ngx-wig';
 
 @Component({
   selector: 'app',

@@ -1,6 +1,6 @@
 {
   "name": "ngx-wig",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/stevermeister/ngx-wig"
@@ -10,7 +10,9 @@
     "email": "stevermeister@gmail.com"
   },
   "keywords": [
-    "angular", "WYSIWYG", "editor"
+    "angular",
+    "WYSIWYG",
+    "editor"
   ],
   "license": "MIT",
   "bugs": {
@@ -21,7 +23,7 @@
   "jsnext:main": "ngx-wig.js",
   "typings": "ngx-wig.d.ts",
   "peerDependencies": {
-    "@angular/core": "^5.0.0",
+    "@angular/core": "^4.0.0",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   }
