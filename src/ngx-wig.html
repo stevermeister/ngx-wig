@@ -45,7 +45,7 @@
       </div>
       <div #ngWigEditable
            class="nw-editor__res"
-           [attr.contenteditable]="disabled"
+           [attr.contenteditable]="!disabled"
            [ngClass]="{ disabled: disabled}"
            (focus)="hasFocus = true"
            (blur)="hasFocus = false">
