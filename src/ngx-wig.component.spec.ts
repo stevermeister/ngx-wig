@@ -150,6 +150,7 @@ class Page {
     this.execCommandSpy = spyOn(document, 'execCommand');
     this.promptSpy = spyOn(window, 'prompt');
     comp.content = '<p>Hello World</p>';
+    comp.isSourceModeAllowed = true;
   }
 
   addPageElements() {
