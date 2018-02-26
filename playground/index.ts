@@ -9,7 +9,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { NgxWigModule }  from 'ngx-wig';
 
 @Component({
-  selector: 'app',
+  selector: 'my-app',
   template: `<ngx-wig [isSourceModeAllowed]="true"></ngx-wig>`
 })
 class AppComponent {}
