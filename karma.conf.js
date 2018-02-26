@@ -37,12 +37,6 @@ module.exports = function (config) {
       compilerOptions: {
         lib: ['ES2015', 'DOM']
       },
-      baseUrl: ".",
-      paths: {
-        "ngx-wig": [
-          "./dist/ngx-wig"
-        ]
-      },
       exclude: ["./playground"]
     },
 

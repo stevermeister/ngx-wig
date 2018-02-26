@@ -112,6 +112,14 @@ describe('NgxWigComponent', () => {
       comp.execCommand('createlink', '');
       expect(page.execCommandSpy.calls.any()).toBe(false);
     });
+
+    it('should focus', () => {
+      const spy = spyOn(page.editableDiv.nativeElement, 'focus');
+      page.unorderedListBtn.triggerEventHandler('click', null);
+
+      const focusArgs = spy.calls.first().args;
+      expect(spy.calls.any()).toBe(true);
+    });
   });
 
   it('should have an editor container with a toolbar of buttons', () => {
@@ -130,6 +138,26 @@ describe('NgxWigComponent', () => {
     fixture.detectChanges();
     const placeholderEl = fixture.debugElement.query(By.css('.nw-editor__placeholder'));
     expect(placeholderEl.nativeElement.innerText).toBe('Insert text here');
+  });
+
+  describe('disabled property', () => {
+    it('should enable the editor', () => {
+      expect(page.unorderedListBtn.nativeElement.disabled).toBe(false);
+      expect(page.editHTMLBtn.nativeElement.disabled).toBe(false);
+      expect(page.editorDiv.classes['nw-disabled']).toBe(false);
+      expect(page.editableDiv.classes['disabled']).toBe(false);
+      expect(page.editableDiv.nativeElement.getAttribute('contenteditable')).toBe('true');
+    });
+
+    it('should disable the editor', () => {
+      comp.setDisabledState(true);
+      fixture.detectChanges();
+      expect(page.unorderedListBtn.nativeElement.disabled).toBe(true);
+      expect(page.editHTMLBtn.nativeElement.disabled).toBe(true);
+      expect(page.editorDiv.classes['nw-disabled']).toBe(true);
+      expect(page.editableDiv.classes['disabled']).toBe(true);
+      expect(page.editableDiv.nativeElement.getAttribute('contenteditable')).toBe('false');
+    });
   });
 });
 
