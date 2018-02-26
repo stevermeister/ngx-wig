@@ -40,13 +40,15 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   @Input()
   public buttons: string;
 
+  @Input()
+  public isSourceModeAllowed: boolean = false;
+
   @Output()
   public contentChange = new EventEmitter();
 
   @ViewChild('ngWigEditable')
   public ngxWigEditable: ElementRef;
 
-  public isSourceModeAllowed = true;
   public editMode = false;
   public container: HTMLElement;
   public toolbarButtons: TButton[] = [];
