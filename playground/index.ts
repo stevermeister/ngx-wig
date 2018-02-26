@@ -10,7 +10,7 @@ import { NgxWigModule }  from 'ngx-wig';
 
 @Component({
   selector: 'my-app',
-  template: `<ngx-wig [isSourceModeAllowed]="true"></ngx-wig>`
+  template: `<ngx-wig [content]="text" [isSourceModeAllowed]="true"></ngx-wig>`
 })
 class AppComponent {}
 
