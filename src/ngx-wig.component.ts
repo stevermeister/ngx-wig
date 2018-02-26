@@ -184,9 +184,5 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
 
   setDisabledState( isDisabled : boolean ) : void {
     this.disabled = isDisabled;
-    console.log(isDisabled);
-    // const div = this.textarea.nativeElement;
-    // const action = isDisabled ? 'addClass' : 'removeClass';
-    // this.renderer[action](div, 'disabled');
   }
 }
