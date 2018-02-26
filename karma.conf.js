@@ -21,11 +21,6 @@ module.exports = function (config) {
       { pattern: 'src/**/*.html', included: true, watched: true },
     ],
 
-
-    // list of files to exclude
-    exclude: ["./playground"],
-
-
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
@@ -41,7 +36,8 @@ module.exports = function (config) {
       },
       compilerOptions: {
         lib: ['ES2015', 'DOM']
-      }
+      },
+      exclude: ["./playground"]
     },
 
 
