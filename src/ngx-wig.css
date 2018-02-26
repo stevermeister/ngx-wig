@@ -114,6 +114,10 @@
   margin: 0;
 }
 
+.nw-editor__res.disabled {
+  opacity: 0.5;
+}
+
 .nw-editor__src-container {
   position: absolute;
   left: 0;
