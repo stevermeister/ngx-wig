@@ -91,7 +91,7 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
       document.execCommand(command, false, options);
     }
 
-    this._onContentChange();
+    this._onContentChange(this.container.innerHTML);
     this.container.focus();
   }
 
@@ -105,13 +105,13 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     // view --> model
     ('keyup change'.split(' ')).forEach(event =>
       this.container.addEventListener(event, () => {
-        this._onContentChange();
+        this._onContentChange(this.container.innerHTML);
       }, false)
     );
   }
 
-  private _onContentChange(): void {
-    this.content = this.container.innerHTML;
+  private _onContentChange(newContent: string): void {
+    this.content = newContent;
     this.contentChange.emit(this.content);
     this.propagateChange(this.content);
   }
@@ -126,11 +126,10 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     }
   }
 
-  public onTextareaChange(event: Event): void {
+  public onTextareaChange(newContent: string): void {
     // model -> view
-    this.container.innerHTML = this.content;
-    this.contentChange.emit(this.content);
-    this.propagateChange(this.content);
+    this.container.innerHTML = newContent;
+    this._onContentChange(newContent);
   }
 
   public writeValue(value: any): void {
