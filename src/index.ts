@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxWigComponent } from './ngx-wig.component';
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';

@@ -9,8 +9,7 @@ import {
   SimpleChanges,
   Output,
   ViewChild,
-  EventEmitter,
-  Optional,
+  EventEmitter
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -44,7 +43,7 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public disabled: boolean;
 
   @Input()
-  public isSourceModeAllowed: boolean = false;
+  public isSourceModeAllowed = false;
 
   @Output()
   public contentChange = new EventEmitter();
@@ -65,7 +64,6 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     // hardcoded icons theme for now
     this.iconsTheme = `nw-button-mdi`;
   }
-
 
   public toggleEditMode(): void {
     this.editMode = !this.editMode;
@@ -92,7 +90,8 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     } else {
       document.execCommand(command, false, options);
     }
-    
+
+    this._onContentChange();
     this.container.focus();
   }
 
@@ -104,13 +103,17 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     }
 
     // view --> model
-    ('keyup change focus click'.split(' ')).forEach(event =>
+    ('keyup change'.split(' ')).forEach(event =>
       this.container.addEventListener(event, () => {
-        this.content = this.container.innerHTML;
-        this.contentChange.emit(this.content);
-        this.propagateChange(this.content);
+        this._onContentChange();
       }, false)
     );
+  }
+
+  private _onContentChange(): void {
+    this.content = this.container.innerHTML;
+    this.contentChange.emit(this.content);
+    this.propagateChange(this.content);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -123,7 +126,7 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     }
   }
 
-  public onChange(event: Event): void {
+  public onTextareaChange(event: Event): void {
     // model -> view
     this.container.innerHTML = this.content;
     this.contentChange.emit(this.content);
@@ -136,12 +139,6 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
       this.container.innerHTML = this.content;
     }
   }
-
-  public registerOnChange(fn: any): void {
-    this.propagateChange = fn;
-  }
-
-  public registerOnTouched(): void { }
 
   public shouldShowPlaceholder(): boolean {
     return this.placeholder
@@ -180,9 +177,23 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     }
   }
 
-  private propagateChange: any = (_: any) => { };
+  public registerOnChange(fn: any): void {
+    this.propagateChange = fn;
+  }
 
-  setDisabledState( isDisabled : boolean ) : void {
+  public registerOnTouched(fn: () => void): void {
+    this.propagateTouched = fn;
+  }
+
+  private propagateChange: any = (_: any) => { };
+  public propagateTouched = () => {};
+
+  onBlur() {
+    this.hasFocus = false;
+    this.propagateTouched();
+  }
+
+  setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 }

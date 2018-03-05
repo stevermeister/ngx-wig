@@ -32,8 +32,9 @@
        [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }">
     <div class="nw-editor__src-container"
          *ngIf="editMode">
-      <textarea [(ngModel)]="content"
-                (ngModelChange)="onChange($event)"
+      <textarea [ngModel]="content"
+                (ngModelChange)="onTextareaChange($event)"
+                (blur)="propagateTouched()"
                 class="nw-editor__src">
       </textarea>
     </div>
@@ -48,8 +49,8 @@
            [attr.contenteditable]="!disabled"
            [ngClass]="{ disabled: disabled}"
            (focus)="hasFocus = true"
-           (blur)="hasFocus = false">
-      </div>
+           (blur)="onBlur()"><!--
+  --></div>
     </div>
   </div>
 </div>
