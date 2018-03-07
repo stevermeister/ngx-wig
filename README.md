@@ -10,6 +10,12 @@ ngx-wig
 
 *it's only Angular! No jQuery or other WYSIWYG monsters*
 
+## Icons
+
+Icons are not in the pack!
+You can use the icons that you like.
+We recommend to use [Material Design Icons](https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css)
+
 
 ## Installation
 
@@ -38,6 +44,8 @@ import {NgxWigModule} from 'ngx-wig';
 it's just attribute directive for textarea:
 
 ```html
+<link href="https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css" rel="stylesheet" />
+...
 <ngx-wig [content]="text1"></ngx-wig>
 ```
 
