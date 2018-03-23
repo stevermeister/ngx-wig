@@ -133,10 +133,10 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   }
 
   public writeValue(value: any): void {
-    if (value) {
-      this.content = value;
-      this.container.innerHTML = this.content;
-    }
+    if (!value) { value = ''; }
+
+    this.container.innerHTML = value;
+    this._onContentChange(value);
   }
 
   public shouldShowPlaceholder(): boolean {
