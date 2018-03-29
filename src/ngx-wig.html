@@ -8,7 +8,8 @@
                 [ngClass]="[button.styleClass, iconsTheme]"
                 [title]="button.title"
                 (click)="execCommand(button.command)"
-                [disabled]="disabled">
+                [disabled]="disabled"
+                tabindex="-1">
           {{ button.title }}
         </button>
       </div>
@@ -21,7 +22,8 @@
             [ngClass]="iconsTheme"
             *ngIf="isSourceModeAllowed"
             (click)="toggleEditMode()"
-            [disabled]="disabled">
+            [disabled]="disabled"
+            tabindex="-1">
       Edit HTML
     </button>
   </li>
