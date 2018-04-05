@@ -73,7 +73,6 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     if (this.editMode) {
       return false;
     }
-
     if (document.queryCommandSupported && !document.queryCommandSupported(command)) {
       throw 'The command "' + command + '" is not supported';
     }
@@ -83,6 +82,9 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
         return;
       }
     }
+
+    this.container.focus();
+
     // use insertHtml for `createlink` command to account for IE/Edge purposes, in case there is no selection
     let selection = document.getSelection().toString();
     if (command === 'createlink' && selection === '') {
@@ -92,7 +94,6 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     }
 
     this._onContentChange(this.container.innerHTML);
-    this.container.focus();
   }
 
   public ngOnInit(): void {
