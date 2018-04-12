@@ -142,7 +142,6 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
 
   public shouldShowPlaceholder(): boolean {
     return this.placeholder
-      && !this.hasFocus
       && !this.container.innerText;
   }
 

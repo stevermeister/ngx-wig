@@ -1,7 +1,8 @@
 <div class="ng-wig">
-  <ul class="nw-toolbar"
-      *ngIf="toolbarButtons.length">
-    <li class="nw-toolbar__item" *ngFor="let button of toolbarButtons">
+  <ul *ngIf="toolbarButtons.length"
+      class="nw-toolbar">
+    <li *ngFor="let button of toolbarButtons"
+        class="nw-toolbar__item">
       <div *ngIf="!button.isComplex">
         <button type="button"
                 class="nw-button"
@@ -32,8 +33,8 @@
   <div class="nw-editor-container"
        (click)="container.focus()"
        [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }">
-    <div class="nw-editor__src-container"
-         *ngIf="editMode">
+    <div *ngIf="editMode"
+         class="nw-editor__src-container">
       <textarea [ngModel]="content"
                 (ngModelChange)="onTextareaChange($event)"
                 (blur)="propagateTouched()"
@@ -41,10 +42,10 @@
       </textarea>
     </div>
     <div class="nw-editor"
-         [ngClass]="{ 'nw-disabled': disabled,'nw-invisible': editMode}">
-      <div class="nw-editor__placeholder"
-           [innerText]="placeholder"
-           *ngIf="shouldShowPlaceholder()">
+         [ngClass]="{ 'nw-disabled': disabled,'nw-invisible': editMode }">
+      <div *ngIf="shouldShowPlaceholder()"
+           class="nw-editor__placeholder"
+           [innerText]="placeholder">
       </div>
       <div #ngWigEditable
            class="nw-editor__res"

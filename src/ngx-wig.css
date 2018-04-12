@@ -74,12 +74,14 @@
     */
 
 .nw-editor {
-  display: table;
   /* Default when height is not set */
+  display: block;
+  position: relative;
   height: 300px;
   background: #fff;
   cursor: text;
   width: 100%;
+  overflow-y: auto;
 }
 
 .nw-editor-container {
@@ -93,15 +95,16 @@
 }
 
 .nw-editor__res {
+  display: block;
   min-height: 100%;
-  padding: 0 8px;
-  display: table-cell;
+  padding: 1px 8px;
 }
 
 .nw-editor__placeholder {
+  display: block;
+  position: absolute;
   padding: 1px 8px;
   color: lightgray;
-  display: table-cell;
   width: 100%;
 }
 
@@ -129,7 +132,7 @@
 .nw-editor__src {
   height: 100%;
   resize: none;
-  padding: 0 8px;
+  padding: 1px 8px;
 }
 
 .nw-editor--fixed .nw-editor {
