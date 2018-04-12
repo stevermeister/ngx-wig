@@ -52,7 +52,8 @@
            [attr.contenteditable]="!disabled"
            [ngClass]="{ disabled: disabled}"
            (focus)="hasFocus = true"
-           (blur)="onBlur()"><!--
+           (blur)="onBlur()"
+           (input)="_onContentChange(ngWigEditable.innerHTML)"><!--
   --></div>
     </div>
   </div>
