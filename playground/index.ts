@@ -10,7 +10,7 @@ import { NgxWigModule }  from 'ngx-wig';
 
 @Component({
   selector: 'my-app',
-  template: `<ngx-wig [content]="" [isSourceModeAllowed]="true" placeholder="yoyo"></ngx-wig>`
+  template: `<ngx-wig [content]="text" [isSourceModeAllowed]="true"></ngx-wig>`
 })
 class AppComponent {
   public text = `There are a few options for making a WYSIWYG editor that works in the browser.
