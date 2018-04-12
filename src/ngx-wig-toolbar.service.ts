@@ -21,7 +21,7 @@ export class NgxWigToolbarService {
     underline: {title: 'Underline', command: 'underline', styleClass: 'format-underlined' }
   };
 
-  private _defaultButtonsList = ['list1', 'list2', 'bold', 'italic', 'link', 'underline'];
+  private _defaultButtonsList = ['list1', 'list2', 'bold', 'italic', 'link'];
 
   public setButtons(buttons: string[]): void {
     // if(!angular.isArray(buttons)) {
