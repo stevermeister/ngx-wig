@@ -17,10 +17,11 @@ export class NgxWigToolbarService {
     list2: {title: 'Ordered List', command: 'insertorderedlist', styleClass: 'list-ol'},
     bold: {title: 'Bold', command: 'bold', styleClass: 'bold'},
     italic: {title: 'Italic', command: 'italic', styleClass: 'italic'},
-    link: {title: 'Link', command: 'createlink', styleClass: 'link'}
+    link: {title: 'Link', command: 'createlink', styleClass: 'link'},
+    underline: {title: 'Underline', command: 'underline', styleClass: 'format-underlined' }
   };
 
-  private _defaultButtonsList = ['list1', 'list2', 'bold', 'italic', 'link'];
+  private _defaultButtonsList = ['list1', 'list2', 'bold', 'italic', 'link', 'underline'];
 
   public setButtons(buttons: string[]): void {
     // if(!angular.isArray(buttons)) {

@@ -207,6 +207,10 @@
   content: '\\f0c1';
 }
 
+.nw-button-fa.format-underlined:before {
+  content: '\\f0cd';
+}
+
 .nw-button-fa.font-color:before {
   content: '\\f031';
 }
@@ -243,6 +247,10 @@
 
 .nw-button-mdi.link:before {
   content: '\\f339';
+}
+
+.nw-button-mdi.format-underlined:before {
+  content: '\\f287';
 }
 
 .nw-button-mdi.font-color:before {
