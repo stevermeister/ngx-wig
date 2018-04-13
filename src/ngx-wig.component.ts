@@ -1,15 +1,15 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
-  OnInit,
   OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
   ViewEncapsulation,
   forwardRef,
-  SimpleChanges,
-  Output,
-  ViewChild,
-  EventEmitter
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -30,6 +30,7 @@ import { NgxWigToolbarService, TButton } from './ngx-wig-toolbar.service';
   encapsulation: ViewEncapsulation.None
 })
 export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor {
+
   @Input()
   public content: string;
 
@@ -99,16 +100,10 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public ngOnInit(): void {
     this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons(this.buttons);
     this.container = this.ngxWigEditable.nativeElement;
+
     if (this.content) {
       this.container.innerHTML = this.content;
     }
-
-    // view --> model
-    ('keyup change'.split(' ')).forEach(event =>
-      this.container.addEventListener(event, () => {
-        this._onContentChange(this.container.innerHTML);
-      }, false)
-    );
   }
 
   private _onContentChange(newContent: string): void {
@@ -142,7 +137,6 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
 
   public shouldShowPlaceholder(): boolean {
     return this.placeholder
-      && !this.hasFocus
       && !this.container.innerText;
   }
 
