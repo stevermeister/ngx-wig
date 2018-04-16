@@ -63,10 +63,10 @@ describe('NgxWigToolbarService', () => {
     it('should throw an error if provided buttons have not been added first', () => {
       expect(() => {
           service.getToolbarButtons('button1')
-      }).toThrow('There is no "button1" in your library. Possible variants: list1,list2,bold,italic,link');
+      }).toThrow('There is no "button1" in your library. Possible variants: list1,list2,bold,italic,link,underline');
     });
 
-    it('should return 8 buttons by default', () => {
+    it('should return 5 buttons by default', () => {
       expect(service.getToolbarButtons().length).toEqual(5);
     });
 
