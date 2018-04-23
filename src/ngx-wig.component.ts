@@ -94,7 +94,7 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
       document.execCommand(command, false, options);
     }
 
-    this._onContentChange(this.container.innerHTML);
+    this.onContentChange(this.container.innerHTML);
   }
 
   public ngOnInit(): void {
@@ -106,7 +106,7 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     }
   }
 
-  private _onContentChange(newContent: string): void {
+  public onContentChange(newContent: string): void {
     this.content = newContent;
     this.contentChange.emit(this.content);
     this.propagateChange(this.content);
@@ -125,14 +125,14 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public onTextareaChange(newContent: string): void {
     // model -> view
     this.container.innerHTML = newContent;
-    this._onContentChange(newContent);
+    this.onContentChange(newContent);
   }
 
   public writeValue(value: any): void {
     if (!value) { value = ''; }
 
     this.container.innerHTML = value;
-    this._onContentChange(value);
+    this.onContentChange(value);
   }
 
   public shouldShowPlaceholder(): boolean {
