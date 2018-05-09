@@ -113,13 +113,23 @@ describe('NgxWigComponent', () => {
       expect(page.execCommandSpy.calls.any()).toBe(false);
     });
 
-    it('should focus', () => {
-      const spy = spyOn(page.editableDiv.nativeElement, 'focus');
-      page.unorderedListBtn.triggerEventHandler('click', null);
+    describe('focus', () => {
+      let spy: jasmine.Spy;
 
-      const focusArgs = spy.calls.first().args;
-      expect(spy.calls.any()).toBe(true);
-    });
+      beforeEach(() => spy = spyOn(page.editableDiv.nativeElement, 'focus'));
+
+      it('with user interaction', () => {
+        page.unorderedListBtn.triggerEventHandler('click', null);
+
+        expect(spy.calls.any()).toBe(true);
+      });
+
+      it('automatically', () => {
+        comp.execCommand('bold', '');
+
+        expect(spy.calls.any()).toBe(true);
+      });
+    })
   });
 
   it('should have an editor container with a toolbar of buttons', () => {
