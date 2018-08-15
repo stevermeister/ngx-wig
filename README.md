@@ -5,10 +5,16 @@ ngx-wig
 
 ![screen shot 2017-12-12 at 14 52 51](https://user-images.githubusercontent.com/1526680/33888069-37bde1f0-df4c-11e7-993e-d48ffe0fffbf.png)
 
-
 ## Dependencies
 
 *it's only Angular! No jQuery or other WYSIWYG monsters*
+
+
+## Angular Support
+
+Now supports **Angular 6** and **rxjs 6** - `ngx-wig@1.6.0`  
+For **Angular 4** and **Angular = ^5** - use version `ngx-wig@1.2.7`  
+
 
 ## Icons
 
