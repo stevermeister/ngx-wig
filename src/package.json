@@ -23,8 +23,8 @@
   "jsnext:main": "ngx-wig.js",
   "typings": "ngx-wig.d.ts",
   "peerDependencies": {
-    "@angular/core": "^5.0.0",
-    "rxjs": "^5.5.2",
+    "@angular/core": "^6.0.0",
+    "rxjs": "^6.2.1",
     "zone.js": "^0.8.14"
   },
   "engines": {
