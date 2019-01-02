@@ -79,7 +79,7 @@ it's just attribute directive for textarea:
 ### Set buttons ( [demo](https://stackblitz.com/edit/angular-y5b6bz?file=app/app.component.html) )
 
 ```html
-<ngx-wig  [content]="text1" [buttons]="bold, italic"></ngx-wig>
+<ngx-wig  [content]="text1" [buttons]="'bold, italic'"></ngx-wig>
 ```
 
 ### onContentChange Hook  ( [demo](https://stackblitz.com/edit/angular-adxhiw?file=app/app.component.ts) )
@@ -92,7 +92,7 @@ it's just attribute directive for textarea:
 ### Reactive FormControl ( [demo](https://stackblitz.com/edit/angular-srbxem?file=app/app.component.html) )
 
 ```html
-<ngx-wig  [content]="name" [buttons]="'bold, italic'"></ngx-wig>
+<ngx-wig  [formControl]="name" [buttons]="'bold, italic'"></ngx-wig>
 ```
 
 ### Two-way binding ( [demo](https://stackblitz.com/edit/ngx-wig-2-way-binding) )

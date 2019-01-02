@@ -10,6 +10,7 @@
   "homepage" :"https://github.com/stevermeister/ngx-wig",
   "peerDependencies": {
     "@angular/common": "^7.1.0",
-    "@angular/core": "^7.1.0"
+    "@angular/core": "^7.1.0",
+    "@angular/forms": "^7.1.0"
   }
 }
