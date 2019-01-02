@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngx-wig": [
+        "dist/ngx-wig"
+      ],
+      "ngx-wig/*": [
+        "dist/ngx-wig/*"
+      ]
+    }
   }
 }

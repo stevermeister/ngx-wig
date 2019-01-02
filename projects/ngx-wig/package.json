@@ -1,0 +1,15 @@
+{
+  "name": "ngx-wig",
+  "version": "2.0.0",
+  "description": "Light-weight WYSIWYG Editor for Angular",
+  "keywords" :["Angular","Library", "WYSIWYG", "Editor"],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/stevermeister/ngx-wig"
+  },
+  "homepage" :"https://github.com/stevermeister/ngx-wig",
+  "peerDependencies": {
+    "@angular/common": "^7.1.0",
+    "@angular/core": "^7.1.0"
+  }
+}
