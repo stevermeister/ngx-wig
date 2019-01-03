@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "package": "ng build ngx-wig && copy ./README.md ./dist/ngx-wig && cd dist/ngx-wig && npm pack"
+    "package": "ng build ngx-wig && cp ./README.md ./dist/ngx-wig && cd dist/ngx-wig && npm pack"
   },
   "private": true,
   "dependencies": {
