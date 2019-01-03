@@ -72,8 +72,8 @@ it's just attribute directive for textarea:
 ### ngModel sync ( [demo](https://stackblitz.com/edit/ngx-wig-2-way-binding-choit3?file=app%2Fapp.component.html) )
 
 ```html
-<ngx-wig [ngModel]="text1"></ngx-wig>
-<ngx-wig [ngModel]="text1"></ngx-wig>
+<ngx-wig [(ngModel)]="text1"></ngx-wig>
+<ngx-wig [(ngModel)]="text1"></ngx-wig>
 ```
 
 ### Set buttons ( [demo](https://stackblitz.com/edit/angular-y5b6bz?file=app/app.component.html) )
