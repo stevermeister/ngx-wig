@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { faLink, IconDefinition, faBold, faItalic, faUnderline, faListOl, faListUl } from '@fortawesome/free-solid-svg-icons';
 
 export type TButton = {
     label?:string,
+    icon?: IconDefinition 
     title?: string,
     command?: string,
     styleClass?: string,
@@ -19,12 +21,12 @@ export type TButton = {
   export class NgxWigToolbarService {
   
     private _buttonLibrary: TButtonLibrary = {
-      list1: { label: 'UL', title: 'Unordered List', command: 'insertunorderedlist', styleClass: 'list-ul'},
-      list2: { label: 'OL', title: 'Ordered List', command: 'insertorderedlist', styleClass: 'list-ol'},
-      bold: { label: 'B', title: 'Bold', command: 'bold', styleClass: 'bold'},
-      italic: { label: 'I', title: 'Italic', command: 'italic', styleClass: 'italic'},
-      link: { label: 'Link', title: 'Link', command: 'createlink', styleClass: 'link'},
-      underline: { label: 'U', title: 'Underline', command: 'underline', styleClass: 'format-underlined' }
+      list1: { label: 'UL', title: 'Unordered List', command: 'insertunorderedlist', styleClass: 'list-ul', icon: faListUl },
+      list2: { label: 'OL', title: 'Ordered List', command: 'insertorderedlist', styleClass: 'list-ol', icon: faListOl},
+      bold: { label: 'B', title: 'Bold', command: 'bold', styleClass: 'bold', icon: faBold },
+      italic: { label: 'I', title: 'Italic', command: 'italic', styleClass: 'italic', icon: faItalic },
+      link: { label: 'Link', title: 'Link', command: 'createlink', styleClass: 'link', icon: faLink},
+      underline: { label: 'U', title: 'Underline', command: 'underline', styleClass: 'format-underlined', icon: faUnderline }
     };
   
     private _defaultButtonsList = ['list1', 'list2', 'bold', 'italic', 'link'];
@@ -41,7 +43,8 @@ export type TButton = {
       name: string,
       title: string,
       command: string,
-      styleClass: string
+      styleClass: string,
+      icon: IconDefinition
     ) {
   
       if (!name || !title || !command) {
@@ -49,7 +52,7 @@ export type TButton = {
       }
   
       styleClass = styleClass || '';
-      this._buttonLibrary[name] = {title: title, command: command, styleClass: styleClass};
+      this._buttonLibrary[name] = { title, command, styleClass, icon};
       this._defaultButtonsList.push(name);
     }
   

@@ -10,7 +10,8 @@
                   (click)="execCommand(button.command)"
                   [disabled]="disabled"
                   tabindex="-1">
-            {{ button.label }}
+            <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
+            <fa-icon *ngIf="button.icon" [icon]="button.icon"></fa-icon>
           </button>
         </div>
       </li><!--

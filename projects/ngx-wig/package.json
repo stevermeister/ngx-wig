@@ -2,15 +2,23 @@
   "name": "ngx-wig",
   "version": "2.0.0",
   "description": "Light-weight WYSIWYG Editor for Angular",
-  "keywords" :["Angular","Library", "WYSIWYG", "Editor"],
+  "keywords": [
+    "Angular",
+    "Library",
+    "WYSIWYG",
+    "Editor"
+  ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/stevermeister/ngx-wig"
+    "type": "git",
+    "url": "https://github.com/stevermeister/ngx-wig"
   },
-  "homepage" :"https://github.com/stevermeister/ngx-wig",
+  "homepage": "https://github.com/stevermeister/ngx-wig",
   "peerDependencies": {
     "@angular/common": "^7.1.0",
     "@angular/core": "^7.1.0",
-    "@angular/forms": "^7.1.0"
+    "@angular/forms": "^7.1.0",
+    "@fortawesome/angular-fontawesome": "0.3.0",
+    "@fortawesome/fontawesome-svg-core": "1.2.12",
+    "@fortawesome/free-solid-svg-icons": "5.6.3"
   }
 }
