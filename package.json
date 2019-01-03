@@ -2,13 +2,12 @@
   "name": "ngx-wig-app",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
     "lib-build": "ng build ngx-wig",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
+    "start": "ng serve ngx-wig",
+    "build": "ng build ngx-wig",
+    "test": "ng test ngx-wig --browsers=ChromeHeadless --watch=false",
+    "lint": "ng lint ngx-wig",
+    "e2e": "ng e2e ngx-wig",
     "package": "ng build ngx-wig && cp ./README.md ./dist/ngx-wig && cd dist/ngx-wig && npm pack"
   },
   "private": true,
