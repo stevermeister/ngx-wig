@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { NgxWigComponent } from './ngx-wig.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [NgxWigComponent],
   imports: [
-    CommonModule,
+    BrowserModule,
     FormsModule,
     ReactiveFormsModule
   ],
