@@ -10,11 +10,14 @@ import {
   ViewChild,
   ViewEncapsulation,
   forwardRef,
+  Inject,
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxWigToolbarService, TButton } from './ngx-wig-toolbar.service';
+import { DOCUMENT } from '@angular/common';
 
+/** @dynamic */
 @Component({
   selector: 'ngx-wig',
   templateUrl: './ngx-wig.html',
@@ -58,7 +61,9 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public hasFocus = false;
 
   public constructor(
-    private _ngWigToolbarService: NgxWigToolbarService
+    private _ngWigToolbarService: NgxWigToolbarService,
+    @Inject(DOCUMENT) private document: any, // cannot set Document here - Angular issue - https://github.com/angular/angular/issues/20351
+    @Inject('WINDOW') private window,
   ) {}
 
   public toggleEditMode(): void {
@@ -69,27 +74,28 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
     if (this.editMode) {
       return false;
     }
-    if (document.queryCommandSupported && !document.queryCommandSupported(command)) {
+    if (this.document.queryCommandSupported && !this.document.queryCommandSupported(command)) {
       throw 'The command "' + command + '" is not supported';
     }
     if (command === 'createlink' || command === 'insertImage') {
-      options = window.prompt('Please enter the URL', 'http://');
+      options = window.prompt('Please enter the URL', 'http://') || '';
       if (!options) {
-        return;
+        return false;
       }
     }
 
     this.container.focus();
 
     // use insertHtml for `createlink` command to account for IE/Edge purposes, in case there is no selection
-    let selection = document.getSelection().toString();
+    let selection = this.document.getSelection().toString();
     if (command === 'createlink' && selection === '') {
-      document.execCommand('insertHtml', false, '<a href="' + options + '">' + options + '</a>');
+      this.document.execCommand('insertHtml', false, '<a href="' + options + '">' + options + '</a>');
     } else {
-      document.execCommand(command, false, options);
+      this.document.execCommand(command, false, options);
     }
 
     this.onContentChange(this.container.innerHTML);
+    return true;
   }
 
   public ngOnInit(): void {
@@ -131,7 +137,7 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   }
 
   public shouldShowPlaceholder(): boolean {
-    return this.placeholder
+    return !!this.placeholder
       && !this.container.innerText;
   }
 
@@ -146,9 +152,9 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
         range.deleteContents();
 
         // append the content in a temporary div
-        let el = document.createElement('div');
+        let el = this.document.createElement('div');
         el.innerHTML = html;
-        let frag = document.createDocumentFragment(), node, lastNode;
+        let frag = this.document.createDocumentFragment(), node, lastNode;
         while ( (node = el.firstChild) ) {
           lastNode = frag.appendChild(node);
         }
