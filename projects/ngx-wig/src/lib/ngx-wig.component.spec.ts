@@ -1,22 +1,27 @@
-import { Component, DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { NgxWigComponent } from './ngx-wig.component';
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
+import { NgxWigComponent } from './ngx-wig.component';
 
 let fixture: ComponentFixture<NgxWigComponent>;
-let toolbarService: NgxWigToolbarService;
 let page: Page;
 let comp: NgxWigComponent;
+
+const mockWindow = {};
 
 describe('NgxWigComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule],
       declarations: [NgxWigComponent],
-      providers: [NgxWigToolbarService]
+      providers: [
+        NgxWigToolbarService,
+        { provide: 'WINDOW', useValue: mockWindow }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(NgxWigComponent);
       page = new Page();
@@ -77,8 +82,10 @@ describe('NgxWigComponent', () => {
       expect(documentArgs[2]).toBe('<a href="http://fakeLink">http://fakeLink</a>');
     });
 
-    it('should fail if command is unknown', function(){
-      expect(() => {comp.execCommand('fakeCmd', '')}).toThrow('The command "fakeCmd" is not supported');
+    it('should fail if command is unknown', () => {
+      expect(() => {
+        comp.execCommand('fakeCmd', '');
+      }).toThrow('The command "fakeCmd" is not supported');
     });
 
     it('should show a prompt when the command name is createlink', () => {
@@ -124,7 +131,7 @@ describe('NgxWigComponent', () => {
 
         expect(spy.calls.any()).toBe(true);
       });
-    })
+    });
   });
 
   it('should have an editor container with a toolbar of buttons', () => {
