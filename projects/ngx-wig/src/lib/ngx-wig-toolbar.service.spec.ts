@@ -1,5 +1,5 @@
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
-import { faCheck, faListUl, faListOl } from '@fortawesome/free-solid-svg-icons';
+import { 'icon-check', faListUl, faListOl } from '@fortawesome/free-solid-svg-icons';
 
 describe('NgxWigToolbarService', () => {
   let service: NgxWigToolbarService;
@@ -29,19 +29,19 @@ describe('NgxWigToolbarService', () => {
   describe('addStandardButton', () => {
     it('should throw an error if name/title/command is not provided', () => {
       let errorMsg = 'Arguments "name", "title" and "command" are required';
-      expect(() => service.addStandardButton('', '', '', '', faCheck)).toThrow(errorMsg);
-      expect(() => service.addStandardButton('button1', '', '', '', faCheck)).toThrow(errorMsg);
-      expect(() => service.addStandardButton('button1', 'My button', '', '', faCheck)).toThrow(errorMsg);
+      expect(() => service.addStandardButton('', '', '', '', 'icon-check')).toThrow(errorMsg);
+      expect(() => service.addStandardButton('button1', '', '', '', 'icon-check')).toThrow(errorMsg);
+      expect(() => service.addStandardButton('button1', 'My button', '', '', 'icon-check')).toThrow(errorMsg);
     });
 
     it('should add a standard button', () => {
-      service.addStandardButton('button1', 'My button', 'fakeCmd()', 'fakeStyle', faCheck);
+      service.addStandardButton('button1', 'My button', 'fakeCmd()', 'fakeStyle', 'icon-check');
       expect(service.getToolbarButtons()[5]).toEqual(
         {
           title: 'My button',
           command: 'fakeCmd()',
           styleClass: 'fakeStyle',
-          icon: faCheck
+          icon: 'icon-check'
         }
       );
     });
