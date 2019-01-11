@@ -1,5 +1,4 @@
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
-import { 'icon-check', faListUl, faListOl } from '@fortawesome/free-solid-svg-icons';
 
 describe('NgxWigToolbarService', () => {
   let service: NgxWigToolbarService;
@@ -14,14 +13,14 @@ describe('NgxWigToolbarService', () => {
         title: 'Unordered List',
         command: 'insertunorderedlist',
         styleClass: 'list-ul',
-        icon: faListUl
+        icon: 'icon-list-ul'
       },
       {
         label: 'OL',
         title: 'Ordered List',
         command: 'insertorderedlist',
         styleClass: 'list-ol',
-        icon: faListOl
+        icon: 'icon-list-ol'
       }
     ]);
   });

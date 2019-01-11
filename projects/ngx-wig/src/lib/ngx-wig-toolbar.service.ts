@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { faLink, IconDefinition, faBold, faItalic, faUnderline, faListOl, faListUl } from '@fortawesome/free-solid-svg-icons';
 
 export type TButton = {
     label?:string,
