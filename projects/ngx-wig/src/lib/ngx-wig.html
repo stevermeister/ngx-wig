@@ -11,7 +11,10 @@
                   [disabled]="disabled"
                   tabindex="-1">
             <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
-            <fa-icon *ngIf="button.icon" [icon]="button.icon"></fa-icon>
+            <div *ngIf="button.icon"
+                 class="icon"
+                 [ngClass]="[button.icon]">
+            </div>
           </button>
         </div>
       </li><!--
@@ -28,7 +31,7 @@
       </button>
     </li>
     </ul>
-  
+
     <div class="nw-editor-container"
          (click)="container.focus()"
          [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }">
@@ -57,4 +60,3 @@
       </div>
     </div>
   </div>
-  

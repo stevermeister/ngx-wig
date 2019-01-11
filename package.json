@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "lib-build": "ng build ngx-wig",
-    "start": "ng serve ngx-wig",
+    "start": "(ng build ngx-wig --watch &) && sleep 5 && ng serve",
     "build": "ng build ngx-wig",
     "test": "ng test ngx-wig --browsers=ChromeHeadless --watch=false",
     "lint": "ng lint ngx-wig",
@@ -20,9 +20,6 @@
     "@angular/platform-browser": "~7.1.0",
     "@angular/platform-browser-dynamic": "~7.1.0",
     "@angular/router": "~7.1.0",
-    "@fortawesome/angular-fontawesome": "0.3.0",
-    "@fortawesome/fontawesome-svg-core": "1.2.12",
-    "@fortawesome/free-solid-svg-icons": "5.6.3",
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
