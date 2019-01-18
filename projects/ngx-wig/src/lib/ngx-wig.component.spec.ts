@@ -1,15 +1,12 @@
-import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
 import { NgxWigComponent } from './ngx-wig.component';
 
 let fixture: ComponentFixture<NgxWigComponent>;
 let page: Page;
-let comp: NgxWigComponent;
-
+let component: NgxWigComponent;
 const mockWindow = {};
 
 describe('NgxWigComponent', () => {
@@ -20,52 +17,54 @@ describe('NgxWigComponent', () => {
       providers: [
         NgxWigToolbarService,
         { provide: 'WINDOW', useValue: mockWindow }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents().then(() => {
-      fixture = TestBed.createComponent(NgxWigComponent);
-      page = new Page();
-      fixture.detectChanges();
-      page.addPageElements();
+      ]
     });
+
+    fixture = TestBed.createComponent(NgxWigComponent);
+
+    component = fixture.componentInstance;
+    component.content = '<p>Hello World</p>';
+    component.isSourceModeAllowed = true;
+
+    page = new Page();
+
+    fixture.detectChanges();
   }));
 
-  it('should create the component', () => {
-    expect(comp).toBeTruthy();
+  it('should create', () => {
+    expect(component).toBeDefined();
   });
 
   it('should create a standard button', () => {
-    expect(page.unorderedListBtn.nativeElement.getAttribute('title')).toBe('Unordered List');
-    // expect(page.unorderedListBtn.nativeElement.textContent).toContain('UL');
+    expect(page.unorderedListBtn.getAttribute('title')).toBe('Unordered List');
   });
 
   it('should enable edit mode', () => {
-    page.editHTMLBtn.triggerEventHandler('click', null);
+    page.editHTMLBtn.click();
     fixture.detectChanges();
-    const editHTMLTxt = fixture.debugElement.query(By.css('textarea'));
+    const editHTMLTxt = fixture.nativeElement.querySelector('textarea');
     expect(editHTMLTxt).toBeDefined();
-    expect(page.editHTMLBtn.classes['nw-button--active']).toBeDefined();
-    expect(page.editorDiv.classes['nw-invisible']).toBeDefined();
+    expect(page.editHTMLBtn.classList.contains('nw-button--active')).toBe(true);
+    expect(page.editorDiv.classList.contains('nw-invisible')).toBeDefined();
     expect(page.editorSrcContainerDiv).toBeDefined();
   });
 
   describe('execCommand', () => {
     it('should call execCommand', () => {
-      const spy = spyOn(comp, 'execCommand');
-      page.unorderedListBtn.triggerEventHandler('click', null);
-
+      const spy = spyOn(component, 'execCommand');
+      page.unorderedListBtn.click();
       const execArgs = spy.calls.first().args;
       expect(execArgs[0]).toBe('insertunorderedlist');
       expect(execArgs[1]).toBeUndefined();
     });
 
     it('should return false', () => {
-      comp.editMode = true;
-      expect(comp.execCommand('insertunorderedlist', '')).toBe(false);
+      component.editMode = true;
+      expect(component.execCommand('insertunorderedlist', '')).toBe(false);
     });
 
     it('should execute the BOLD command', () => {
-      comp.execCommand('bold', '');
+      component.execCommand('bold', '');
       const documentArgs = page.execCommandSpy.calls.first().args;
       expect(documentArgs[0]).toBe('bold');
       expect(documentArgs[1]).toBe(false);
@@ -75,7 +74,7 @@ describe('NgxWigComponent', () => {
     it('should use insertHtml to create a link for IE', () => {
       page.promptSpy.and.returnValue('http://fakeLink');
       spyOn(document, 'getSelection').and.returnValue('');
-      comp.execCommand('createlink', 'http://fakeLink');
+      component.execCommand('createlink', 'http://fakeLink');
       const documentArgs = page.execCommandSpy.calls.first().args;
       expect(documentArgs[0]).toBe('insertHtml');
       expect(documentArgs[1]).toBe(false);
@@ -84,13 +83,13 @@ describe('NgxWigComponent', () => {
 
     it('should fail if command is unknown', () => {
       expect(() => {
-        comp.execCommand('fakeCmd', '');
+        component.execCommand('fakeCmd', '');
       }).toThrow('The command "fakeCmd" is not supported');
     });
 
     it('should show a prompt when the command name is createlink', () => {
       page.promptSpy.and.returnValue('http://fakeLink');
-      comp.execCommand('createlink', '');
+      component.execCommand('createlink', '');
       const promptArgs = page.promptSpy.calls.first().args;
       expect(promptArgs[0]).toBe('Please enter the URL');
       expect(promptArgs[1]).toBe('http://');
@@ -98,110 +97,103 @@ describe('NgxWigComponent', () => {
 
     it('should show a prompt when the command name is insertImage', () => {
       page.promptSpy.and.returnValue('http://fakeImage');
-      comp.execCommand('insertImage', '');
+      component.execCommand('insertImage', '');
       const promptArgs = page.promptSpy.calls.first().args;
       expect(promptArgs[0]).toBe('Please enter the URL');
       expect(promptArgs[1]).toBe('http://');
     });
 
     it('should not show a prompt when the command is not createlink or insertImage', () => {
-      comp.execCommand('bold', '');
+      component.execCommand('bold', '');
       expect(page.promptSpy.calls.any()).toBe(false);
     });
 
     it('should return if the prompt is cancelled', () => {
       page.promptSpy.and.returnValue(undefined);
-      comp.execCommand('createlink', '');
+      component.execCommand('createlink', '');
       expect(page.execCommandSpy.calls.any()).toBe(false);
     });
 
     describe('focus', () => {
       let spy: jasmine.Spy;
 
-      beforeEach(() => spy = spyOn(page.editableDiv.nativeElement, 'focus'));
+      beforeEach(() => spy = spyOn(page.editableDiv, 'focus'));
 
       it('with user interaction', () => {
-        page.unorderedListBtn.triggerEventHandler('click', null);
-
+        page.unorderedListBtn.click();
         expect(spy.calls.any()).toBe(true);
       });
 
       it('automatically', () => {
-        comp.execCommand('bold', '');
-
+        component.execCommand('bold', '');
         expect(spy.calls.any()).toBe(true);
       });
     });
   });
 
   it('should have an editor container with a toolbar of buttons', () => {
-    expect(page.editContainerDiv.classes['nw-editor-container--with-toolbar']).toBeDefined();
+    expect(page.editContainerDiv.classList.contains('nw-editor-container--with-toolbar')).toBeDefined();
     expect(page.toolbarUl).toBeDefined();
     expect(page.toolbarItemsLi.length).toBe(6);
   });
 
   it('should have a content', () => {
-    expect(page.editableDiv.nativeElement.innerHTML).toBe('<p>Hello World</p>');
+    expect(page.editableDiv.innerHTML).toBe('<p>Hello World</p>');
   });
 
   it('should show a placeholder', () => {
-    comp.placeholder = 'Insert text here';
-    page.editableDiv.nativeElement.innerHTML = '';
+    component.placeholder = 'Insert text here';
+    page.editableDiv.innerHTML = '';
     fixture.detectChanges();
-    const placeholderEl = fixture.debugElement.query(By.css('.nw-editor__placeholder'));
-    expect(placeholderEl.nativeElement.innerText).toBe('Insert text here');
+    const placeholderEl = fixture.nativeElement.querySelector('.nw-editor__placeholder');
+    expect(placeholderEl.innerText).toBe('Insert text here');
   });
 
-  xdescribe('disabled property', () => {
+  describe('disabled property', () => {
     it('should enable the editor', () => {
-      expect(page.unorderedListBtn.nativeElement.disabled).toBe(false);
-      expect(page.editHTMLBtn.nativeElement.disabled).toBe(false);
-      expect(page.editorDiv.classes['nw-disabled']).toBe(false);
-      expect(page.editableDiv.classes['disabled']).toBe(false);
-      expect(page.editableDiv.nativeElement.getAttribute('contenteditable')).toBe('true');
+      expect(page.unorderedListBtn.disabled).toBe(false);
+      expect(page.editHTMLBtn.disabled).toBe(false);
+      expect(page.editorDiv.classList.contains('nw-disabled')).toBe(false);
+      expect(page.editableDiv.classList.contains('disabled')).toBe(false);
+      expect(page.editableDiv.getAttribute('contenteditable')).toBe('true');
     });
 
     it('should disable the editor', () => {
-      comp.setDisabledState(true);
+      component.setDisabledState(true);
       fixture.detectChanges();
-      expect(page.unorderedListBtn.nativeElement.disabled).toBe(true);
-      expect(page.editHTMLBtn.nativeElement.disabled).toBe(true);
-      expect(page.editorDiv.classes['nw-disabled']).toBe(true);
-      expect(page.editableDiv.classes['disabled']).toBe(true);
-      expect(page.editableDiv.nativeElement.getAttribute('contenteditable')).toBe('false');
+      expect(page.unorderedListBtn.disabled).toBe(true);
+      expect(page.editHTMLBtn.disabled).toBe(true);
+      expect(page.editorDiv.classList.contains('nw-disabled')).toBe(true);
+      expect(page.editableDiv.classList.contains('disabled')).toBe(true);
+      expect(page.editableDiv.getAttribute('contenteditable')).toBe('false');
     });
   });
 });
 
 class Page {
-  unorderedListBtn: DebugElement;
-  editHTMLBtn: DebugElement;
-  editorDiv: DebugElement;
-  editContainerDiv: DebugElement;
-  editorSrcContainerDiv: DebugElement;
-  editableDiv: DebugElement;
-  toolbarUl: DebugElement;
-  toolbarItemsLi: DebugElement[];
+  get buttons()  { return this.queryAll<HTMLButtonElement>('button'); }
+  get unorderedListBtn() { return this.buttons[0]; }
+  get editHTMLBtn() { return this.buttons[5]; }
+  get editorDiv() { return this.query<HTMLElement>('.nw-editor'); }
+  get editContainerDiv() { return this.query<HTMLElement>('.nw-editor-container'); }
+  get editorSrcContainerDiv() { return this.query<HTMLElement>('.nw-editor__src-container'); }
+  get editableDiv() { return this.query<HTMLElement>('.nw-editor__res'); }
+  get toolbarUl() { return this.query<HTMLElement>('nw-toolbar'); }
+  get toolbarItemsLi() { return this.queryAll<HTMLElement>('.nw-toolbar__item'); }
+
   execCommandSpy: jasmine.Spy;
   promptSpy: jasmine.Spy;
 
   constructor() {
-    comp = fixture.debugElement.componentInstance;
     this.execCommandSpy = spyOn(document, 'execCommand');
     this.promptSpy = spyOn(window, 'prompt');
-    comp.content = '<p>Hello World</p>';
-    comp.isSourceModeAllowed = true;
   }
 
-  addPageElements() {
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    this.unorderedListBtn = buttons[0];
-    this.editHTMLBtn = buttons[5];
-    this.editorDiv = fixture.debugElement.query(By.css('.nw-editor'));
-    this.editContainerDiv = fixture.debugElement.query(By.css('.nw-editor-container'));
-    this.editorSrcContainerDiv = fixture.debugElement.query(By.css('.nw-editor__src-container'));
-    this.editableDiv = fixture.debugElement.query(By.css('.nw-editor__res'));
-    this.toolbarUl = fixture.debugElement.query(By.css('.nw-toolbar'));
-    this.toolbarItemsLi = fixture.debugElement.queryAll(By.css('.nw-toolbar__item'));
+  private query<T>(selector: string): T {
+    return fixture.nativeElement.querySelector(selector);
+  }
+
+  private queryAll<T>(selector: string): T[] {
+    return fixture.nativeElement.querySelectorAll(selector);
   }
 }
