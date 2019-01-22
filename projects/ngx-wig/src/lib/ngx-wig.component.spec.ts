@@ -35,18 +35,93 @@ describe('NgxWigComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should create a standard button', () => {
-    expect(page.unorderedListBtn.getAttribute('title')).toBe('Unordered List');
+  it('should have six toolbar buttons', () => {
+    expect(page.toolbarItemsLi.length).toBe(6);
   });
 
-  it('should enable edit mode', () => {
+  it('should have a standard button', () => {
+    expect(page.unorderedListBtn.classList.contains('list-ul')).toBe(true);
+    expect(page.unorderedListBtn.getAttribute('title')).toBe('Unordered List');
+    expect(page.unorderedListBtn.tabIndex).toBe(-1);
+    expect(page.iconsEl[0].classList.contains('icon-list-ul')).toBe(true);
+  });
+
+  it('should have a standard button without icon', () => {
+    component.toolbarButtons[0].icon = undefined;
+    fixture.detectChanges();
+    expect(page.unorderedListBtn.textContent).toBe('UL');
+    expect(page.iconsEl[0].classList.contains('icon-list-ul')).toBe(false);
+  });
+
+  it('should not allow edit mode', () => {
+    component.isSourceModeAllowed = false;
+    fixture.detectChanges();
+    expect(page.editHTMLBtn).toBeNull();
+  });
+
+  it('should have an editor container', () => {
+    expect(page.editContainerDiv.classList.contains('nw-editor-container--with-toolbar')).toBeDefined();
+  });
+
+  it('should toggle edit mode', () => {
     page.editHTMLBtn.click();
     fixture.detectChanges();
-    const editHTMLTxt = fixture.nativeElement.querySelector('textarea');
-    expect(editHTMLTxt).toBeDefined();
+    expect(page.editHTMLTxt).toBeDefined();
     expect(page.editHTMLBtn.classList.contains('nw-button--active')).toBe(true);
     expect(page.editorDiv.classList.contains('nw-invisible')).toBeDefined();
     expect(page.editorSrcContainerDiv).toBeDefined();
+  });
+
+  it('should have a content', () => {
+    expect(page.editableDiv.innerHTML).toBe('<p>Hello World</p>');
+  });
+
+  it('should show a placeholder', () => {
+    component.placeholder = 'Insert text here';
+    page.editableDiv.innerHTML = '';
+    fixture.detectChanges();
+    expect(page.placeholderEl.innerText).toBe('Insert text here');
+  });
+
+  describe('focus', () => {
+    let spy: jasmine.Spy;
+
+    beforeEach(() => spy = spyOn(page.editableDiv, 'focus'));
+
+    it('when container click', () => {
+      page.editContainerDiv.click();
+      expect(spy.calls.any()).toBe(true);
+    });
+
+    it('when button click', () => {
+      page.unorderedListBtn.click();
+      expect(spy.calls.any()).toBe(true);
+    });
+
+    it('when execCommand', () => {
+      component.execCommand('bold', '');
+      expect(spy.calls.any()).toBe(true);
+    });
+  });
+
+  describe('disabled property', () => {
+    it('should enable the editor', () => {
+      expect(page.unorderedListBtn.disabled).toBe(false);
+      expect(page.editHTMLBtn.disabled).toBe(false);
+      expect(page.editorDiv.classList.contains('nw-disabled')).toBe(false);
+      expect(page.editableDiv.classList.contains('disabled')).toBe(false);
+      expect(page.editableDiv.getAttribute('contenteditable')).toBe('true');
+    });
+
+    it('should disable the editor', () => {
+      component.setDisabledState(true);
+      fixture.detectChanges();
+      expect(page.unorderedListBtn.disabled).toBe(true);
+      expect(page.editHTMLBtn.disabled).toBe(true);
+      expect(page.editorDiv.classList.contains('nw-disabled')).toBe(true);
+      expect(page.editableDiv.classList.contains('disabled')).toBe(true);
+      expect(page.editableDiv.getAttribute('contenteditable')).toBe('false');
+    });
   });
 
   describe('execCommand', () => {
@@ -113,73 +188,21 @@ describe('NgxWigComponent', () => {
       component.execCommand('createlink', '');
       expect(page.execCommandSpy.calls.any()).toBe(false);
     });
-
-    describe('focus', () => {
-      let spy: jasmine.Spy;
-
-      beforeEach(() => spy = spyOn(page.editableDiv, 'focus'));
-
-      it('with user interaction', () => {
-        page.unorderedListBtn.click();
-        expect(spy.calls.any()).toBe(true);
-      });
-
-      it('automatically', () => {
-        component.execCommand('bold', '');
-        expect(spy.calls.any()).toBe(true);
-      });
-    });
-  });
-
-  it('should have an editor container with a toolbar of buttons', () => {
-    expect(page.editContainerDiv.classList.contains('nw-editor-container--with-toolbar')).toBeDefined();
-    expect(page.toolbarUl).toBeDefined();
-    expect(page.toolbarItemsLi.length).toBe(6);
-  });
-
-  it('should have a content', () => {
-    expect(page.editableDiv.innerHTML).toBe('<p>Hello World</p>');
-  });
-
-  it('should show a placeholder', () => {
-    component.placeholder = 'Insert text here';
-    page.editableDiv.innerHTML = '';
-    fixture.detectChanges();
-    const placeholderEl = fixture.nativeElement.querySelector('.nw-editor__placeholder');
-    expect(placeholderEl.innerText).toBe('Insert text here');
-  });
-
-  describe('disabled property', () => {
-    it('should enable the editor', () => {
-      expect(page.unorderedListBtn.disabled).toBe(false);
-      expect(page.editHTMLBtn.disabled).toBe(false);
-      expect(page.editorDiv.classList.contains('nw-disabled')).toBe(false);
-      expect(page.editableDiv.classList.contains('disabled')).toBe(false);
-      expect(page.editableDiv.getAttribute('contenteditable')).toBe('true');
-    });
-
-    it('should disable the editor', () => {
-      component.setDisabledState(true);
-      fixture.detectChanges();
-      expect(page.unorderedListBtn.disabled).toBe(true);
-      expect(page.editHTMLBtn.disabled).toBe(true);
-      expect(page.editorDiv.classList.contains('nw-disabled')).toBe(true);
-      expect(page.editableDiv.classList.contains('disabled')).toBe(true);
-      expect(page.editableDiv.getAttribute('contenteditable')).toBe('false');
-    });
   });
 });
 
 class Page {
-  get buttons()  { return this.queryAll<HTMLButtonElement>('button'); }
+  get buttons()  { return this.queryAll<HTMLButtonElement>('.nw-button'); }
   get unorderedListBtn() { return this.buttons[0]; }
-  get editHTMLBtn() { return this.buttons[5]; }
+  get editHTMLBtn() { return this.query<HTMLButtonElement>('.nw-button.nw-button--source'); }
   get editorDiv() { return this.query<HTMLElement>('.nw-editor'); }
   get editContainerDiv() { return this.query<HTMLElement>('.nw-editor-container'); }
   get editorSrcContainerDiv() { return this.query<HTMLElement>('.nw-editor__src-container'); }
   get editableDiv() { return this.query<HTMLElement>('.nw-editor__res'); }
-  get toolbarUl() { return this.query<HTMLElement>('nw-toolbar'); }
   get toolbarItemsLi() { return this.queryAll<HTMLElement>('.nw-toolbar__item'); }
+  get iconsEl() { return this.queryAll<HTMLElement>('.icon'); }
+  get editHTMLTxt() { return this.query<HTMLElement>('textarea'); }
+  get placeholderEl() { return this.query<HTMLElement>('.nw-editor__placeholder'); }
 
   execCommandSpy: jasmine.Spy;
   promptSpy: jasmine.Spy;
