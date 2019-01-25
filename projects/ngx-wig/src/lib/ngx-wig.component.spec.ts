@@ -244,6 +244,47 @@ describe('NgxWigComponent', () => {
       expect(component.text).toBe('New fake content');
     });
   });
+
+  describe('with host (ngModel)', () => {
+    let fixture: ComponentFixture<TestNgModelHostComponent>;
+    let component: TestNgModelHostComponent;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [FormsModule],
+        declarations: [
+          NgxWigComponent,
+          TestNgModelHostComponent
+        ],
+        providers: [
+          NgxWigToolbarService,
+          { provide: 'WINDOW', useValue: mockWindow }
+        ]
+      });
+      fixture = TestBed.createComponent(TestNgModelHostComponent);
+      component = fixture.componentInstance;
+
+      fixture.detectChanges();
+    });
+
+    it('should set the content', async(() => {
+      fixture.whenStable().then(() => {
+        expect(component.ngxWigCmp.content).toBe(component.text);
+      });
+    }));
+
+    it('should change the text', () => {
+      const editor = document.querySelector('.nw-editor__res');
+      if (editor) {
+        const evt = document.createEvent('CustomEvent');
+        evt.initCustomEvent('input', false, false, null);
+        editor.textContent = 'New fake content';
+        editor.dispatchEvent(evt);
+        fixture.detectChanges();
+        expect(component.text).toBe('New fake content');
+      }
+    });
+  });
 });
 
 class Page {
@@ -288,6 +329,17 @@ class Page {
 })
 class TestHostComponent {
   text = 'Fake content';
+
+  @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
+}
+
+@Component({
+  template: `<ngx-wig
+    [(ngModel)]="text">
+  </ngx-wig>`
+})
+class TestNgModelHostComponent {
+  text = 'Fake content (ngModel)';
 
   @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
 }
