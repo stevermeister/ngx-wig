@@ -105,6 +105,13 @@ describe('NgxWigComponent', () => {
         component.execCommand('bold', '');
         expect(spy.calls.any()).toBe(true);
       });
+
+      it('lost', () => {
+        const propagateSpy = spyOn(component, 'propagateTouched');
+        page.editableDiv.dispatchEvent(newEvent('blur'));
+        expect(component.hasFocus).toBe(false);
+        expect(propagateSpy.calls.any()).toBe(true);
+      });
     });
 
     describe('disabled property', () => {
@@ -192,6 +199,44 @@ describe('NgxWigComponent', () => {
         expect(page.execCommandSpy.calls.any()).toBe(false);
       });
     });
+
+    it('should change the content (onContentChange)', () => {
+      const newContent = 'New fake content';
+      const spy = spyOn(component.contentChange, 'emit');
+      component.onContentChange(newContent);
+      expect(component.content).toBe(newContent);
+      expect(spy.calls.first().args[0]).toBe(newContent);
+    });
+
+    it('should change the content (onTextareaChange)', () => {
+      const newText = '<p>New fake text</p>';
+      const spy = spyOn(component, 'onContentChange');
+      component.editMode = true;
+      fixture.detectChanges();
+      page.editHTMLTxt.value = newText;
+      page.editHTMLTxt.dispatchEvent(newEvent('input'));
+      expect(page.editableDiv.innerHTML).toBe(newText);
+      expect(spy.calls.first().args[0]).toBe(newText);
+    });
+
+    describe('writeValue', () => {
+      let spy: jasmine.Spy;
+
+      beforeEach(() => spy = spyOn(component, 'onContentChange'));
+
+      it('should set content to empty string', () => {
+        component.writeValue(undefined);
+        expect(page.editableDiv.innerHTML).toBe('');
+        expect(spy.calls.first().args[0]).toBe('');
+      });
+
+      it('should set content to non empty string', () => {
+        const fakeValue = 'Fake value';
+        component.writeValue(fakeValue);
+        expect(page.editableDiv.innerHTML).toBe(fakeValue);
+        expect(spy.calls.first().args[0]).toBe(fakeValue);
+      });
+    });
   });
 
   describe('with host', () => {
@@ -276,10 +321,8 @@ describe('NgxWigComponent', () => {
     it('should change the text', () => {
       const editor = document.querySelector('.nw-editor__res');
       if (editor) {
-        const evt = document.createEvent('CustomEvent');
-        evt.initCustomEvent('input', false, false, null);
         editor.textContent = 'New fake content';
-        editor.dispatchEvent(evt);
+        editor.dispatchEvent(newEvent('input'));
         fixture.detectChanges();
         expect(component.text).toBe('New fake content');
       }
@@ -297,7 +340,7 @@ class Page {
   get editableDiv() { return this.query<HTMLElement>('.nw-editor__res'); }
   get toolbarItemsLi() { return this.queryAll<HTMLElement>('.nw-toolbar__item'); }
   get iconsEl() { return this.queryAll<HTMLElement>('.icon'); }
-  get editHTMLTxt() { return this.query<HTMLElement>('textarea'); }
+  get editHTMLTxt() { return this.query<HTMLTextAreaElement>('textarea'); }
   get placeholderEl() { return this.query<HTMLElement>('.nw-editor__placeholder'); }
 
   execCommandSpy: jasmine.Spy;
@@ -342,4 +385,10 @@ class TestNgModelHostComponent {
   text = 'Fake content (ngModel)';
 
   @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
+}
+
+function newEvent(eventName: string, bubbles = false, cancelable = false) {
+  const evt = document.createEvent('CustomEvent');
+  evt.initCustomEvent(eventName, bubbles, cancelable, null);
+  return evt;
 }
