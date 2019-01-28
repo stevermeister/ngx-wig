@@ -62,6 +62,7 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
                     </div>
                     <div #ngWigEditable
                          class="nw-editor__res"
+                         [ngClass]="{'nw-editor__res--resizable': resizable}"
                          contenteditable
                          (focus)="hasFocus = true"
                          (blur)="hasFocus = false">
@@ -150,9 +151,7 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
          *
          */
         .nw-editor {
-            display: table;
             /* Default when height is not set */
-            height: 300px;
             background: #fff;
             cursor: text;
             width:100%;
@@ -169,9 +168,16 @@ import {Ng2WigToolbarService} from './ng2wig-toolbar.service';
         }
 
         .nw-editor__res {
-            min-height: 100%;
-            padding: 0 8px;
-            display: table-cell;
+          padding: 0 8px;
+          height: 300px;
+          width: 100%;
+          overflow: auto;
+        }
+        
+        .nw-editor__res--resizable {
+          -moz-appearance: textfield-multiline;
+          -webkit-appearance: textarea;
+          resize: vertical;
         }
 
         .nw-editor__placeholder {
@@ -374,6 +380,9 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
 
   @Input()
   public buttons: string;
+
+  @Input()
+  public resizable: boolean = false;
 
   @Output()
   public contentChange = new EventEmitter();
