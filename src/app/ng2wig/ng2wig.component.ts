@@ -411,7 +411,7 @@ export class Ng2WigComponent implements OnInit, OnChanges, ControlValueAccessor 
       throw 'The command "' + command + '" is not supported';
     }
     if (command === 'createlink' || command === 'insertImage') {
-      options = window.prompt('Please enter the URL', 'http://');
+      options = window.prompt('Please enter the URL', 'https://');
       if (!options) {
         return;
       }
