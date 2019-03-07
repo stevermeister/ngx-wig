@@ -12,6 +12,7 @@ import {
   forwardRef,
   Inject,
   OnDestroy,
+  AfterViewInit,
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -33,7 +34,11 @@ import { DOCUMENT } from '@angular/common';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class NgxWigComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
+export class NgxWigComponent implements AfterViewInit,
+                                        OnInit,
+                                        OnChanges,
+                                        OnDestroy,
+                                        ControlValueAccessor {
 
   @Input()
   public content: string;
@@ -115,14 +120,16 @@ export class NgxWigComponent implements OnInit, OnChanges, OnDestroy, ControlVal
     // contenteditable
     // https://stackoverflow.com/a/49287032/7369511
 
-    const isIE = window.document['documentMode'];
-
-    if (isIE) {
+    // check if the browser is IE:
+    if (window.document['documentMode']) {
       this._mutationObserver = new MutationObserver(() => {
         this.onContentChange(this.container.innerHTML);
       });
 
-      this._mutationObserver.observe(this.container, { childList: true, subtree: true, characterData: true });
+      this._mutationObserver.observe(
+        this.container,
+        { childList: true, subtree: true, characterData: true }
+      );
     }
   }
 
