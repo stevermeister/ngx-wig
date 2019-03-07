@@ -11,6 +11,7 @@ import {
   ViewEncapsulation,
   forwardRef,
   Inject,
+  OnDestroy,
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -32,7 +33,7 @@ import { DOCUMENT } from '@angular/common';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class NgxWigComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
 
   @Input()
   public content: string;
@@ -59,6 +60,8 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
   public container: HTMLElement;
   public toolbarButtons: TButton[] = [];
   public hasFocus = false;
+
+  private _mutationObserver: MutationObserver;
 
   public constructor(
     private _ngWigToolbarService: NgxWigToolbarService,
@@ -104,6 +107,28 @@ export class NgxWigComponent implements OnInit, OnChanges, ControlValueAccessor 
 
     if (this.content) {
       this.container.innerHTML = this.content;
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    // Workaround for IE11 which doesn't fire 'input' event on
+    // contenteditable
+    // https://stackoverflow.com/a/49287032/7369511
+
+    const isIE = window.document['documentMode'];
+
+    if (isIE) {
+      this._mutationObserver = new MutationObserver(() => {
+        this.onContentChange(this.container.innerHTML);
+      });
+
+      this._mutationObserver.observe(this.container, { childList: true, subtree: true, characterData: true });
+    }
+  }
+
+  public ngOnDestroy(): void {
+    if (this._mutationObserver) {
+      this._mutationObserver.disconnect();
     }
   }
 
