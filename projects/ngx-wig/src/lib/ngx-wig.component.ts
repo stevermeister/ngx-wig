@@ -16,8 +16,9 @@ import {
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { NgxWigToolbarService, TButton } from './ngx-wig-toolbar.service';
+import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
 import { DOCUMENT } from '@angular/common';
+import { TButton } from './config';
 
 /** @dynamic */
 @Component({
@@ -58,7 +59,7 @@ export class NgxWigComponent implements AfterViewInit,
   @Output()
   public contentChange = new EventEmitter();
 
-  @ViewChild('ngWigEditable')
+  @ViewChild('ngWigEditable', { read: ElementRef })
   public ngxWigEditable: ElementRef;
 
   public editMode = false;
