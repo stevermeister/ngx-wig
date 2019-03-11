@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "lib-build": "ng build ngx-wig",
-    "start": "(ng build ngx-wig --watch &) && sleep 5 && ng serve",
+    "start": "(ng build ngx-wig --watch &) && sleep 10 && ng serve",
     "build": "ng build ngx-wig",
     "test": "ng test ngx-wig --browsers=ChromeHeadless --watch=false",
     "lint": "ng lint ngx-wig",

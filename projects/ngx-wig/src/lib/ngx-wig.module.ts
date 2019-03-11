@@ -17,7 +17,11 @@ export function getWindowObject(): Window {
     FormsModule,
     ReactiveFormsModule,
   ],
-  exports: [NgxWigComponent]
+  exports: [NgxWigComponent],
+  providers: [
+    {provide: BUTTONS, multi: true, useValue: DEFAULT_LIBRARY_BUTTONS},
+    { provide: 'WINDOW', useFactory: getWindowObject },
+  ]
 })
 export class NgxWigModule {
 

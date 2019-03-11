@@ -30,7 +30,7 @@ export const DEFAULT_LIBRARY_BUTTONS = {
   ],
   imports: [
     BrowserModule,
-    NgxWigModule.forRoot({ buttonsConfig: DEFAULT_LIBRARY_BUTTONS } ),
+    NgxWigModule,
     FormsModule,
     ReactiveFormsModule,
   ],
