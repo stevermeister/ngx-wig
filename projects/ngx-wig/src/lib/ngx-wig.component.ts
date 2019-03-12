@@ -84,7 +84,7 @@ export class NgxWigComponent implements AfterViewInit,
       return false;
     }
     if (this.document.queryCommandSupported && !this.document.queryCommandSupported(command)) {
-      throw 'The command "' + command + '" is not supported';
+      throw new Error(`The command "${command}" is not supported`);
     }
     if (command === 'createlink' || command === 'insertImage') {
       options = window.prompt('Please enter the URL', 'http://') || '';
@@ -96,7 +96,8 @@ export class NgxWigComponent implements AfterViewInit,
     this.container.focus();
 
     // use insertHtml for `createlink` command to account for IE/Edge purposes, in case there is no selection
-    let selection = this.document.getSelection().toString();
+    const selection = this.document.getSelection().toString();
+
     if (command === 'createlink' && selection === '') {
       this.document.execCommand('insertHtml', false, '<a href="' + options + '">' + options + '</a>');
     } else {
@@ -185,9 +186,12 @@ export class NgxWigComponent implements AfterViewInit,
         range.deleteContents();
 
         // append the content in a temporary div
-        let el = this.document.createElement('div');
+        const el = this.document.createElement('div');
         el.innerHTML = html;
-        let frag = this.document.createDocumentFragment(), node, lastNode;
+
+        const frag = this.document.createDocumentFragment();
+        let node, lastNode;
+
         while ( (node = el.firstChild) ) {
           lastNode = frag.appendChild(node);
         }

@@ -40,8 +40,8 @@ describe('NgxWigComponent', () => {
       expect(component).toBeDefined();
     });
 
-    it('should have six toolbar buttons', () => {
-      expect(page.toolbarItemsLi.length).toBe(6);
+    it('should have seven toolbar buttons', () => {
+      expect(page.toolbarItemsLi.length).toBe(7);
     });
 
     it('should have a standard button', () => {
@@ -171,7 +171,7 @@ describe('NgxWigComponent', () => {
       it('should fail if command is unknown', () => {
         expect(() => {
           component.execCommand('fakeCmd', '');
-        }).toThrow('The command "fakeCmd" is not supported');
+        }).toThrow(new Error('The command "fakeCmd" is not supported'));
       });
 
       it('should show a prompt when the command name is createlink', () => {

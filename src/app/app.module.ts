@@ -14,14 +14,13 @@ export const DEFAULT_LIBRARY_BUTTONS = {
     icon: 'icon-bold'
   },
   italic: {
-    label: 'B',
-    title: 'Bold',
-    command: 'bold',
-    styleClass: 'bold',
-    icon: 'icon-bold'
-  }
+    label: 'I',
+    title: 'Italic',
+    command: 'italic',
+    styleClass: 'italic',
+    icon: 'icon-italic'
+  },
 };
-
 
 
 @NgModule({

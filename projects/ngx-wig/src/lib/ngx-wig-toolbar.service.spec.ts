@@ -29,14 +29,14 @@ describe('NgxWigToolbarService', () => {
   describe('addStandardButton', () => {
     it('should throw an error if name/title/command is not provided', () => {
       const errorMsg = 'Arguments "name", "title" and "command" are required';
-      expect(() => service.addStandardButton('', '', '', '', 'icon-check')).toThrow(errorMsg);
-      expect(() => service.addStandardButton('button1', '', '', '', 'icon-check')).toThrow(errorMsg);
-      expect(() => service.addStandardButton('button1', 'My button', '', '', 'icon-check')).toThrow(errorMsg);
+      expect(() => service.addStandardButton('', '', '', '', 'icon-check')).toThrow(new Error(errorMsg));
+      expect(() => service.addStandardButton('button1', '', '', '', 'icon-check')).toThrow(new Error(errorMsg));
+      expect(() => service.addStandardButton('button1', 'My button', '', '', 'icon-check')).toThrow(new Error(errorMsg));
     });
 
     it('should add a standard button', () => {
       service.addStandardButton('button1', 'My button', 'fakeCmd()', 'fakeStyle', 'icon-check');
-      expect(service.getToolbarButtons()[5]).toEqual(
+      expect(service.getToolbarButtons()[6]).toEqual(
         {
           title: 'My button',
           command: 'fakeCmd()',
@@ -50,13 +50,13 @@ describe('NgxWigToolbarService', () => {
   describe('addCustomButton', () => {
     it('should throw an error if name/plugin is not provided', () => {
       const errorMsg = 'Arguments "name" and "pluginName" are required';
-      expect(() => { service.addCustomButton('', ''); }).toThrow(errorMsg);
-      expect(() => { service.addCustomButton('button1', ''); }).toThrow(errorMsg);
+      expect(() => { service.addCustomButton('', ''); }).toThrow(new Error(errorMsg));
+      expect(() => { service.addCustomButton('button1', ''); }).toThrow(new Error(errorMsg));
     });
 
     it('should add a custom button', () => {
       service.addCustomButton('button1', 'my-button');
-      expect(service.getToolbarButtons()[5]).toEqual(
+      expect(service.getToolbarButtons()[6]).toEqual(
         {
           pluginName: 'my-button',
           isComplex: true
@@ -69,11 +69,11 @@ describe('NgxWigToolbarService', () => {
     it('should throw an error if provided buttons have not been added first', () => {
       expect(() => {
           service.getToolbarButtons('button1');
-      }).toThrow('There is no "button1" in your library. Possible variants: list1,list2,bold,italic,link,underline');
+      }).toThrow(new Error('There is no "button1" in your library. Possible variants: list1,list2,bold,italic,link,underline'));
     });
 
-    it('should return 5 buttons by default', () => {
-      expect(service.getToolbarButtons().length).toEqual(5);
+    it('should return 6 buttons by default', () => {
+      expect(service.getToolbarButtons().length).toEqual(6);
     });
 
     it('should return 1 button', () => {
