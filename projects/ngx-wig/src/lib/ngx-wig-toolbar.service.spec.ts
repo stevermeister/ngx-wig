@@ -1,9 +1,10 @@
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
+import { DEFAULT_LIBRARY_BUTTONS } from './config';
 
 describe('NgxWigToolbarService', () => {
   let service: NgxWigToolbarService;
 
-  beforeEach(() => { service = new NgxWigToolbarService(); });
+  beforeEach(() => { service = new NgxWigToolbarService([DEFAULT_LIBRARY_BUTTONS]); });
 
   it('should set buttons', () => {
     service.setButtons(['list1', 'list2']);

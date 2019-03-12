@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
 import { NgxWigComponent } from './ngx-wig.component';
+import { BUTTONS, DEFAULT_LIBRARY_BUTTONS } from './config';
 
 const mockWindow = {};
 
@@ -19,6 +20,7 @@ describe('NgxWigComponent', () => {
         declarations: [NgxWigComponent],
         providers: [
           NgxWigToolbarService,
+          { provide: BUTTONS, multi: true, useValue: DEFAULT_LIBRARY_BUTTONS },
           { provide: 'WINDOW', useValue: mockWindow }
         ]
       });
@@ -252,6 +254,7 @@ describe('NgxWigComponent', () => {
         ],
         providers: [
           NgxWigToolbarService,
+          { provide: BUTTONS, multi: true, useValue: DEFAULT_LIBRARY_BUTTONS },
           { provide: 'WINDOW', useValue: mockWindow }
         ]
       });
@@ -303,6 +306,7 @@ describe('NgxWigComponent', () => {
         ],
         providers: [
           NgxWigToolbarService,
+          { provide: BUTTONS, multi: true, useValue: DEFAULT_LIBRARY_BUTTONS },
           { provide: 'WINDOW', useValue: mockWindow }
         ]
       });
