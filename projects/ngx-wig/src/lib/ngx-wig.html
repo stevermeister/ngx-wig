@@ -1,0 +1,62 @@
+<div class="ng-wig">
+    <ul class="nw-toolbar">
+      <li *ngFor="let button of toolbarButtons"
+          class="nw-toolbar__item">
+        <div *ngIf="!button.isComplex">
+          <button type="button"
+                  class="nw-button"
+                  [ngClass]="[button.styleClass]"
+                  [title]="button.title"
+                  (click)="execCommand(button.command)"
+                  [disabled]="disabled"
+                  tabindex="-1">
+            <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
+            <div *ngIf="button.icon"
+                 class="icon"
+                 [ngClass]="[button.icon]">
+            </div>
+          </button>
+        </div>
+      </li><!--
+      --><li class="nw-toolbar__item">
+      <button type="button"
+              class="nw-button nw-button--source"
+              title="Edit HTML"
+              [class.nw-button--active] = "editMode"
+              *ngIf="isSourceModeAllowed"
+              (click)="toggleEditMode()"
+              [disabled]="disabled"
+              tabindex="-1">
+        Edit HTML
+      </button>
+    </li>
+    </ul>
+
+    <div class="nw-editor-container"
+         (click)="container.focus()"
+         [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }">
+      <div *ngIf="editMode"
+           class="nw-editor__src-container">
+        <textarea [ngModel]="content"
+                  (ngModelChange)="onTextareaChange($event)"
+                  (blur)="propagateTouched()"
+                  class="nw-editor__src">
+        </textarea>
+      </div>
+      <div class="nw-editor"
+           [ngClass]="{ 'nw-disabled': disabled,'nw-invisible': editMode }">
+        <div *ngIf="shouldShowPlaceholder()"
+             class="nw-editor__placeholder"
+             [innerText]="placeholder">
+        </div>
+        <div #ngWigEditable
+             class="nw-editor__res"
+             [attr.contenteditable]="!disabled"
+             [ngClass]="{ disabled: disabled}"
+             (focus)="hasFocus = true"
+             (blur)="onBlur()"
+             (input)="onContentChange(ngWigEditable.innerHTML)"><!--
+    --></div>
+      </div>
+    </div>
+  </div>
