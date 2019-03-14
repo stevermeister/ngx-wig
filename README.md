@@ -12,7 +12,8 @@ ngx-wig
 
 ## Angular Support
 
-Now supports **Angular 6** and **rxjs 6** - `ngx-wig@1.6.0`  
+Now supports **Angular 7** `ngx-wig@2.0.0` 
+For **Angular 6** `ngx-wig@1.6.0`  
 For **Angular 4** and **Angular = ^5** - use version `ngx-wig@1.2.7`  
 
 
