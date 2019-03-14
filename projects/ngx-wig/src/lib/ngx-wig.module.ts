@@ -15,7 +15,6 @@ export function getWindowObject(): Window {
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
   ],
   exports: [NgxWigComponent],
   providers: [
