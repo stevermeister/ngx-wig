@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, ModuleWithProviders, InjectionToken } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { NgxWigComponent } from './ngx-wig.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
