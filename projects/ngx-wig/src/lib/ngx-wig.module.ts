@@ -1,7 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { NgxWigComponent } from './ngx-wig.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { TButtonLibrary, DEFAULT_LIBRARY_BUTTONS, BUTTONS } from './config';
 
 export function getWindowObject(): Window {
@@ -13,7 +13,7 @@ export function getWindowObject(): Window {
     NgxWigComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
   ],
   exports: [NgxWigComponent],
