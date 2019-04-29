@@ -58,7 +58,7 @@ it's just attribute directive for textarea:
 
 ## Examples
 
-### Quick start ( [demo](https://stackblitz.com/edit/angular-2uzcl1?file=app/app.component.html) )
+### Quick start ( [demo](https://stackblitz.com/edit/ngx-wig-sample2?file=src%2Fapp.ts) )
 
 ```html
 <ngx-wig [content]="text1"></ngx-wig>
