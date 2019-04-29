@@ -64,42 +64,42 @@ it's just attribute directive for textarea:
 <ngx-wig [content]="text1"></ngx-wig>
 ```
 
-### Placeholder  ( [demo](https://stackblitz.com/edit/angular-hzfneh?file=app/app.component.html) )
+### Placeholder  ( [demo](https://stackblitz.com/edit/ngx-wig-sample3?file=src/app.ts) )
 
 ```html
 <ngx-wig  [content]="text1" [placeholder]="'Enter instructions here.'"></ngx-wig>
 ```
 
-### ngModel sync ( [demo](https://stackblitz.com/edit/ngx-wig-2-way-binding-choit3?file=app%2Fapp.component.html) )
+### ngModel sync ( [demo](https://stackblitz.com/edit/ngx-wig-sample4?file=src/app.ts) )
 
 ```html
 <ngx-wig [(ngModel)]="text1"></ngx-wig>
 <ngx-wig [(ngModel)]="text1"></ngx-wig>
 ```
 
-### Set buttons ( [demo](https://stackblitz.com/edit/angular-y5b6bz?file=app/app.component.html) )
+### Set buttons ( [demo](https://stackblitz.com/edit/ngx-wig-sample5?file=src/app.ts) )
 
 ```html
 <ngx-wig  [content]="text1" [buttons]="'bold, italic'"></ngx-wig>
 ```
 
-### onContentChange Hook  ( [demo](https://stackblitz.com/edit/angular-adxhiw?file=app/app.component.ts) )
+### onContentChange Hook  ( [demo](https://stackblitz.com/edit/ngx-wig-sample6?file=src/app.ts) )
 
 ```html
 <ngx-wig [content]="text1" (contentChange)="result = $event"></ngx-wig>
 <div [innerHTML]="result"></div>
 ```
 
-### Reactive FormControl ( [demo](https://stackblitz.com/edit/angular-srbxem?file=app/app.component.html) )
+### Reactive FormControl ( [demo](https://stackblitz.com/edit/ngx-wig-sample7?file=src/app.ts) )
 
 ```html
-<ngx-wig  [formControl]="name" [buttons]="'bold, italic'"></ngx-wig>
+<ngx-wig  [formControl]="text1"></ngx-wig>
 ```
 
-### Two-way binding ( [demo](https://stackblitz.com/edit/ngx-wig-2-way-binding) )
+### Two-way binding ( [demo](https://stackblitz.com/edit/ngx-wig-sample8?file=src/app.ts) )
 
 ```html
-<ngx-wig [(ngModel)]="name"></ngx-wig>
+<ngx-wig [(ngModel)]="text1"></ngx-wig>
 ```
 
 
