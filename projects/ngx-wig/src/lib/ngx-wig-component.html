@@ -2,7 +2,7 @@
     <ul class="nw-toolbar">
       <li *ngFor="let button of toolbarButtons"
           class="nw-toolbar__item">
-        <div *ngIf="!button.isPlugin">
+        <div>
           <button type="button"
                   class="nw-button"
                   [ngClass]="[button.styleClass]"
@@ -17,19 +17,7 @@
             </div>
           </button>
         </div>
-      </li><!--
-      --><li class="nw-toolbar__item">
-      <button type="button"
-              class="nw-button nw-button--source"
-              title="Edit HTML"
-              [class.nw-button--active] = "editMode"
-              *ngIf="isSourceModeAllowed"
-              (click)="toggleEditMode()"
-              [disabled]="disabled"
-              tabindex="-1">
-        Edit HTML
-      </button>
-    </li>
+      </li>
     </ul>
 
     <div class="nw-editor-container"

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
 import { NgxWigComponent } from './ngx-wig.component';
-import { BUTTONS, DEFAULT_LIBRARY_BUTTONS } from './config';
+import { BUTTONS, DEFAULT_LIBRARY_BUTTONS, CUSTOM_LIBRARY_BUTTONS } from './config';
 
 const mockWindow = {};
 
@@ -21,6 +21,7 @@ describe('NgxWigComponent', () => {
         providers: [
           NgxWigToolbarService,
           { provide: BUTTONS, multi: true, useValue: DEFAULT_LIBRARY_BUTTONS },
+          { provide: BUTTONS, multi: true, useValue: CUSTOM_LIBRARY_BUTTONS },
           { provide: 'WINDOW', useValue: mockWindow }
         ]
       });
@@ -29,7 +30,6 @@ describe('NgxWigComponent', () => {
 
       component = fixture.componentInstance;
       component.content = '<p>Hello World</p>';
-      component.isSourceModeAllowed = true;
 
       page = new Page(fixture);
 
@@ -58,24 +58,10 @@ describe('NgxWigComponent', () => {
       expect(page.iconsEl[0].classList.contains('icon-list-ul')).toBe(false);
     });
 
-    it('should not allow edit mode', () => {
-      component.isSourceModeAllowed = false;
-      fixture.detectChanges();
-      expect(page.editHTMLBtn).toBeNull();
-    });
-
     it('should have an editor container', () => {
       expect(page.editContainerDiv.classList.contains('nw-editor-container--with-toolbar')).toBeDefined();
     });
 
-    it('should toggle edit mode', () => {
-      page.editHTMLBtn.click();
-      fixture.detectChanges();
-      expect(page.editHTMLTxt).toBeDefined();
-      expect(page.editHTMLBtn.classList.contains('nw-button--active')).toBe(true);
-      expect(page.editorDiv.classList.contains('nw-invisible')).toBeDefined();
-      expect(page.editorSrcContainerDiv).toBeDefined();
-    });
 
     it('should have a content', () => {
       expect(page.editableDiv.innerHTML).toBe('<p>Hello World</p>');
@@ -119,7 +105,6 @@ describe('NgxWigComponent', () => {
     describe('disabled property', () => {
       it('should enable the editor', () => {
         expect(page.unorderedListBtn.disabled).toBe(false);
-        expect(page.editHTMLBtn.disabled).toBe(false);
         expect(page.editorDiv.classList.contains('nw-disabled')).toBe(false);
         expect(page.editableDiv.classList.contains('disabled')).toBe(false);
         expect(page.editableDiv.getAttribute('contenteditable')).toBe('true');
@@ -129,7 +114,6 @@ describe('NgxWigComponent', () => {
         component.setDisabledState(true);
         fixture.detectChanges();
         expect(page.unorderedListBtn.disabled).toBe(true);
-        expect(page.editHTMLBtn.disabled).toBe(true);
         expect(page.editorDiv.classList.contains('nw-disabled')).toBe(true);
         expect(page.editableDiv.classList.contains('disabled')).toBe(true);
         expect(page.editableDiv.getAttribute('contenteditable')).toBe('false');
@@ -283,10 +267,6 @@ describe('NgxWigComponent', () => {
       expect(component.ngxWigCmp.disabled).toBe(false);
     });
 
-    it('should set the isSourceModeAllowed property', () => {
-      expect(component.ngxWigCmp.isSourceModeAllowed).toBe(true);
-    });
-
     it('should emit content', () => {
       component.ngxWigCmp.contentChange.emit('New fake content');
       expect(component.text).toBe('New fake content');
@@ -337,7 +317,6 @@ describe('NgxWigComponent', () => {
 class Page {
   get buttons()  { return this.queryAll<HTMLButtonElement>('.nw-button'); }
   get unorderedListBtn() { return this.buttons[0]; }
-  get editHTMLBtn() { return this.query<HTMLButtonElement>('.nw-button.nw-button--source'); }
   get editorDiv() { return this.query<HTMLElement>('.nw-editor'); }
   get editContainerDiv() { return this.query<HTMLElement>('.nw-editor-container'); }
   get editorSrcContainerDiv() { return this.query<HTMLElement>('.nw-editor__src-container'); }
@@ -370,8 +349,7 @@ class Page {
     (contentChange)="text = $event"
     placeholder="Enter some text"
     buttons="bold,italic"
-    [disabled]="false"
-    [isSourceModeAllowed]="true">
+    [disabled]="false">
   </ngx-wig>`
 })
 class TestHostComponent {
