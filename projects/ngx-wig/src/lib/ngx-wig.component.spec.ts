@@ -62,6 +62,14 @@ describe('NgxWigComponent', () => {
       expect(page.editContainerDiv.classList.contains('nw-editor-container--with-toolbar')).toBeDefined();
     });
 
+    it('should toggle edit mode', () => {	
+      page.editHTMLBtn.click();	
+      fixture.detectChanges();	
+      expect(page.editHTMLTxt).toBeDefined();	
+      // expect(page.editHTMLBtn.classList.contains('nw-button--active')).toBe(true);	
+      expect(page.editorDiv.classList.contains('nw-invisible')).toBeDefined();	
+      expect(page.editorSrcContainerDiv).toBeDefined();	
+    });
 
     it('should have a content', () => {
       expect(page.editableDiv.innerHTML).toBe('<p>Hello World</p>');
@@ -318,6 +326,7 @@ class Page {
   get buttons()  { return this.queryAll<HTMLButtonElement>('.nw-button'); }
   get unorderedListBtn() { return this.buttons[0]; }
   get editorDiv() { return this.query<HTMLElement>('.nw-editor'); }
+  get editHTMLBtn() { return this.query<HTMLElement>('.nw-button--source'); }
   get editContainerDiv() { return this.query<HTMLElement>('.nw-editor-container'); }
   get editorSrcContainerDiv() { return this.query<HTMLElement>('.nw-editor__src-container'); }
   get editableDiv() { return this.query<HTMLElement>('.nw-editor__res'); }
