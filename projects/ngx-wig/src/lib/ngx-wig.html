@@ -2,7 +2,7 @@
     <ul class="nw-toolbar">
       <li *ngFor="let button of toolbarButtons"
           class="nw-toolbar__item">
-        <div *ngIf="!button.isComplex">
+        <div *ngIf="!button.isPlugin">
           <button type="button"
                   class="nw-button"
                   [ngClass]="[button.styleClass]"

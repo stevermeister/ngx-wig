@@ -42,7 +42,7 @@ export class NgxWigToolbarService {
       throw new Error('Arguments "name" and "pluginName" are required');
     }
 
-    this._buttonLibrary[name] = { pluginName: pluginName, isComplex: true };
+    this._buttonLibrary[name] = { pluginName: pluginName, isPlugin: true };
     this._defaultButtonsList.push(name);
   }
 

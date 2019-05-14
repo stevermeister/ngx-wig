@@ -59,7 +59,7 @@ describe('NgxWigToolbarService', () => {
       expect(service.getToolbarButtons()[6]).toEqual(
         {
           pluginName: 'my-button',
-          isComplex: true
+          isPlugin: true
         }
       );
     });

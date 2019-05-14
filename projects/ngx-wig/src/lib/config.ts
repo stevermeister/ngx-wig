@@ -7,7 +7,7 @@ export type TButton = {
   command?: string;
   styleClass?: string;
   pluginName?: string;
-  isComplex?: boolean;
+  isPlugin?: boolean;
 };
 
 export type TButtonLibrary = {
