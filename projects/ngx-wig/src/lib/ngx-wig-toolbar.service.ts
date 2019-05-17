@@ -37,15 +37,6 @@ export class NgxWigToolbarService {
     this._defaultButtonsList.push(name);
   }
 
-  public addCustomButton(name: string, pluginName: string): void {
-    if (!name || !pluginName) {
-      throw new Error('Arguments "name" and "pluginName" are required');
-    }
-
-    this._buttonLibrary[name] = { pluginName: pluginName, isPlugin: true };
-    this._defaultButtonsList.push(name);
-  }
-
   public getToolbarButtons(buttonsList?: string): {}[] {
     let buttons = this._defaultButtonsList;
     const toolbarButtons: TButton[] = [];

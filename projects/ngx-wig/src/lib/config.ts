@@ -9,8 +9,6 @@ export type TButton = {
   title?: string;
   command?: string | commandFunction;
   styleClass?: string;
-  pluginName?: string;
-  isPlugin?: boolean;
 };
 
 export type TButtonLibrary = {
@@ -64,7 +62,6 @@ export const DEFAULT_LIBRARY_BUTTONS: TButtonLibrary = {
 
 export const CUSTOM_LIBRARY_BUTTONS: TButtonLibrary = {
   edithtml: {
-    isPlugin: true,
     label: 'Edit HTML',
     title: 'Edit HTML',
     command: (ctx: NgxWigComponent) => {
