@@ -1,13 +1,14 @@
 import { InjectionToken } from '@angular/core';
+import { NgxWigComponent } from './ngx-wig.component';
+
+export type commandFunction = (ctx: NgxWigComponent) => void;
 
 export type TButton = {
   label?: string;
   icon?: string;
   title?: string;
-  command?: string;
+  command?: string | commandFunction;
   styleClass?: string;
-  pluginName?: string;
-  isComplex?: boolean;
 };
 
 export type TButtonLibrary = {
@@ -58,5 +59,18 @@ export const DEFAULT_LIBRARY_BUTTONS: TButtonLibrary = {
     icon: 'icon-underline'
   }
 };
+
+export const CUSTOM_LIBRARY_BUTTONS: TButtonLibrary = {
+  edithtml: {
+    label: 'Edit HTML',
+    title: 'Edit HTML',
+    command: (ctx: NgxWigComponent) => {
+      ctx.editMode = !ctx.editMode;
+    },
+    styleClass: 'nw-button--source',
+    icon: '',
+  }
+};
+
 
 export const BUTTONS = new InjectionToken<TButton[][]>('BUTTONS');

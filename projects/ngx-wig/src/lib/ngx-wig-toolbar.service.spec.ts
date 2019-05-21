@@ -47,24 +47,6 @@ describe('NgxWigToolbarService', () => {
     });
   });
 
-  describe('addCustomButton', () => {
-    it('should throw an error if name/plugin is not provided', () => {
-      const errorMsg = 'Arguments "name" and "pluginName" are required';
-      expect(() => { service.addCustomButton('', ''); }).toThrow(new Error(errorMsg));
-      expect(() => { service.addCustomButton('button1', ''); }).toThrow(new Error(errorMsg));
-    });
-
-    it('should add a custom button', () => {
-      service.addCustomButton('button1', 'my-button');
-      expect(service.getToolbarButtons()[6]).toEqual(
-        {
-          pluginName: 'my-button',
-          isComplex: true
-        }
-      );
-    });
-  });
-
   describe('getToolbarButtons', () => {
     it('should throw an error if provided buttons have not been added first', () => {
       expect(() => {
@@ -74,12 +56,6 @@ describe('NgxWigToolbarService', () => {
 
     it('should return 6 buttons by default', () => {
       expect(service.getToolbarButtons().length).toEqual(6);
-    });
-
-    it('should return 1 button', () => {
-      service.addCustomButton('button1', 'my-button');
-
-      expect(service.getToolbarButtons('button1').length).toEqual(1);
     });
   });
 });

@@ -18,13 +18,13 @@ import {
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
 import { DOCUMENT } from '@angular/common';
-import { TButton } from './config';
+import { TButton, commandFunction } from './config';
 
 /** @dynamic */
 @Component({
   selector: 'ngx-wig',
-  templateUrl: './ngx-wig.html',
-  styleUrls: ['./ngx-wig.css'],
+  templateUrl: './ngx-wig-component.html',
+  styleUrls: ['./ngx-wig-component.css'],
   providers: [
     NgxWigToolbarService,
     {
@@ -53,9 +53,6 @@ export class NgxWigComponent implements AfterViewInit,
   @Input()
   public disabled: boolean;
 
-  @Input()
-  public isSourceModeAllowed = false;
-
   @Output()
   public contentChange = new EventEmitter();
 
@@ -75,14 +72,17 @@ export class NgxWigComponent implements AfterViewInit,
     @Inject('WINDOW') private window,
   ) {}
 
-  public toggleEditMode(): void {
-    this.editMode = !this.editMode;
-  }
+  public execCommand(command: string| commandFunction, options?: string): boolean {
 
-  public execCommand(command: string, options?: string): boolean {
+    if(typeof command === 'function') {
+      command(this);
+      return true;
+    }
+
     if (this.editMode) {
       return false;
     }
+
     if (this.document.queryCommandSupported && !this.document.queryCommandSupported(command)) {
       throw new Error(`The command "${command}" is not supported`);
     }
