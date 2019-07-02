@@ -102,6 +102,10 @@ it's just attribute directive for textarea:
 <ngx-wig [(ngModel)]="text1"></ngx-wig>
 ```
 
+### Adding own buttons
+
+Please check an example here
+https://github.com/stevermeister/ngx-wig/issues/73
 
 
 ## Development
