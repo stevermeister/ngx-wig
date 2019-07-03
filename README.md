@@ -105,7 +105,7 @@ it's just attribute directive for textarea:
 ### Adding own buttons
 
 Please check an example here
-https://github.com/stevermeister/ngx-wig/issues/73
+https://stackblitz.com/edit/ngx-wig-sample-plugins?file=src/app.ts
 
 
 ## Development
