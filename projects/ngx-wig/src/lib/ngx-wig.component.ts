@@ -167,7 +167,7 @@ export class NgxWigComponent implements AfterViewInit,
     if (!value) { value = ''; }
 
     this.container.innerHTML = value;
-    this.onContentChange(value);
+    this.content = value;
   }
 
   public shouldShowPlaceholder(): boolean {

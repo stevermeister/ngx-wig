@@ -214,21 +214,15 @@ describe('NgxWigComponent', () => {
     });
 
     describe('writeValue', () => {
-      let spy: jasmine.Spy;
-
-      beforeEach(() => spy = spyOn(component, 'onContentChange'));
-
       it('should set content to empty string', () => {
         component.writeValue(undefined);
         expect(page.editableDiv.innerHTML).toBe('');
-        expect(spy.calls.first().args[0]).toBe('');
       });
 
       it('should set content to non empty string', () => {
         const fakeValue = 'Fake value';
         component.writeValue(fakeValue);
         expect(page.editableDiv.innerHTML).toBe(fakeValue);
-        expect(spy.calls.first().args[0]).toBe(fakeValue);
       });
     });
   });
