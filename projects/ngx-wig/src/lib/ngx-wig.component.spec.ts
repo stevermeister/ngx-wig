@@ -8,6 +8,68 @@ import { BUTTONS, DEFAULT_LIBRARY_BUTTONS, CUSTOM_LIBRARY_BUTTONS } from './conf
 
 const mockWindow = {};
 
+@Component({
+  template: `<ngx-wig
+    [(ngModel)]="text">
+  </ngx-wig>`
+})
+class TestNgModelHostComponent {
+  text = 'Fake content (ngModel)';
+
+  @ViewChild(NgxWigComponent, { static: false }) ngxWigCmp: NgxWigComponent;
+}
+
+@Component({
+  template: `<ngx-wig
+    [content]="text"
+    (contentChange)="text = $event"
+    placeholder="Enter some text"
+    buttons="bold,italic"
+    [disabled]="false">
+  </ngx-wig>`
+})
+class TestHostComponent {
+  text = 'Fake content';
+
+  @ViewChild(NgxWigComponent, { static: false }) ngxWigCmp: NgxWigComponent;
+}
+
+class Page {
+  get buttons()  { return this.queryAll<HTMLButtonElement>('.nw-button'); }
+  get unorderedListBtn() { return this.buttons[0]; }
+  get editHTMLBtn() { return this.query<HTMLButtonElement>('.nw-button.nw-button--source'); }
+  get editorDiv() { return this.query<HTMLElement>('.nw-editor'); }
+  get editContainerDiv() { return this.query<HTMLElement>('.nw-editor-container'); }
+  get editorSrcContainerDiv() { return this.query<HTMLElement>('.nw-editor__src-container'); }
+  get editableDiv() { return this.query<HTMLElement>('.nw-editor__res'); }
+  get toolbarItemsLi() { return this.queryAll<HTMLElement>('.nw-toolbar__item'); }
+  get iconsEl() { return this.queryAll<HTMLElement>('.icon'); }
+  get editHTMLTxt() { return this.query<HTMLTextAreaElement>('textarea'); }
+  get placeholderEl() { return this.query<HTMLElement>('.nw-editor__placeholder'); }
+
+  execCommandSpy: jasmine.Spy;
+  promptSpy: jasmine.Spy;
+
+  constructor(public fixture: ComponentFixture<NgxWigComponent>) {
+    this.execCommandSpy = spyOn(document, 'execCommand');
+    this.promptSpy = spyOn(window, 'prompt');
+  }
+
+  private query<T>(selector: string): T {
+    return this.fixture.nativeElement.querySelector(selector);
+  }
+
+  private queryAll<T>(selector: string): T[] {
+    return this.fixture.nativeElement.querySelectorAll(selector);
+  }
+}
+
+function newEvent(eventName: string, bubbles = false, cancelable = false) {
+  const evt = document.createEvent('CustomEvent');
+  evt.initCustomEvent(eventName, bubbles, cancelable, null);
+  return evt;
+}
+
 describe('NgxWigComponent', () => {
   describe('standalone', () => {
     let fixture: ComponentFixture<NgxWigComponent>;
@@ -62,13 +124,13 @@ describe('NgxWigComponent', () => {
       expect(page.editContainerDiv.classList.contains('nw-editor-container--with-toolbar')).toBeDefined();
     });
 
-    it('should toggle edit mode', () => {	
-      page.editHTMLBtn.click();	
-      fixture.detectChanges();	
-      expect(page.editHTMLTxt).toBeDefined();	
-      // expect(page.editHTMLBtn.classList.contains('nw-button--active')).toBe(true);	
-      expect(page.editorDiv.classList.contains('nw-invisible')).toBeDefined();	
-      expect(page.editorSrcContainerDiv).toBeDefined();	
+    it('should toggle edit mode', () => {
+      page.editHTMLBtn.click();
+      fixture.detectChanges();
+      expect(page.editHTMLTxt).toBeDefined();
+      // expect(page.editHTMLBtn.classList.contains('nw-button--active')).toBe(true);
+      expect(page.editorDiv.classList.contains('nw-invisible')).toBeDefined();
+      expect(page.editorSrcContainerDiv).toBeDefined();
     });
 
     it('should have a content', () => {
@@ -315,65 +377,3 @@ describe('NgxWigComponent', () => {
     });
   });
 });
-
-class Page {
-  get buttons()  { return this.queryAll<HTMLButtonElement>('.nw-button'); }
-  get unorderedListBtn() { return this.buttons[0]; }
-  get editorDiv() { return this.query<HTMLElement>('.nw-editor'); }
-  get editHTMLBtn() { return this.query<HTMLElement>('.nw-button--source'); }
-  get editContainerDiv() { return this.query<HTMLElement>('.nw-editor-container'); }
-  get editorSrcContainerDiv() { return this.query<HTMLElement>('.nw-editor__src-container'); }
-  get editableDiv() { return this.query<HTMLElement>('.nw-editor__res'); }
-  get toolbarItemsLi() { return this.queryAll<HTMLElement>('.nw-toolbar__item'); }
-  get iconsEl() { return this.queryAll<HTMLElement>('.icon'); }
-  get editHTMLTxt() { return this.query<HTMLTextAreaElement>('textarea'); }
-  get placeholderEl() { return this.query<HTMLElement>('.nw-editor__placeholder'); }
-
-  execCommandSpy: jasmine.Spy;
-  promptSpy: jasmine.Spy;
-
-  constructor(public fixture: ComponentFixture<NgxWigComponent>) {
-    this.execCommandSpy = spyOn(document, 'execCommand');
-    this.promptSpy = spyOn(window, 'prompt');
-  }
-
-  private query<T>(selector: string): T {
-    return this.fixture.nativeElement.querySelector(selector);
-  }
-
-  private queryAll<T>(selector: string): T[] {
-    return this.fixture.nativeElement.querySelectorAll(selector);
-  }
-}
-
-@Component({
-  template: `<ngx-wig
-    [content]="text"
-    (contentChange)="text = $event"
-    placeholder="Enter some text"
-    buttons="bold,italic"
-    [disabled]="false">
-  </ngx-wig>`
-})
-class TestHostComponent {
-  text = 'Fake content';
-
-  @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
-}
-
-@Component({
-  template: `<ngx-wig
-    [(ngModel)]="text">
-  </ngx-wig>`
-})
-class TestNgModelHostComponent {
-  text = 'Fake content (ngModel)';
-
-  @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
-}
-
-function newEvent(eventName: string, bubbles = false, cancelable = false) {
-  const evt = document.createEvent('CustomEvent');
-  evt.initCustomEvent(eventName, bubbles, cancelable, null);
-  return evt;
-}
