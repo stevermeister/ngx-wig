@@ -1,4 +1,4 @@
 language: node_js
 sudo: required
 node_js:
-- '9.2.1'
+- '10.16.0'
