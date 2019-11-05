@@ -56,7 +56,7 @@ export class NgxWigComponent implements AfterViewInit,
   @Output()
   public contentChange = new EventEmitter();
 
-  @ViewChild('ngWigEditable', { read: ElementRef })
+  @ViewChild('ngWigEditable', { read: ElementRef, static: true })
   public ngxWigEditable: ElementRef;
 
   public editMode = false;
