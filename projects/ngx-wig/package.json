@@ -14,8 +14,8 @@
   },
   "homepage": "https://github.com/stevermeister/ngx-wig",
   "peerDependencies": {
-    "@angular/common": "^7.1.0",
-    "@angular/core": "^7.1.0",
-    "@angular/forms": "^7.1.0"
+    "@angular/common": "^8.2.13",
+    "@angular/core": "^8.2.13",
+    "@angular/forms": "^8.2.13"
   }
 }
