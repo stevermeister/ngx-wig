@@ -29,7 +29,10 @@ export class NgxWigModule {
     return {
       ngModule: NgxWigModule,
       providers: [
-        { provide: BUTTONS, multi: true, useValue: ((!config || !config?.buttonsConfig) ? DEFAULT_LIBRARY_BUTTONS : config?.buttonsConfig) },
+        {
+          provide: BUTTONS,
+          multi: true, useValue: ((!config || !config?.buttonsConfig) ? DEFAULT_LIBRARY_BUTTONS : config?.buttonsConfig)
+        },
         { provide: 'WINDOW', useFactory: getWindowObject },
       ],
     };
