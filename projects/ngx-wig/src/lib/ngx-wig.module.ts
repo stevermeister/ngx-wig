@@ -29,7 +29,7 @@ export class NgxWigModule {
     return {
       ngModule: NgxWigModule,
       providers: [
-        provideButtons(config),
+        { provide: BUTTONS, multi: true, useValue: ((!config || !config?.buttonsConfig) ? DEFAULT_LIBRARY_BUTTONS : config?.buttonsConfig) },
         { provide: 'WINDOW', useFactory: getWindowObject },
       ],
     };
@@ -38,17 +38,4 @@ export class NgxWigModule {
   static forChild(): ModuleWithProviders<NgxWigModule> {
     return {ngModule: NgxWigModule };
   }
-}
-
-
-export function provideButtons(config?: { buttonsConfig: TButtonLibrary }): any {
-  if (!config || !config.buttonsConfig) {
-    return [
-      {provide: BUTTONS, multi: true, useValue: DEFAULT_LIBRARY_BUTTONS},
-    ];
-  }
-
-  return [
-    {provide: BUTTONS, multi: true, useValue: config.buttonsConfig},
-  ];
 }
