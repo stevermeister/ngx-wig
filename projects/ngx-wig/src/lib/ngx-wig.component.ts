@@ -74,7 +74,7 @@ export class NgxWigComponent implements AfterViewInit,
 
   public execCommand(command: string| commandFunction, options?: string): boolean {
 
-    if(typeof command === 'function') {
+    if (typeof command === 'function') {
       command(this);
       return true;
     }

@@ -42,7 +42,7 @@ export class NgxWigModule {
 
 
 export function provideButtons(config?: { buttonsConfig: TButtonLibrary }): any {
-  if(!config || !config.buttonsConfig) {
+  if (!config || !config.buttonsConfig) {
     return [
       {provide: BUTTONS, multi: true, useValue: DEFAULT_LIBRARY_BUTTONS},
     ];
