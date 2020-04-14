@@ -9,6 +9,8 @@ import { FormControl } from '@angular/forms';
 })
 export class AppComponent {
 
+  public result: any;
+
   public text = `There are a few options for making a WYSIWYG editor that works in the browser.
 
   Pure DHTML/JavaScript. Capture mouse input, buttons, keystrokes, etc., and actually edit the HTML of the current document. It's not trivial, but possible.

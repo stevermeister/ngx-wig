@@ -16,7 +16,7 @@ const mockWindow = {};
 class TestNgModelHostComponent {
   text = 'Fake content (ngModel)';
 
-  @ViewChild(NgxWigComponent, { static: false }) ngxWigCmp: NgxWigComponent;
+  @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
 }
 
 @Component({
@@ -31,7 +31,7 @@ class TestNgModelHostComponent {
 class TestHostComponent {
   text = 'Fake content';
 
-  @ViewChild(NgxWigComponent, { static: false }) ngxWigCmp: NgxWigComponent;
+  @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
 }
 
 class Page {
