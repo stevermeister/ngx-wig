@@ -146,13 +146,13 @@
           "options": {
             "tsConfig": "projects/ngx-wig/tsconfig.lib.json",
             "project": "projects/ngx-wig/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/ngx-wig/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -176,5 +176,8 @@
       }
     }
   },
-  "defaultProject": "ngx-wig-app"
+  "defaultProject": "ngx-wig-app",
+  "cli": {
+    "analytics": false
+  }
 }
