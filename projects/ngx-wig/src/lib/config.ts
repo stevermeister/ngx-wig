@@ -3,17 +3,17 @@ import { NgxWigComponent } from './ngx-wig.component';
 
 export type commandFunction = (ctx: NgxWigComponent) => void;
 
-export type TButton = {
+export interface TButton {
   label?: string;
   icon?: string;
   title?: string;
   command?: string | commandFunction;
   styleClass?: string;
-};
+}
 
-export type TButtonLibrary = {
+export interface TButtonLibrary {
   [name: string]: TButton;
-};
+}
 
 export const DEFAULT_LIBRARY_BUTTONS: TButtonLibrary = {
   list1: {

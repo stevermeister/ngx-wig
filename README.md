@@ -126,6 +126,12 @@ To lint all `*.ts` files:
 $ npm run lint
 ```
 
+To run all tests:
+
+```bash
+$ npm run test
+```
+
 ## License
 
 MIT © [Stepan Suvorov](https://github.com/stevermeister)
