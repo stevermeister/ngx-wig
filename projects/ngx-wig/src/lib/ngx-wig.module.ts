@@ -19,7 +19,6 @@ export function getWindowObject(): Window {
   exports: [NgxWigComponent],
   providers: [
     { provide: BUTTONS, multi: true, useValue: DEFAULT_LIBRARY_BUTTONS },
-    { provide: BUTTONS, multi: true, useValue: CUSTOM_LIBRARY_BUTTONS },
     { provide: 'WINDOW', useFactory: getWindowObject },
   ]
 })
