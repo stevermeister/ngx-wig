@@ -8,7 +8,7 @@
     "test": "ng test ngx-wig --browsers=ChromeHeadless --watch=false",
     "lint": "ng lint ngx-wig",
     "e2e": "ng e2e ngx-wig",
-    "package": "ng build ngx-wig && cp ./README.md ./dist/ngx-wig && cd dist/ngx-wig && npm pack"
+    "package": "ng build ngx-wig --prod && cp ./README.md ./dist/ngx-wig && cd dist/ngx-wig && npm pack"
   },
   "private": true,
   "dependencies": {
