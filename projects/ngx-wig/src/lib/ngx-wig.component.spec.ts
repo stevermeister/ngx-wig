@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
+import { BUTTONS, CUSTOM_LIBRARY_BUTTONS, DEFAULT_LIBRARY_BUTTONS } from './config';
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
 import { NgxWigComponent } from './ngx-wig.component';
-import { BUTTONS, DEFAULT_LIBRARY_BUTTONS, CUSTOM_LIBRARY_BUTTONS } from './config';
 
 const mockWindow = {};
 
@@ -32,6 +32,10 @@ class TestHostComponent {
   text = 'Fake content';
 
   @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
+
+  getPromiseContent() {
+    Promise.resolve().then(() => this.text = 'Promised content');
+  }
 }
 
 class Page {
@@ -49,10 +53,12 @@ class Page {
 
   execCommandSpy: jasmine.Spy;
   promptSpy: jasmine.Spy;
+  focusSpy: jasmine.Spy;
 
-  constructor(public fixture: ComponentFixture<NgxWigComponent>) {
+  constructor(public fixture: ComponentFixture<NgxWigComponent | TestHostComponent>) {
     this.execCommandSpy = spyOn(document, 'execCommand');
     this.promptSpy = spyOn(window, 'prompt');
+    this.focusSpy = spyOn(this.editableDiv, 'focus').and.callThrough();
   }
 
   private query<T>(selector: string): T {
@@ -145,23 +151,19 @@ describe('NgxWigComponent', () => {
     });
 
     describe('focus', () => {
-      let spy: jasmine.Spy;
-
-      beforeEach(() => spy = spyOn(page.editableDiv, 'focus'));
-
       it('when container click', () => {
         page.editContainerDiv.click();
-        expect(spy.calls.any()).toBe(true);
+        expect(page.focusSpy.calls.any()).toBe(true);
       });
 
       it('when button click', () => {
         page.unorderedListBtn.click();
-        expect(spy.calls.any()).toBe(true);
+        expect(page.focusSpy.calls.any()).toBe(true);
       });
 
       it('when execCommand', () => {
         component.execCommand('bold', '');
-        expect(spy.calls.any()).toBe(true);
+        expect(page.focusSpy.calls.any()).toBe(true);
       });
 
       it('lost', () => {
@@ -292,6 +294,7 @@ describe('NgxWigComponent', () => {
   describe('with host', () => {
     let fixture: ComponentFixture<TestHostComponent>;
     let component: TestHostComponent;
+    let page: Page;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -308,6 +311,7 @@ describe('NgxWigComponent', () => {
       });
       fixture = TestBed.createComponent(TestHostComponent);
       component = fixture.componentInstance;
+      page = new Page(fixture);
 
       fixture.detectChanges();
     });
@@ -335,6 +339,19 @@ describe('NgxWigComponent', () => {
       component.ngxWigCmp.contentChange.emit('New fake content');
       expect(component.text).toBe('New fake content');
     });
+
+    it('should focus the editor', () => {
+      component.text = 'Fake text';
+      fixture.detectChanges();
+      expect(page.focusSpy.calls.any()).toBe(true);
+    });
+
+    it('should change the content from a promise', fakeAsync(() => {
+      component.getPromiseContent();
+      tick();
+      fixture.detectChanges();
+      expect(page.editableDiv.innerHTML).toBe('Promised content');
+    }));
   });
 
   describe('with host (ngModel)', () => {

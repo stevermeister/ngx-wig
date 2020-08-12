@@ -149,6 +149,10 @@ export class NgxWigComponent implements AfterViewInit,
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.container && changes['content']) {
+
+      // we need to focus the container before pasting at the caret
+      this.container.focus();
+
       // clear the previous content
       this.container.innerHTML = '';
 
@@ -180,7 +184,6 @@ export class NgxWigComponent implements AfterViewInit,
 
     if (window.getSelection) {
       sel = window.getSelection();
-
       if (sel.getRangeAt && sel.rangeCount) {
         range = sel.getRangeAt(0);
         range.deleteContents();
