@@ -125,7 +125,9 @@ export class NgxWigComponent implements AfterViewInit,
     // check if the browser is IE:
     if (window.document['documentMode']) {
       this._mutationObserver = new MutationObserver(() => {
-        this.onContentChange(this.container.innerHTML);
+        if (!this.editMode) {
+          this.onContentChange(this.container.innerHTML);
+        }
       });
 
       this._mutationObserver.observe(
