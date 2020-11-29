@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { BUTTONS, CUSTOM_LIBRARY_BUTTONS, DEFAULT_LIBRARY_BUTTONS } from './config';
@@ -82,7 +82,7 @@ describe('NgxWigComponent', () => {
     let page: Page;
     let component: NgxWigComponent;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [FormsModule],
         declarations: [NgxWigComponent],
@@ -216,7 +216,7 @@ describe('NgxWigComponent', () => {
 
       it('should use insertHtml to create a link for IE', () => {
         page.promptSpy.and.returnValue('http://fakeLink');
-        spyOn(document, 'getSelection').and.returnValue('');
+        spyOn(document, 'getSelection').and.returnValue('' as any);
         component.execCommand('createlink', 'http://fakeLink');
         const documentArgs = page.execCommandSpy.calls.first().args;
         expect(documentArgs[0]).toBe('insertHtml');
@@ -377,7 +377,7 @@ describe('NgxWigComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should set the content', async(() => {
+    it('should set the content', waitForAsync(() => {
       fixture.whenStable().then(() => {
         expect(component.ngxWigCmp.content).toBe(component.text);
       });
