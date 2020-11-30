@@ -12,6 +12,7 @@ ngx-wig
 
 ## Angular Support
 
+For **Angular 11** `ngx-wig@11.0.0`
 For **Angular 10** `ngx-wig@10.0.0` 
 For **Angular 9** `ngx-wig@9.0.0` 
 Since **Angular 8** we sync the version and now for each AngularX you will be able to use ngx-wig version X.
