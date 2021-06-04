@@ -12,6 +12,7 @@ ngx-wig
 
 ## Angular Support
 
+For **Angular 12** `ngx-wig@12.0.0`
 For **Angular 11** `ngx-wig@11.0.0`
 For **Angular 10** `ngx-wig@10.0.0` 
 For **Angular 9** `ngx-wig@9.0.0` 
