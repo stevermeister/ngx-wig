@@ -214,16 +214,6 @@ describe('NgxWigComponent', () => {
         expect(documentArgs[2]).toBe('');
       });
 
-      it('should use insertHtml to create a link for IE', () => {
-        page.promptSpy.and.returnValue('http://fakeLink');
-        spyOn(document, 'getSelection').and.returnValue('' as any);
-        component.execCommand('createlink', 'http://fakeLink');
-        const documentArgs = page.execCommandSpy.calls.first().args;
-        expect(documentArgs[0]).toBe('insertHtml');
-        expect(documentArgs[1]).toBe(false);
-        expect(documentArgs[2]).toBe('<a href="http://fakeLink">http://fakeLink</a>');
-      });
-
       it('should fail if command is unknown', () => {
         expect(() => {
           component.execCommand('fakeCmd', '');
