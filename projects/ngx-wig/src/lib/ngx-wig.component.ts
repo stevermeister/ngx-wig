@@ -12,7 +12,6 @@ import {
   forwardRef,
   Inject,
   OnDestroy,
-  AfterViewInit,
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -35,8 +34,7 @@ import { TButton, commandFunction } from './config';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class NgxWigComponent implements AfterViewInit,
-                                        OnInit,
+export class NgxWigComponent implements OnInit,
                                         OnChanges,
                                         OnDestroy,
                                         ControlValueAccessor {
@@ -114,26 +112,6 @@ export class NgxWigComponent implements AfterViewInit,
 
     if (this.content) {
       this.container.innerHTML = this.content;
-    }
-  }
-
-  public ngAfterViewInit(): void {
-    // Workaround for IE11 which doesn't fire 'input' event on
-    // contenteditable
-    // https://stackoverflow.com/a/49287032/7369511
-
-    // check if the browser is IE:
-    if (window.document['documentMode']) {
-      this._mutationObserver = new MutationObserver(() => {
-        if (!this.editMode) {
-          this.onContentChange(this.container.innerHTML);
-        }
-      });
-
-      this._mutationObserver.observe(
-        this.container,
-        { childList: true, subtree: true, characterData: true }
-      );
     }
   }
 
