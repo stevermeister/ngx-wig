@@ -2,7 +2,7 @@
     <ul class="nw-toolbar">
       <li *ngFor="let button of toolbarButtons"
           class="nw-toolbar__item">
-        <div>
+        <div *ngIf="!button?.options ; else dropdownButton">
           <button type="button"
                   class="nw-button"
                   [ngClass]="[button.styleClass]"
@@ -17,6 +17,13 @@
             </div>
           </button>
         </div>
+        <ng-template #dropdownButton>
+          <div>
+            <select (change)="execCommand(button.command, $event.target.value)">
+              <option *ngFor="let test of button.options" [value]="test">{{test}}</option>
+            </select>
+          </div>
+        </ng-template>
       </li>
     </ul>
 

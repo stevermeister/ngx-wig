@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgxWigModule } from 'ngx-wig';
+import { NgxWigComponent, NgxWigModule } from 'ngx-wig';
 
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,6 +20,29 @@ export const DEFAULT_LIBRARY_BUTTONS = {
     styleClass: 'italic',
     icon: 'icon-italic'
   },
+  fontName: {
+    label: 'F',
+    title: 'Font name',
+    command: (ctx: NgxWigComponent, valueToSet: string) => {
+      ctx.execCommand('fontName',valueToSet)
+    },
+    styleClass: 'italic',
+    options: [
+      'Arial',
+      'Courier',
+      'Times'
+    ]
+  },
+  headings: {
+    label: 'H',
+    title: 'Headings',
+    command: (ctx: NgxWigComponent, valueToSet: string) => {
+      ctx.execCommand('formatBlock', valueToSet);
+    },
+    options: [
+      'h1', 'h2', 'h3'
+    ]
+  }
 };
 
 
