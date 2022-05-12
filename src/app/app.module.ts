@@ -28,9 +28,9 @@ export const DEFAULT_LIBRARY_BUTTONS = {
     },
     styleClass: 'italic',
     options: [
-      'Arial',
-      'Courier',
-      'Times'
+      {label: 'Arial', value: 'Arial'},
+      {label: 'Courier', value: 'Courier'},
+      {label: 'Times', value:'Times'}
     ]
   },
   headings: {
@@ -40,7 +40,11 @@ export const DEFAULT_LIBRARY_BUTTONS = {
       ctx.execCommand('formatBlock', valueToSet);
     },
     options: [
-      'h1', 'h2', 'h3'
+      {label: 'Heading 1', value: 'h1'},
+      {label: 'Heading 2', value: 'h2'},
+      {label: 'Heading 3', value: 'h3'},
+      {label: 'Heading 4', value: 'h4'},
+      {label: 'Heading 5', value: 'h5'},
     ]
   }
 };

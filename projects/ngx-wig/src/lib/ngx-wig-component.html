@@ -20,7 +20,8 @@
         <ng-template #dropdownButton>
           <div>
             <select (change)="execCommand(button.command, $event.target.value)">
-              <option *ngFor="let test of button.options" [value]="test">{{test}}</option>
+              <option value="" [placeholder]="button.title"></option>
+              <option *ngFor="let option of button.options" [value]="option.value">{{option.label}}</option>
             </select>
           </div>
         </ng-template>

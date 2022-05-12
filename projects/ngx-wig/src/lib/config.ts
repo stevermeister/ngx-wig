@@ -7,19 +7,10 @@ export interface TButton {
   label?: string;
   icon?: string;
   title?: string;
-  options?: string[];
+  options?: {label: string; value: string}[];
   command?: string | commandFunction;
   styleClass?: string;
 }
-
-// export interface TDropdown {
-//   label?: string;
-//   icon?: string;
-//   title?: string;
-//   options?: string[];
-//   command?: string | commandFunction;
-//   styleClass?: string;
-// }
 
 export interface TButtonLibrary {
   [name: string]: TButton;
