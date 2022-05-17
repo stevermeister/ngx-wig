@@ -256,6 +256,14 @@ describe('NgxWigComponent', () => {
       expect(spy.calls.first().args[0]).toBe(newContent);
     });
 
+    it('should emit empty string if content innerText is empty', () => {
+      const newContent = '<br>';
+      const spy = spyOn(component.contentChange, 'emit');
+      component.onContentChange(newContent);
+      expect(component.content).toBe('');
+      expect(spy.calls.first().args[0]).toBe('');
+    });
+
     it('should change the content (onTextareaChange)', () => {
       const newText = '<p>New fake text</p>';
       const spy = spyOn(component, 'onContentChange');
