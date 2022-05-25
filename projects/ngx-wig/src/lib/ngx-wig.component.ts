@@ -35,9 +35,9 @@ import { TButton, commandFunction } from './config';
   encapsulation: ViewEncapsulation.None
 })
 export class NgxWigComponent implements OnInit,
-                                        OnChanges,
-                                        OnDestroy,
-                                        ControlValueAccessor {
+  OnChanges,
+  OnDestroy,
+  ControlValueAccessor {
 
   @Input()
   public content: string;
@@ -126,7 +126,8 @@ export class NgxWigComponent implements OnInit,
   }
 
   public onContentChange(newContent: string): void {
-    this.content = newContent;
+    this.content = this.isInnerTextEmpty(newContent) ? '' : newContent;
+
     this.contentChange.emit(this.content);
     this.propagateChange(this.content);
   }
@@ -214,5 +215,12 @@ export class NgxWigComponent implements OnInit,
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  isInnerTextEmpty(content: string): boolean {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(content, 'text/html');
+
+    return htmlDoc.documentElement?.innerText === '';
   }
 }
