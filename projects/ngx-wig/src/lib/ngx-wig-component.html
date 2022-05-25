@@ -42,8 +42,9 @@
                       </div>
               </button>
               <div class="dropdown-content" 
-                   [ngClass]="button.visibleDropdown ? 'show' : ''">
-                <a *ngFor="let option of button.options" 
+                   [ngClass]="button.visibleDropdown ? 'show' : ''"
+                   (mouseleave)="button.visibleDropdown = false">
+                <a *ngFor="let option of button.options" href="#"
                     (click)="execCommand(button.command, option.value)">{{option.label}}</a>
               </div>
             </div>
