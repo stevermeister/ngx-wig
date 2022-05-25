@@ -10,6 +10,8 @@ export interface TButton {
   options?: {label: string; value: string}[];
   command?: string | commandFunction;
   styleClass?: string;
+  isDropdown?: boolean; //isDropdown and visibleDropdown for dropdown menu
+  visibleDropdown?: boolean;
 }
 
 export interface TButtonLibrary {

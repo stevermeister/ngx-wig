@@ -2,7 +2,7 @@
     <ul class="nw-toolbar">
       <li *ngFor="let button of toolbarButtons"
           class="nw-toolbar__item">
-        <div *ngIf="!button?.options ; else dropdownButton">
+        <div *ngIf="!button?.options ; else selectMenu">
           <button type="button"
                   class="nw-button"
                   [ngClass]="[button.styleClass]"
@@ -17,13 +17,37 @@
             </div>
           </button>
         </div>
-        <ng-template #dropdownButton>
-          <div>
-            <select (change)="execCommand(button.command, $event.target.value)">
-              <option value="" >{{button.title}}</option>
+        <ng-template #selectMenu>
+          <div *ngIf="!button?.isDropdown; else dropdownButton"
+                class="select-menu">
+            <select (change)="execCommand(button.command, $event.target.value)" [title]="button.title">
+              <option value="">{{button.title}}</option>
               <option *ngFor="let option of button.options" [value]="option.value">{{option.label}}</option>
             </select>
           </div>
+
+          <ng-template #dropdownButton> <!--Dropdown menu option instead of select-->
+            <div class="dropdown">
+              <button type="button"
+                      class="nw-button"
+                      [ngClass]="[button.styleClass]"
+                      [title]="button.title"
+                      (mouseenter)="button.visibleDropdown = !button.visibleDropdown"
+                      [disabled]="disabled"
+                      tabindex="-1">
+                      <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
+                      <div *ngIf="button.icon"
+                           class="icon"
+                           [ngClass]="[button.icon]">
+                      </div>
+              </button>
+              <div class="dropdown-content" 
+                   [ngClass]="button.visibleDropdown ? 'show' : ''">
+                <a *ngFor="let option of button.options" 
+                    (click)="execCommand(button.command, option.value)">{{option.label}}</a>
+              </div>
+            </div>
+          </ng-template>
         </ng-template>
       </li>
     </ul>

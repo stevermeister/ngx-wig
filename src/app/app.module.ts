@@ -40,14 +40,64 @@ export const DEFAULT_LIBRARY_BUTTONS = {
       ctx.execCommand('formatBlock', valueToSet);
     },
     options: [
+      {label: 'Paragraph', value: 'p'},
       {label: 'Heading 1', value: 'h1'},
       {label: 'Heading 2', value: 'h2'},
       {label: 'Heading 3', value: 'h3'},
       {label: 'Heading 4', value: 'h4'},
       {label: 'Heading 5', value: 'h5'},
     ]
+  },
+  specialChar: {
+    label: 'à',
+    title: 'Accented Characters',
+    command: (ctx: NgxWigComponent, valueToSet: string) => {
+      ctx.execCommand('insertText', valueToSet)
+    },
+    options: [
+      {label: 'à', value: 'à'},
+      {label: 'è', value: 'è'},
+      {label: 'é', value: 'é'},
+      {label: 'ì', value: 'ì'},
+      {label: 'ò', value: 'ò'},
+      {label: 'ù', value: 'ù'}
+    ],
+    isDropdown: true,
+    visibleDropdown: false
+  },
+  removeFormatting: {
+    label: 'R',
+    title: 'Remove formatting',
+    command: 'removeFormat'
+  },
+  smallcaps: {
+    label: 'S',
+    title: 'Small-caps',
+    command: (ctx: NgxWigComponent) => {
+      setSmallcaps(ctx);
+    }
   }
 };
+
+function setSmallcaps(ctx: NgxWigComponent) {
+  console.log(ctx);
+  let selection = window?.getSelection()?.getRangeAt(0).cloneContents();
+  if (selection !== undefined) {
+      if (window.getSelection()?.getRangeAt(0).startOffset !== window.getSelection()?.getRangeAt(0).endOffset) {
+          // console.log(window?.getSelection()?.getRangeAt(0).commonAncestorContainer.parentElement)
+          if (window?.getSelection()?.getRangeAt(0).commonAncestorContainer.parentElement?.className === 'smallcaps') {
+              // console.log(window?.getSelection()?.getRangeAt(0).commonAncestorContainer.parentElement?.innerHTML)
+              window.getSelection()?.getRangeAt(0).commonAncestorContainer.parentElement?.remove();
+              ctx.execCommand('insertHTML', selection?.textContent ? selection.textContent : '');
+          } else {
+              let span = document.createElement('span');
+              span.appendChild(selection);
+              let wrappedselection = '<span class="smallcaps" style="font-variant: small-caps;">' + span.innerHTML + '</span>';
+              ctx.execCommand('insertHTML', wrappedselection);
+          }
+      }
+  }
+}
 
 
 @NgModule({
