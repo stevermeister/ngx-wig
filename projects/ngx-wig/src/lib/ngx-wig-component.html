@@ -20,7 +20,7 @@
         <ng-template #selectMenu>
           <div *ngIf="!button?.isDropdown; else dropdownButton"
                 class="select-menu">
-            <select (change)="execCommand(button.command, $event.target.value)" [title]="button.title">
+            <select (change)="execCommand(button.command, $event.target.value)" [title]="button.title" [ngClass]="[button.styleClass]">
               <option value="">{{button.title}}</option>
               <option *ngFor="let option of button.options" [value]="option.value">{{option.label}}</option>
             </select>
