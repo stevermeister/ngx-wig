@@ -1,0 +1,17 @@
+.font-arial, 
+.font-courier,
+.font-times {
+    width: fit-content !important;
+}
+
+.font-arial {
+    font-family: Arial;
+}
+
+.font-courier {
+    font-family: 'Courier';
+}
+
+.font-times {
+    font-family: 'Times New Roman', Times, serif;
+}

@@ -23,171 +23,80 @@ export const DEFAULT_LIBRARY_BUTTONS = {
   fontName: {
     label: 'F',
     title: 'Font name',
-    command: (ctx: NgxWigComponent, valueToSet: string) => {
-      ctx.execCommand('fontName',valueToSet)
-    },
-    styleClass: 'italic',
-    options: [
-      {label: 'Arial', value: 'Arial'},
-      {label: 'Courier', value: 'Courier'},
-      {label: 'Times', value:'Times'}
-    ]
-  },
-  headings: {
-    label: 'H',
-    title: 'Headings',
-    command: (ctx: NgxWigComponent, valueToSet: string) => {
-      ctx.execCommand('formatBlock', valueToSet);
-    },
-    options: [
-      {label: 'Paragraph', value: 'p'},
-      {label: 'Heading 1', value: 'h1'},
-      {label: 'Heading 2', value: 'h2'},
-      {label: 'Heading 3', value: 'h3'},
-      {label: 'Heading 4', value: 'h4'},
-      {label: 'Heading 5', value: 'h5'},
+    children: [
+      {
+        label: 'Arial',
+        title: 'Arial',
+        command: (ctx: NgxWigComponent) => {
+          ctx.execCommand('fontName', 'Arial')
+        },
+        styleClass: 'font-arial'
+      },
+      {
+        label: 'Courier',
+        title: 'Courier',
+        command: (ctx: NgxWigComponent) => {
+          ctx.execCommand('fontName', 'Courier')
+        },
+        styleClass: 'font-courier'
+      },
+      {
+        label: 'Times',
+        title: 'Times',
+        command: (ctx: NgxWigComponent) => {
+          ctx.execCommand('fontName', 'Times')
+        },
+        styleClass: 'font-times'
+      }
     ]
   },
   specialChar: {
     label: 'à',
     title: 'Accented Characters',
-    command: (ctx: NgxWigComponent, valueToSet: string) => {
-      ctx.execCommand('insertHTML', valueToSet)
-    },
-    options: [
-      {label: 'à', value: 'à'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'},
-      {label: 'è', value: 'è'},
-      {label: 'é', value: 'é'},
-      {label: 'ì', value: 'ì'},
-      {label: 'ò', value: 'ò'},
-      {label: 'ù', value: 'ù'}
+    children: [
+      {
+        label: 'à',
+        title: 'à',
+        command: (ctx: NgxWigComponent) => {
+          ctx.execCommand('insertText', 'à')
+        }
+      },
+      {
+        label: 'è',
+        title: 'è',
+        command: (ctx: NgxWigComponent) => {
+          ctx.execCommand('insertText', 'è')
+        }
+      },
+      {
+        label: 'é',
+        title: 'é',
+        command: (ctx: NgxWigComponent) => {
+          ctx.execCommand('insertText', 'é')
+        }
+      },
+      {
+        label: 'ì',
+        title: 'ì',
+        command: (ctx: NgxWigComponent) => {
+          ctx.execCommand('insertText', 'ì')
+        }
+      },
+      {
+        label: 'ò',
+        title: 'ò',
+        command: (ctx: NgxWigComponent) => {
+          ctx.execCommand('insertText', 'ò')
+        }
+      },
+      {
+        label: 'ù',
+        title: 'ù',
+        command: (ctx: NgxWigComponent) => {
+          ctx.execCommand('insertText', 'ù')
+        }
+      },
     ],
-    isDropdown: true,
     visibleDropdown: false
   },
   removeFormatting: {

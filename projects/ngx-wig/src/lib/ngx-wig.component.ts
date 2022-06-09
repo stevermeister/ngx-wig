@@ -73,11 +73,7 @@ export class NgxWigComponent implements OnInit,
   public execCommand(command: string| commandFunction, options?: string): boolean {
 
     if (typeof command === 'function') {
-      if(options) {
-        command(this,options);
-      } else {
-        command(this);
-      }
+      command(this);
       return true;
     }
 

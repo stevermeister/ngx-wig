@@ -1,16 +1,15 @@
 import { InjectionToken } from '@angular/core';
 import { NgxWigComponent } from './ngx-wig.component';
 
-export type commandFunction = (ctx: NgxWigComponent, valueToSet?: string) => void;
+export type commandFunction = (ctx: NgxWigComponent) => void;
 
 export interface TButton {
   label?: string;
   icon?: string;
   title?: string;
-  options?: {label: string; value: string}[];
+  children?: TButton[];
   command?: string | commandFunction;
   styleClass?: string;
-  isDropdown?: boolean; //isDropdown and visibleDropdown for dropdown menu
   visibleDropdown?: boolean;
 }
 
