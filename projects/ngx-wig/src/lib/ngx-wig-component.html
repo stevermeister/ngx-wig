@@ -2,7 +2,7 @@
     <ul class="nw-toolbar">
       <li *ngFor="let button of toolbarButtons"
           class="nw-toolbar__item">
-        <div>
+        <div *ngIf="!button?.children ; else selectMenu">
           <button type="button"
                   class="nw-button"
                   [ngClass]="[button.styleClass]"
@@ -17,6 +17,42 @@
             </div>
           </button>
         </div>
+        <ng-template #selectMenu>
+            <div class="dropdown">
+              <button type="button" 
+                  class="nw-button" 
+                  [ngClass]="[button.styleClass]" 
+                  [title]="button.title"
+                  (click)="button.visibleDropdown = !button.visibleDropdown" 
+                  [disabled]="disabled" 
+                  tabindex="-1">
+                <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
+                <div *ngIf="button.icon" 
+                    class="icon" 
+                    [ngClass]="[button.icon]">
+                </div>
+              </button>
+              <div class="dropdown-content" 
+                  [ngClass]="button.visibleDropdown ? ['show'] : ['']">
+                <a *ngFor="let child of button.children" 
+                    href="#">
+                  <button type="button" 
+                      class="nw-button" 
+                      [ngClass]="[child.styleClass]" 
+                      [title]="child.title"
+                      (click)="execCommand(child.command)" 
+                      [disabled]="disabled" 
+                      tabindex="-1">
+                    <ng-container *ngIf="!child.icon">{{ child.label }}</ng-container>
+                    <div *ngIf="child.icon" 
+                        class="icon" 
+                        [ngClass]="[child.icon]">
+                    </div>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </ng-template>
       </li>
     </ul>
 

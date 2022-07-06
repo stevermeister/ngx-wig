@@ -7,8 +7,10 @@ export interface TButton {
   label?: string;
   icon?: string;
   title?: string;
+  children?: TButton[];
   command?: string | commandFunction;
   styleClass?: string;
+  visibleDropdown?: boolean;
 }
 
 export interface TButtonLibrary {
