@@ -48,7 +48,8 @@ export const DEFAULT_LIBRARY_BUTTONS = {
         },
         styleClass: 'font-times'
       }
-    ]
+    ],
+    styleClass: ''
   },
   specialChar: {
     label: 'à',
@@ -59,67 +60,76 @@ export const DEFAULT_LIBRARY_BUTTONS = {
         title: 'à',
         command: (ctx: NgxWigComponent) => {
           ctx.execCommand('insertText', 'à')
-        }
+        },
+        styleClass: ''
       },
       {
         label: 'è',
         title: 'è',
         command: (ctx: NgxWigComponent) => {
           ctx.execCommand('insertText', 'è')
-        }
+        },
+        styleClass: ''
       },
       {
         label: 'é',
         title: 'é',
         command: (ctx: NgxWigComponent) => {
           ctx.execCommand('insertText', 'é')
-        }
+        },
+        styleClass: ''
       },
       {
         label: 'ì',
         title: 'ì',
         command: (ctx: NgxWigComponent) => {
           ctx.execCommand('insertText', 'ì')
-        }
+        },
+        styleClass: ''
       },
       {
         label: 'ò',
         title: 'ò',
         command: (ctx: NgxWigComponent) => {
           ctx.execCommand('insertText', 'ò')
-        }
+        },
+        styleClass: ''
       },
       {
         label: 'ù',
         title: 'ù',
         command: (ctx: NgxWigComponent) => {
           ctx.execCommand('insertText', 'ù')
-        }
+        },
+        styleClass: ''
       },
     ],
+    styleClass: '',
     visibleDropdown: false
   },
   removeFormatting: {
     label: 'R',
     title: 'Remove formatting',
-    command: 'removeFormat'
+    command: 'removeFormat',
+    styleClass: '',
   },
   smallcaps: {
     label: 'S',
     title: 'Small-caps',
     command: (ctx: NgxWigComponent) => {
       setSmallcaps(ctx);
-    }
+    },
+    styleClass: ''
   }
 };
 
 function setSmallcaps(ctx: NgxWigComponent) {
-  console.log(ctx);
-  let selection = window?.getSelection()?.getRangeAt(0).cloneContents();
-  if (selection !== undefined) {
-      if (window.getSelection()?.getRangeAt(0).startOffset !== window.getSelection()?.getRangeAt(0).endOffset) {
-          if (window?.getSelection()?.getRangeAt(0).commonAncestorContainer.parentElement?.className === 'smallcaps') {
-              window.getSelection()?.getRangeAt(0).commonAncestorContainer.parentElement?.remove();
+  const selectionRange = window?.getSelection()?.getRangeAt(0);
+  let selection = selectionRange?.cloneContents();
+  if (selectionRange !== undefined && selection !== undefined) {
+      if (selectionRange.startOffset !== selectionRange.endOffset) {
+          if (selectionRange.commonAncestorContainer.parentElement?.className === 'smallcaps') {
+              selectionRange.commonAncestorContainer.parentElement?.remove();
               ctx.execCommand('insertHTML', selection?.textContent ? selection.textContent : '');
           } else {
               let span = document.createElement('span');
