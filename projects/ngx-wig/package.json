@@ -1,6 +1,6 @@
 {
   "name": "ngx-wig",
-  "version": "13.1.6",
+  "version": "14.0.5",
   "description": "Light-weight WYSIWYG Editor for Angular",
   "keywords": [
     "Angular",
@@ -14,9 +14,9 @@
   },
   "homepage": "https://github.com/stevermeister/ngx-wig",
   "peerDependencies": {
-    "@angular/common": "^13.0.3",
-    "@angular/core": "^13.0.3",
-    "@angular/forms": "^13.0.3"
+    "@angular/common": "^14.0.5",
+    "@angular/core": "^14.0.5",
+    "@angular/forms": "^14.0.5"
   },
   "dependencies": {
     "tslib": "^2.2.0"

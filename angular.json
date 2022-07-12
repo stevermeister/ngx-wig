@@ -180,7 +180,6 @@
       }
     }
   },
-  "defaultProject": "ngx-wig-app",
   "cli": {
     "analytics": false
   }
