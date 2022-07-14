@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -21,5 +21,5 @@ export class AppComponent {
   Both Mozilla and Internet Explorer have included ways to make sections of a page editable. IE 5.5 had the MSHTML Editing Platform (archive.org), and Mozilla has its Rich Text Editing API. Both technologies allow Web developers to make parts of a page editable -- in slightly different ways, of course.
   Most current in-browser WYSIWYG editors use the third option.`;
   // tslint:enable:max-line-length
-  public name = new UntypedFormControl('some text');
+  public name = new FormControl('some text');
 }
