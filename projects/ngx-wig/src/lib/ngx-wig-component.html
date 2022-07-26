@@ -18,12 +18,11 @@
           </button>
         </div>
         <ng-template #selectMenu>
-            <div class="dropdown">
+            <div class="dropdown" (mouseenter)="button.visibleDropdown = true" (mouseleave)="button.visibleDropdown = false">
               <button type="button" 
                   class="nw-button" 
                   [ngClass]="[button.styleClass]" 
                   [title]="button.title"
-                  (click)="button.visibleDropdown = !button.visibleDropdown" 
                   [disabled]="disabled" 
                   tabindex="-1">
                 <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
