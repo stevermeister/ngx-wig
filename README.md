@@ -1,5 +1,4 @@
-ngx-wig
-=====
+# ngx-wig
 
 [![Build Status](https://travis-ci.org/stevermeister/ngx-wig.svg?branch=master)](https://travis-ci.org/stevermeister/ngx-wig)
 
@@ -21,15 +20,17 @@ For **Angular 7** `ngx-wig@2.0.0`
 For **Angular 6** `ngx-wig@1.6.0`  
 For **Angular 4** and **Angular = ^5** - use version `ngx-wig@1.2.7`  
 
-
-
-
 ## Icons
 
 Icons are not in the pack!
 You can use the icons that you like.
 We recommend to use [Material Design Icons](https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css)
 
+If you dont want to use full icons set, you can use these steps:
+
+1. go to [icons set](https://materialdesignicons.com/)
+1. choose the icon that you want, press the right mouse button on it, and then select "View SVG" option
+1. go to [URL-encoder for SVG](https://yoksel.github.io/url-encoder/) and use it to convert your SVG
 
 ## Installation
 
@@ -41,7 +42,6 @@ ngx-wig could be simply installed via npm:
 
 The last version on ngx-wig that was built for Angular 4.x is 0.3.6.
 Any higher version may be not fully compatible with Angular version lower than 5.0.0.
-
 
 ## Usage
 
@@ -71,10 +71,10 @@ it's just attribute directive for textarea:
 <ngx-wig [content]="text1"></ngx-wig>
 ```
 
-### Placeholder  ( [demo](https://stackblitz.com/edit/ngx-wig-sample3?file=src/app.ts) )
+### Placeholder ( [demo](https://stackblitz.com/edit/ngx-wig-sample3?file=src/app.ts) )
 
 ```html
-<ngx-wig  [content]="text1" [placeholder]="'Enter instructions here.'"></ngx-wig>
+<ngx-wig [content]="text1" [placeholder]="'Enter instructions here.'"></ngx-wig>
 ```
 
 ### ngModel sync ( [demo](https://stackblitz.com/edit/ngx-wig-sample4?file=src/app.ts) )
@@ -87,10 +87,10 @@ it's just attribute directive for textarea:
 ### Set buttons ( [demo](https://stackblitz.com/edit/ngx-wig-sample5?file=src/app.ts) )
 
 ```html
-<ngx-wig  [content]="text1" [buttons]="'bold, italic'"></ngx-wig>
+<ngx-wig [content]="text1" [buttons]="'bold, italic'"></ngx-wig>
 ```
 
-### onContentChange Hook  ( [demo](https://stackblitz.com/edit/ngx-wig-sample6?file=src/app.ts) )
+### onContentChange Hook ( [demo](https://stackblitz.com/edit/ngx-wig-sample6?file=src/app.ts) )
 
 ```html
 <ngx-wig [content]="text1" (contentChange)="result = $event"></ngx-wig>
@@ -100,7 +100,7 @@ it's just attribute directive for textarea:
 ### Reactive FormControl ( [demo](https://stackblitz.com/edit/ngx-wig-sample7?file=src/app.ts) )
 
 ```html
-<ngx-wig  [formControl]="text1"></ngx-wig>
+<ngx-wig [formControl]="text1"></ngx-wig>
 ```
 
 ### Two-way binding ( [demo](https://stackblitz.com/edit/ngx-wig-sample8?file=src/app.ts) )
@@ -113,7 +113,6 @@ it's just attribute directive for textarea:
 
 Please check an example here
 https://stackblitz.com/edit/ngx-wig-sample-plugins?file=src/app.ts
-
 
 ## Development
 
