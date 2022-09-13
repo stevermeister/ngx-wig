@@ -166,14 +166,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngx-wig/tsconfig.lib.json",
-              "projects/ngx-wig/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ngx-wig/**/*.ts",
+              "projects/ngx-wig/**/*.html"
             ]
           }
         }

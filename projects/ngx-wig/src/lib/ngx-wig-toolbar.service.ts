@@ -37,7 +37,7 @@ export class NgxWigToolbarService {
     this._defaultButtonsList.push(name);
   }
 
-  public getToolbarButtons(buttonsList?: string): {}[] {
+  public getToolbarButtons(buttonsList?: string): TButton[] {
     let buttons = this._defaultButtonsList;
     const toolbarButtons: TButton[] = [];
 
@@ -65,8 +65,7 @@ export class NgxWigToolbarService {
   }
 }
 
-function string2array(keysString: string) {
-  return keysString
+const string2array = (keysString: string) =>
+  keysString
     .split(',')
     .map(Function.prototype.call, String.prototype.trim);
-}
