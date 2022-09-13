@@ -84,7 +84,7 @@ export class NgxWigComponent
       this.document.queryCommandSupported &&
       !this.document.queryCommandSupported(command)
     ) {
-      throw new Error(`The command '${command}' is not supported`);
+      throw new Error(`The command "${command}" is not supported`);
     }
     if (command === 'createlink' || command === 'insertImage') {
       options = window.prompt('Please enter the URL', 'http://') || '';
