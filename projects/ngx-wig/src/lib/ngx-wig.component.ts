@@ -8,7 +8,6 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation,
   forwardRef,
   Inject,
   OnDestroy,
