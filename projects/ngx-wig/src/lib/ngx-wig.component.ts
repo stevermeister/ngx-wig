@@ -31,8 +31,7 @@ import { TButton, commandFunction } from './config';
       useExisting: forwardRef(() => NgxWigComponent),
       multi: true
     }
-  ],
-  encapsulation: ViewEncapsulation.None
+  ]
 })
 export class NgxWigComponent implements OnInit,
   OnChanges,
