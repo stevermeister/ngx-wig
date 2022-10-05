@@ -1,14 +1,14 @@
 import { InjectionToken } from '@angular/core';
 import { NgxWigComponent } from './ngx-wig.component';
 
-export type commandFunction = (ctx: NgxWigComponent) => void;
+export type CommandFunction = (ctx: NgxWigComponent) => void;
 
 export interface TButton {
   label?: string;
   icon?: string;
   title?: string;
   children?: TButton[];
-  command?: string | commandFunction;
+  command?: string | CommandFunction;
   styleClass?: string;
   visibleDropdown?: boolean;
 }

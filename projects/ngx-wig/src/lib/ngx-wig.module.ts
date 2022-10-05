@@ -4,9 +4,8 @@ import { NgxWigComponent } from './ngx-wig.component';
 import { FormsModule } from '@angular/forms';
 import { TButtonLibrary, DEFAULT_LIBRARY_BUTTONS, BUTTONS, CUSTOM_LIBRARY_BUTTONS } from './config';
 
-export function getWindowObject(): Window {
-  return window;
-}
+
+export const getWindowObject = (): Window => window;
 
 @NgModule({
   declarations: [

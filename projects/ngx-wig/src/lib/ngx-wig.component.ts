@@ -17,7 +17,7 @@ import {
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
 import { DOCUMENT } from '@angular/common';
-import { TButton, commandFunction } from './config';
+import { TButton, CommandFunction } from './config';
 
 /** @dynamic */
 @Component({
@@ -29,16 +29,13 @@ import { TButton, commandFunction } from './config';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => NgxWigComponent),
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class NgxWigComponent implements OnInit,
-  OnChanges,
-  OnDestroy,
-  ControlValueAccessor {
-
+export class NgxWigComponent
+  implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
   @Input()
   public content: string;
 
@@ -67,11 +64,13 @@ export class NgxWigComponent implements OnInit,
   public constructor(
     private _ngWigToolbarService: NgxWigToolbarService,
     @Inject(DOCUMENT) private document: any, // cannot set Document here - Angular issue - https://github.com/angular/angular/issues/20351
-    @Inject('WINDOW') private window,
+    @Inject('WINDOW') private window
   ) {}
 
-  public execCommand(command: string| commandFunction, options?: string): boolean {
-
+  public execCommand(
+    command: string | CommandFunction,
+    options?: string
+  ): boolean {
     if (typeof command === 'function') {
       command(this);
       return true;
@@ -81,7 +80,10 @@ export class NgxWigComponent implements OnInit,
       return false;
     }
 
-    if (this.document.queryCommandSupported && !this.document.queryCommandSupported(command)) {
+    if (
+      this.document.queryCommandSupported &&
+      !this.document.queryCommandSupported(command)
+    ) {
       throw new Error(`The command "${command}" is not supported`);
     }
     if (command === 'createlink' || command === 'insertImage') {
@@ -97,7 +99,11 @@ export class NgxWigComponent implements OnInit,
     const selection = this.document.getSelection().toString();
 
     if (command === 'createlink' && selection === '') {
-      this.document.execCommand('insertHtml', false, '<a href="' + options + '">' + options + '</a>');
+      this.document.execCommand(
+        'insertHtml',
+        false,
+        '<a href="' + options + '">' + options + '</a>'
+      );
     } else {
       this.document.execCommand(command, false, options);
     }
@@ -107,7 +113,9 @@ export class NgxWigComponent implements OnInit,
   }
 
   public ngOnInit(): void {
-    this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons(this.buttons);
+    this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons(
+      this.buttons
+    );
     this.container = this.ngxWigEditable.nativeElement;
 
     if (this.content) {
@@ -130,7 +138,6 @@ export class NgxWigComponent implements OnInit,
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.container && changes['content']) {
-
       // we need to focus the container before pasting at the caret
       this.container.focus();
 
@@ -149,19 +156,47 @@ export class NgxWigComponent implements OnInit,
   }
 
   public writeValue(value: any): void {
-    if (!value) { value = ''; }
+    if (!value) {
+      value = '';
+    }
 
     this.container.innerHTML = value;
     this.content = value;
   }
 
   public shouldShowPlaceholder(): boolean {
-    return !!this.placeholder
-      && !this.container.innerText;
+    return !!this.placeholder && !this.container.innerText;
+  }
+
+  public registerOnChange(fn: any): void {
+    this.propagateChange = fn;
+  }
+
+  public registerOnTouched(fn: () => void): void {
+    this.propagateTouched = fn;
+  }
+
+  public propagateTouched = () => {};
+
+  public onBlur() {
+    this.hasFocus = false;
+    this.propagateTouched();
+  }
+
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  public isInnerTextEmpty(content: string): boolean {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(content, 'text/html');
+
+    return htmlDoc.documentElement?.innerText === '';
   }
 
   private pasteHtmlAtCaret(html) {
-    let sel, range;
+    let sel;
+    let range;
 
     if (window.getSelection) {
       sel = window.getSelection();
@@ -174,9 +209,10 @@ export class NgxWigComponent implements OnInit,
         el.innerHTML = html;
 
         const frag = this.document.createDocumentFragment();
-        let node, lastNode;
+        let node;
+        let lastNode;
 
-        while ( (node = el.firstChild) ) {
+        while ((node = el.firstChild)) {
           lastNode = frag.appendChild(node);
         }
         range.insertNode(frag);
@@ -193,30 +229,5 @@ export class NgxWigComponent implements OnInit,
     }
   }
 
-  public registerOnChange(fn: any): void {
-    this.propagateChange = fn;
-  }
-
-  public registerOnTouched(fn: () => void): void {
-    this.propagateTouched = fn;
-  }
-
-  private propagateChange: any = (_: any) => { };
-  public propagateTouched = () => {};
-
-  onBlur() {
-    this.hasFocus = false;
-    this.propagateTouched();
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  isInnerTextEmpty(content: string): boolean {
-    const parser = new DOMParser();
-    const htmlDoc = parser.parseFromString(content, 'text/html');
-
-    return htmlDoc.documentElement?.innerText === '';
-  }
+  private propagateChange: any = (_: any) => {};
 }
