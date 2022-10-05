@@ -13,7 +13,7 @@
             <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
             <div *ngIf="button.icon"
                  class="nwicon"
-                 [ngClass]="['nw' + button.icon]">
+                 [ngClass]="[button.icon]">
             </div>
           </button>
         </div>
@@ -29,7 +29,7 @@
                 <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
                 <div *ngIf="button.icon"
                     class="nwicon"
-                    [ngClass]="['nw' + button.icon]">
+                    [ngClass]="[button.icon]">
                 </div>
               </button>
               <div class="nwmenu-dropdown-content"
@@ -46,7 +46,7 @@
                     <ng-container *ngIf="!child.icon">{{ child.label }}</ng-container>
                     <div *ngIf="child.icon"
                         class="nwicon"
-                        [ngClass]="['nw' + child.icon]">
+                        [ngClass]="[child.icon]">
                     </div>
                   </button>
                 </a>
