@@ -12,13 +12,13 @@
                   tabindex="-1">
             <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
             <div *ngIf="button.icon"
-                 class="nwicon"
+                 class="nwe-icon"
                  [ngClass]="[button.icon]">
             </div>
           </button>
         </div>
         <ng-template #selectMenu>
-            <div class="nwmenu-dropdown" (mouseenter)="button.visibleDropdown = true" (mouseleave)="button.visibleDropdown = false">
+            <div class="nwe-dropdown" (mouseenter)="button.visibleDropdown = true" (mouseleave)="button.visibleDropdown = false">
               <button type="button"
                   class="nw-button"
                   [ngClass]="[button.styleClass]"
@@ -27,12 +27,12 @@
                   tabindex="-1">
                 <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
                 <div *ngIf="button.icon"
-                    class="nwicon"
+                    class="nwe-icon"
                     [ngClass]="[button.icon]">
                 </div>
               </button>
-              <div class="nwmenu-dropdown-content"
-                  [ngClass]="button.visibleDropdown ? ['nwmenu-show'] : ['']">
+              <div class="nwe-dropdown-content"
+                  [ngClass]="button.visibleDropdown ? ['nwe-show'] : ['']">
                 <a *ngFor="let child of button.children"
                     href="#">
                   <button type="button"
@@ -44,7 +44,7 @@
                       tabindex="-1">
                     <ng-container *ngIf="!child.icon">{{ child.label }}</ng-container>
                     <div *ngIf="child.icon"
-                        class="nwicon"
+                        class="nwe-icon"
                         [ngClass]="[child.icon]">
                     </div>
                   </button>
