@@ -22,43 +22,43 @@ export const DEFAULT_LIBRARY_BUTTONS: TButtonLibrary = {
     label: 'UL',
     title: 'Unordered List',
     command: 'insertunorderedlist',
-    styleClass: 'list-ul',
-    icon: 'icon-list-ul'
+    styleClass: 'nw-list-ul',
+    icon: 'nwe-icon-list-ul'
   },
   list2: {
     label: 'OL',
     title: 'Ordered List',
     command: 'insertorderedlist',
-    styleClass: 'list-ol',
-    icon: 'icon-list-ol'
+    styleClass: 'nw-list-ol',
+    icon: 'nwe-icon-list-ol'
   },
   bold: {
     label: 'B',
     title: 'Bold',
     command: 'bold',
-    styleClass: 'bold',
-    icon: 'icon-bold'
+    styleClass: 'nw-bold',
+    icon: 'nwe-icon-bold'
   },
   italic: {
     label: 'I',
     title: 'Italic',
     command: 'italic',
-    styleClass: 'italic',
-    icon: 'icon-italic'
+    styleClass: 'nw-italic',
+    icon: 'nwe-icon-italic'
   },
   link: {
     label: 'Link',
     title: 'Link',
     command: 'createlink',
-    styleClass: 'link',
-    icon: 'icon-link'
+    styleClass: 'nw-link',
+    icon: 'nwe-icon-link'
   },
   underline: {
     label: 'U',
     title: 'Underline',
     command: 'underline',
-    styleClass: 'format-underlined',
-    icon: 'icon-underline'
+    styleClass: 'nw-format-underlined',
+    icon: 'nwe-icon-underline'
   }
 };
 
