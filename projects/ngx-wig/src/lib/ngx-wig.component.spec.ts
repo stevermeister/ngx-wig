@@ -75,7 +75,7 @@ class Page {
  return this.queryAll<HTMLElement>('.nw-toolbar__item');
 }
   get iconsEl() {
- return this.queryAll<HTMLElement>('.icon');
+ return this.queryAll<HTMLElement>('.nwe-icon');
 }
   get editHTMLTxt() {
  return this.query<HTMLTextAreaElement>('textarea');
@@ -136,17 +136,17 @@ describe('NgxWigComponent', () => {
     });
 
     it('should have a standard button', () => {
-      expect(page.unorderedListBtn.classList.contains('list-ul')).toBe(true);
+      expect(page.unorderedListBtn.classList.contains('nw-list-ul')).toBe(true);
       expect(page.unorderedListBtn.getAttribute('title')).toBe('Unordered List');
       expect(page.unorderedListBtn.tabIndex).toBe(-1);
-      expect(page.iconsEl[0].classList.contains('icon-list-ul')).toBe(true);
+      expect(page.iconsEl[0].classList.contains('nwe-icon-list-ul')).toBe(true);
     });
 
     it('should have a standard button without icon', () => {
       component.toolbarButtons[0].icon = undefined;
       fixture.detectChanges();
       expect(page.unorderedListBtn.textContent).toBe('UL');
-      expect(page.iconsEl[0].classList.contains('icon-list-ul')).toBe(false);
+      expect(page.iconsEl[0].classList.contains('nwe-icon-list-ul')).toBe(false);
     });
 
     it('should have an editor container', () => {
@@ -347,8 +347,8 @@ describe('NgxWigComponent', () => {
 
     it('should set the toolbar buttons', () => {
       expect(component.ngxWigCmp.toolbarButtons).toEqual([
-        { label: 'B', title: 'Bold', command: 'bold', styleClass: 'bold', icon: 'icon-bold' },
-        { label: 'I', title: 'Italic', command: 'italic', styleClass: 'italic', icon: 'icon-italic' }
+        { label: 'B', title: 'Bold', command: 'bold', styleClass: 'nw-bold', icon: 'nwe-icon-bold' },
+        { label: 'I', title: 'Italic', command: 'italic', styleClass: 'nw-italic', icon: 'nwe-icon-italic' }
       ]);
     });
 

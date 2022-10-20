@@ -15,15 +15,15 @@ describe('NgxWigToolbarService', () => {
         label: 'UL',
         title: 'Unordered List',
         command: 'insertunorderedlist',
-        styleClass: 'list-ul',
-        icon: 'icon-list-ul'
+        styleClass: 'nw-list-ul',
+        icon: 'nwe-icon-list-ul'
       },
       {
         label: 'OL',
         title: 'Ordered List',
         command: 'insertorderedlist',
-        styleClass: 'list-ol',
-        icon: 'icon-list-ol'
+        styleClass: 'nw-list-ol',
+        icon: 'nwe-icon-list-ol'
       }
     ]);
   });
