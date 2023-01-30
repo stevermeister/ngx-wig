@@ -106,7 +106,7 @@ export const DEFAULT_LIBRARY_BUTTONS = {
     ],
     styleClass: '',
     visibleDropdown: false,
-    isOpenOnClick: true
+    isOpenOnMouseOver: true
   },
   removeFormatting: {
     label: 'R',

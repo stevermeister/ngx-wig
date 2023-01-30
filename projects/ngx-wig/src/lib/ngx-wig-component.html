@@ -18,8 +18,8 @@
           </button>
         </div>
         <ng-template #selectMenu>
-          <div class="nwe-dropdown" (mouseenter)="!button.isOpenOnClick?button.visibleDropdown = true:true" (mouseleave)="!button.isOpenOnClick?button.visibleDropdown = false:true"
-          (click)="button.isOpenOnClick?button.visibleDropdown = !button.visibleDropdown:true">
+          <div class="nwe-dropdown" (mouseenter)="button.isOpenOnMouseOver?button.visibleDropdown = true:true" (mouseleave)="button.isOpenOnMouseOver?button.visibleDropdown = false:true"
+          (click)="!button.isOpenOnMouseOver?button.visibleDropdown = !button.visibleDropdown:true">
             <button type="button" class="nw-button" [ngClass]="[button.styleClass]" [title]="button.title" [disabled]="disabled"
               tabindex="-1">
               <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
