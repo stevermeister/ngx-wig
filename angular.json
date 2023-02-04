@@ -22,9 +22,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": [],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
