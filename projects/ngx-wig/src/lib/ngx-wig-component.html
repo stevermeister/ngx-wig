@@ -18,20 +18,37 @@
           </button>
         </div>
         <ng-template #selectMenu>
-          <div class="nwe-dropdown" (mouseenter)="button.isOpenOnMouseOver?button.visibleDropdown = true:true" (mouseleave)="button.isOpenOnMouseOver?button.visibleDropdown = false:true"
-          (click)="!button.isOpenOnMouseOver?button.visibleDropdown = !button.visibleDropdown:true">
-            <button type="button" class="nw-button" [ngClass]="[button.styleClass]" [title]="button.title" [disabled]="disabled"
-              tabindex="-1">
+          <div class="nwe-dropdown"
+                (mouseenter)="button.isOpenOnMouseOver?button.visibleDropdown = true:true"
+                (mouseleave)="button.isOpenOnMouseOver?button.visibleDropdown = false:true"
+                (click)="!button.isOpenOnMouseOver?button.visibleDropdown = !button.visibleDropdown:true">
+            <button type="button"
+                  class="nw-button"
+                  [ngClass]="[button.styleClass]"
+                  [title]="button.title"
+                  [disabled]="disabled"
+                  tabindex="-1">
               <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
-              <div *ngIf="button.icon" class="nwe-icon" [ngClass]="[button.icon]">
+              <div *ngIf="button.icon"
+                    class="nwe-icon"
+                    [ngClass]="[button.icon]">
               </div>
             </button>
-            <div class="nwe-dropdown-content" [ngClass]="button.visibleDropdown ? ['nwe-show'] : ['']">
-              <a *ngFor="let child of button.children" href="#">
-                <button type="button" class="nw-button" [ngClass]="[child.styleClass]" [title]="child.title"
-                  (click)="execCommand(child.command)" [disabled]="disabled" tabindex="-1">
+            <div class="nwe-dropdown-content"
+                  [ngClass]="button.visibleDropdown ? 'nwe-show' : ''">
+              <a *ngFor="let child of button.children"
+                    href="#">
+                <button type="button"
+                      class="nw-button"
+                      [ngClass]="[child.styleClass]"
+                      [title]="child.title"
+                      (click)="execCommand(child.command)"
+                      [disabled]="disabled"
+                      tabindex="-1">
                   <ng-container *ngIf="!child.icon">{{ child.label }}</ng-container>
-                  <div *ngIf="child.icon" class="nwe-icon" [ngClass]="[child.icon]">
+                  <div *ngIf="child.icon"
+                        class="nwe-icon"
+                        [ngClass]="[child.icon]">
                   </div>
                 </button>
               </a>
