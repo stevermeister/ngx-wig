@@ -11,6 +11,7 @@ export interface TButton {
   command?: string | CommandFunction;
   styleClass?: string;
   visibleDropdown?: boolean;
+  isOpenOnMouseOver?: boolean;
 }
 
 export interface TButtonLibrary {
