@@ -11,13 +11,13 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 18
       - name: Install Angular CLI
         run: npm install -g @angular/cli @angular/core
       - name: Install NPM Dependencies
         run: npm ci
       - name: Build project
-        run: ng build --configuration production --project=ngx-wig
+        run: npm run build
       - name: Publish to NPM
         uses: JS-DevTools/npm-publish@v1
         with:
