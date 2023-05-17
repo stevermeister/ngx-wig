@@ -1,7 +1,6 @@
 {
   "extends": "./tsconfig.lib.json",
   "compilerOptions": {
-    "compilationMode": "partial",
     "declarationMap": false
   },
   "angularCompilerOptions": {
