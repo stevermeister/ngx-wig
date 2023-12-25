@@ -9,16 +9,17 @@
 *it's only Angular! No jQuery or other WYSIWYG monsters*
 
 
-## Angular Support
+## Angular Support (older than the latest version)
 
-For **Angular 12** `ngx-wig@12.0.0`
-For **Angular 11** `ngx-wig@11.0.0`
-For **Angular 10** `ngx-wig@10.0.0` 
-For **Angular 9** `ngx-wig@9.0.0` 
-Since **Angular 8** we sync the version and now for each AngularX you will be able to use ngx-wig version X.
-For **Angular 7** `ngx-wig@2.0.0` 
-For **Angular 6** `ngx-wig@1.6.0`  
-For **Angular 4** and **Angular = ^5** - use version `ngx-wig@1.2.7`  
+For **Angular 16** `ngx-wig@16.0.0`
+
+For **Angular 15** `ngx-wig@15.1.4`
+
+For **Angular 14** `ngx-wig@14.0.7`
+
+For **Angular 13** `ngx-wig@13.1.6` 
+
+...
 
 ## Icons
 
@@ -26,22 +27,18 @@ Icons are not in the pack!
 You can use the icons that you like.
 We recommend to use [Material Design Icons](https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css)
 
-If you dont want to use full icons set, you can use these steps:
+If you do not want to use a full icons set, you can use these steps:
 
 1. go to [icons set](https://materialdesignicons.com/)
-1. choose the icon that you want, press the right mouse button on it, and then select "View SVG" option
+1. choose the icon that you want, press the right mouse button on it, and then select the "View SVG" option
 1. go to [URL-encoder for SVG](https://yoksel.github.io/url-encoder/) and use it to convert your SVG
 
 ## Installation
 
 ngx-wig could be simply installed via npm:
 
-    npm install ngx-wig --save
+    npm install ngx-wig
 
-### Important note:
-
-The last version on ngx-wig that was built for Angular 4.x is 0.3.6.
-Any higher version may be not fully compatible with Angular version lower than 5.0.0.
 
 ## Usage
 
@@ -55,7 +52,7 @@ import {NgxWigModule} from 'ngx-wig';
 });
 ```
 
-it's just attribute directive for textarea:
+it's just an attribute directive for textarea:
 
 ```html
 <link href="https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css" rel="stylesheet" />
