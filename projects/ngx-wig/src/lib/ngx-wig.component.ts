@@ -159,7 +159,7 @@ export class NgxWigComponent
 
   onPaste(event: ClipboardEvent) {
     event.preventDefault();
-    const text = event.clipboardData?.getData('text/plain') || '';
+    const text = event.clipboardData?.getData('text/plain') ?? '';
     if (this._filterService){
       this.pasteHtmlAtCaret(this._filterService.filter(text));
     } else {
