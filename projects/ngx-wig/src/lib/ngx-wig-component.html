@@ -79,6 +79,7 @@
              class="nw-editor__res"
              [attr.contenteditable]="!disabled"
              [ngClass]="{ disabled: disabled}"
+             (paste)="onPaste($event)"
              (focus)="hasFocus = true"
              (blur)="onBlur()"
              (input)="onContentChange(ngWigEditable.innerHTML)"><!--
