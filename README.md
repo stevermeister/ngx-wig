@@ -111,6 +111,14 @@ it's just an attribute directive for textarea:
 Please check an example here
 https://stackblitz.com/edit/ngx-wig-sample-plugins?file=src/app.ts
 
+
+### Filtering/removing extra styles on paste
+
+Please check an example here
+https://stackblitz.com/edit/ngx-wig-sample-plugins?file=src/app.ts
+
+
+
 ## Development
 
 To generate all `*.js`, `*.d.ts` and `*.metadata.json` files:
