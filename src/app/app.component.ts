@@ -1,11 +1,15 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { NgxWigFilterService, NgxWigFilterStylesService } from 'ngx-wig';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  // providers: [
+  //   { provide: NgxWigFilterService, useClass: NgxWigFilterStylesService}
+  // ]
 })
 export class AppComponent {
 
