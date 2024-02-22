@@ -9,8 +9,8 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2 # Updated to use v2
-      - uses: actions/setup-node@v3 # Updated to use v3
+      - uses: actions/checkout@v4 # Updated to use v2
+      - uses: actions/setup-node@v4 # Updated to use v3
         with:
           node-version: 18
           registry-url: 'https://registry.npmjs.org/' # Added for npm to configure auth
