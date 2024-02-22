@@ -62,49 +62,44 @@ it's just an attribute directive for textarea:
 
 ## Examples
 
-### Quick start ( [demo](https://stackblitz.com/edit/ngx-wig-sample2?file=src%2Fapp.ts) )
+### Quick start ( [demo](https://stackblitz.com/edit/stackblitz-starters-61ajke?file=src%2Fmain.ts) )
 
 ```html
 <ngx-wig [content]="text1"></ngx-wig>
 ```
 
-### Placeholder ( [demo](https://stackblitz.com/edit/ngx-wig-sample3?file=src/app.ts) )
+### Placeholder ( [demo](https://stackblitz.com/edit/stackblitz-starters-5lq68z?file=src%2Fmain.ts) )
 
 ```html
 <ngx-wig [content]="text1" [placeholder]="'Enter instructions here.'"></ngx-wig>
 ```
 
-### ngModel sync ( [demo](https://stackblitz.com/edit/ngx-wig-sample4?file=src/app.ts) )
+### ngModel sync ( [demo](https://stackblitz.com/edit/stackblitz-starters-go26xc?file=src%2Fmain.ts) )
 
 ```html
 <ngx-wig [(ngModel)]="text1"></ngx-wig>
 <ngx-wig [(ngModel)]="text1"></ngx-wig>
 ```
 
-### Set buttons ( [demo](https://stackblitz.com/edit/ngx-wig-sample5?file=src/app.ts) )
+### Set buttons ( [demo](https://stackblitz.com/edit/stackblitz-starters-qohotg?file=src%2Fmain.ts) )
 
 ```html
 <ngx-wig [content]="text1" [buttons]="'bold, italic'"></ngx-wig>
 ```
 
-### onContentChange Hook ( [demo](https://stackblitz.com/edit/ngx-wig-sample6?file=src/app.ts) )
+### onContentChange Hook ( [demo](https://stackblitz.com/edit/stackblitz-starters-cl6k3s?file=src%2Fmain.ts) )
 
 ```html
 <ngx-wig [content]="text1" (contentChange)="result = $event"></ngx-wig>
 <div [innerHTML]="result"></div>
 ```
 
-### Reactive FormControl ( [demo](https://stackblitz.com/edit/ngx-wig-sample7?file=src/app.ts) )
+### Reactive FormControl ( [demo](https://stackblitz.com/edit/stackblitz-starters-hgna7m?file=src%2Fmain.ts) )
 
 ```html
 <ngx-wig [formControl]="text1"></ngx-wig>
 ```
 
-### Two-way binding ( [demo](https://stackblitz.com/edit/ngx-wig-sample8?file=src/app.ts) )
-
-```html
-<ngx-wig [(ngModel)]="text1"></ngx-wig>
-```
 
 ### Adding own buttons
 
