@@ -12,12 +12,14 @@ import {
   forwardRef,
   Inject,
   OnDestroy,
+  Optional,
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
 import { DOCUMENT } from '@angular/common';
 import { TButton, CommandFunction } from './config';
+import { NgxWigFilterService } from './ngx-wig-filter.service';
 
 /** @dynamic */
 @Component({
@@ -30,7 +32,7 @@ import { TButton, CommandFunction } from './config';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => NgxWigComponent),
       multi: true,
-    },
+    }
   ],
   encapsulation: ViewEncapsulation.None,
 })
@@ -63,6 +65,7 @@ export class NgxWigComponent
 
   public constructor(
     private _ngWigToolbarService: NgxWigToolbarService,
+    @Optional() private _filterService: NgxWigFilterService,
     @Inject(DOCUMENT) private document: any, // cannot set Document here - Angular issue - https://github.com/angular/angular/issues/20351
     @Inject('WINDOW') private window
   ) {}
@@ -145,7 +148,22 @@ export class NgxWigComponent
       this.container.innerHTML = '';
 
       // add the new content
-      this.pasteHtmlAtCaret(changes['content'].currentValue);
+      if (this._filterService){
+        this.pasteHtmlAtCaret(this._filterService.filter(changes['content'].currentValue));
+      } else {
+        this.pasteHtmlAtCaret(changes['content'].currentValue);
+      }
+      
+    }
+  }
+
+  onPaste(event: ClipboardEvent) {
+    event.preventDefault();
+    const text = event.clipboardData?.getData('text/plain') ?? '';
+    if (this._filterService){
+      this.pasteHtmlAtCaret(this._filterService.filter(text));
+    } else {
+      this.pasteHtmlAtCaret(text);
     }
   }
 
