@@ -107,10 +107,11 @@ Please check an example here
 https://stackblitz.com/edit/ngx-wig-sample-plugins?file=src/app.ts
 
 
-### Filtering/removing extra styles on paste
+### Filtering/removing extra styles on paste ( [demo](https://stackblitz.com/edit/stackblitz-starters-ysmo2d?file=src%2Fmain.ts) )
 
-Please check an example here
-https://stackblitz.com/edit/ngx-wig-sample-plugins?file=src/app.ts
+```typescript
+providers: [{ provide: NgxWigFilterService, useClass: NgxWigFilterStylesService}]
+```
 
 
 
