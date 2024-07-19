@@ -153,13 +153,18 @@ export class NgxWigComponent
       } else {
         this.pasteHtmlAtCaret(changes['content'].currentValue);
       }
-      
+
     }
   }
 
   onPaste(event: ClipboardEvent) {
     event.preventDefault();
-    const text = event.clipboardData?.getData('text/html') ?? '';
+
+    let text = event.clipboardData?.getData('text/html') ?? '';
+    if (text.length == 0) {
+      text = event.clipboardData?.getData('text/plain') ?? '';
+    }
+
     if (this._filterService){
       this.pasteHtmlAtCaret(this._filterService.filter(text));
     } else {
