@@ -166,7 +166,7 @@ export class NgxWigComponent
       this.pasteHtmlAtCaret(text);
     }
 
-    this.onContentChange(this.container.innerHTML)
+    this.onContentChange(this.container.innerHTML);
   }
 
   public onTextareaChange(newContent: string): void {
