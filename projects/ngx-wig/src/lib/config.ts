@@ -49,7 +49,7 @@ export const DEFAULT_LIBRARY_BUTTONS: TButtonLibrary = {
   },
   link: {
     label: 'Link',
-    title: 'Link',
+    title: 'Add or remove link',
     command: 'createlink',
     styleClass: 'nw-link',
     icon: 'nwe-icon-link'
