@@ -215,6 +215,58 @@ describe('NgxWigComponent', () => {
       });
     });
 
+    describe('isLinkSelected method', () => {
+      function mockGetSelection(
+        selectionText: string,
+        selection: Partial<Selection> | null = null
+      ) {
+        spyOn(window, 'getSelection').and.returnValue({
+          toString: () => selectionText,
+          ...selection,
+        } as Selection);
+      }
+    
+      it('should return false if there is no selection', () => {
+        mockGetSelection('');
+        expect(component.isLinkSelected()).toBe(false);
+      });
+    
+      it('should return false if the selection is not within a link', () => {
+        const selection = {
+          focusNode: { parentNode: { nodeName: 'SPAN' } },
+          anchorNode: { parentNode: { nodeName: 'SPAN' } },
+        } as Partial<Selection>;
+        mockGetSelection('text', selection);
+    
+        expect(component.isLinkSelected()).toBe(false);
+      });
+    
+      it('should return true if the focusNode is within a link', () => {
+        const selection = {
+          focusNode: { parentNode: { nodeName: 'A' } },
+          anchorNode: { parentNode: { nodeName: 'SPAN' } },
+        } as Partial<Selection>;
+        mockGetSelection('text', selection);
+    
+        expect(component.isLinkSelected()).toBe(true);
+      });
+    
+      it('should return true if the anchorNode is within a link', () => {
+        const selection = {
+          focusNode: { parentNode: { nodeName: 'DIV' } },
+          anchorNode: { parentNode: { nodeName: 'A' } },
+        } as Partial<Selection>;
+        mockGetSelection('text', selection);
+    
+        expect(component.isLinkSelected()).toBe(true);
+      });
+    
+      it('should return false if selection is null', () => {
+        mockGetSelection('text', null);
+        expect(component.isLinkSelected()).toBe(false);
+      });
+    }); 
+
     describe('execCommand', () => {
       it('should call execCommand', () => {
         const spy = spyOn(component, 'execCommand');
@@ -264,6 +316,18 @@ describe('NgxWigComponent', () => {
         expect(page.promptSpy.calls.any()).toBe(false);
       });
 
+      it('should not show a prompt when the command is createlink and selected text contains a link', () => {
+        spyOn(component, 'isLinkSelected').and.returnValue(true)
+        component.execCommand('createlink', '');
+        expect(page.promptSpy.calls.any()).toBe(false);
+      });
+
+      it('should execute unlink command', () => {
+        spyOn(component, 'isLinkSelected').and.returnValue(true)
+        component.execCommand('createlink', '');
+        expect(page.execCommandSpy).toHaveBeenCalledWith('unlink', false);
+      });
+      
       it('should return if the prompt is cancelled', () => {
         page.promptSpy.and.returnValue(undefined);
         component.execCommand('createlink', '');
