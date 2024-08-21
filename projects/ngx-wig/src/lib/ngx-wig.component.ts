@@ -89,7 +89,7 @@ export class NgxWigComponent
     ) {
       throw new Error(`The command "${command}" is not supported`);
     }
-    if (command === 'createlink' || command === 'insertImage') {
+    if ((command === 'createlink' && !this.isLinkSelected()) || command === 'insertImage') {
       options = window.prompt('Please enter the URL', 'http://') || '';
       if (!options) {
         return false;
@@ -100,13 +100,13 @@ export class NgxWigComponent
 
     // use insertHtml for `createlink` command to account for IE/Edge purposes, in case there is no selection
     const selection = this.document.getSelection().toString();
+    const isCreateLink = command === 'createlink';
 
-    if (command === 'createlink' && selection === '') {
-      this.document.execCommand(
-        'insertHtml',
-        false,
-        '<a href="' + options + '">' + options + '</a>'
-      );
+    if (isCreateLink && this.isLinkSelected()) {
+      this.document.execCommand('unlink', false);
+    } else if (isCreateLink && !selection) {
+      const linkHtml = `<a href="${options}">${options}</a>`;
+      this.document.execCommand('insertHtml', false, linkHtml);
     } else {
       this.document.execCommand(command, false, options);
     }
@@ -214,6 +214,19 @@ export class NgxWigComponent
     const htmlDoc = parser.parseFromString(content, 'text/html');
 
     return htmlDoc.documentElement?.innerText === '';
+  }
+
+  public isLinkSelected(): boolean {
+    if (window.getSelection()?.toString() === '')
+      return false;
+
+    const selection = window.getSelection();
+    if (!selection) return false;
+
+    return (
+      selection.focusNode?.parentNode?.nodeName === 'A' ||
+      selection.anchorNode?.parentNode?.nodeName === 'A'
+    );
   }
 
   private pasteHtmlAtCaret(html) {
