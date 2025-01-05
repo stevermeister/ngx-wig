@@ -9,9 +9,10 @@ import { NgxWigComponent } from './ngx-wig.component';
 const mockWindow = {};
 
 @Component({
-  template: `<ngx-wig
+    template: `<ngx-wig
     [(ngModel)]="text">
-  </ngx-wig>`
+  </ngx-wig>`,
+    standalone: false
 })
 class TestNgModelHostComponent {
   @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
@@ -20,13 +21,14 @@ class TestNgModelHostComponent {
 }
 
 @Component({
-  template: `<ngx-wig
+    template: `<ngx-wig
     [content]="text"
     (contentChange)="text = $event"
     placeholder="Enter some text"
     buttons="bold,italic"
     [disabled]="false">
-  </ngx-wig>`
+  </ngx-wig>`,
+    standalone: false
 })
 class TestHostComponent {
   @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
