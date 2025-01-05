@@ -11,13 +11,20 @@
 
 ## Angular Support (older than the latest version)
 
-For **Angular 16** `ngx-wig@16.0.0`
 
-For **Angular 15** `ngx-wig@15.1.4`
+For **Angular 19** `ngx-wig@19`
 
-For **Angular 14** `ngx-wig@14.0.7`
+For **Angular 18** `ngx-wig@18`
 
-For **Angular 13** `ngx-wig@13.1.6` 
+For **Angular 17** `ngx-wig@17`
+
+For **Angular 16** `ngx-wig@16`
+
+For **Angular 15** `ngx-wig@15`
+
+For **Angular 14** `ngx-wig@14`
+
+For **Angular 13** `ngx-wig@13` 
 
 ...
 
