@@ -73,16 +73,18 @@ export class NgxWigComponent
 
   private executeCommand(command: string, value: string = ''): boolean {
     try {
-      // Try modern approach first
-      if (this.container.contentEditable === 'true') {
-        if (command === 'unlink') {
-          this.document.execCommand(command, false);
-        } else {
-          this.document.execCommand(command, false, value);
-        }
-        return true;
+      if (this.container.contentEditable !== 'true') {
+        return false;
       }
-      return false;
+
+      // For now, use execCommand for backward compatibility
+      // TODO: Replace with modern APIs when execCommand is fully deprecated
+      if (command === 'unlink') {
+        this.document.execCommand(command, false);
+      } else {
+        this.document.execCommand(command, false, value);
+      }
+      return true;
     } catch (error) {
       console.warn(`Command execution failed: ${command}`, error);
       return false;
