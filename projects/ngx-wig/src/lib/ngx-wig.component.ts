@@ -62,13 +62,13 @@ export class NgxWigComponent
   public toolbarButtons: TButton[] = [];
   public hasFocus = false;
 
-  private _mutationObserver: MutationObserver;
+  private readonly _mutationObserver: MutationObserver;
 
   public constructor(
-    private _ngWigToolbarService: NgxWigToolbarService,
-    @Optional() private _filterService: NgxWigFilterService,
-    @Inject(DOCUMENT) private document: any, // cannot set Document here - Angular issue - https://github.com/angular/angular/issues/20351
-    @Inject('WINDOW') private window
+    private readonly _ngWigToolbarService: NgxWigToolbarService,
+    @Optional() private readonly _filterService: NgxWigFilterService,
+    @Inject(DOCUMENT) private readonly document: Document, // cannot set Document here - Angular issue - https://github.com/angular/angular/issues/20351
+    @Inject('WINDOW') private readonly window
   ) {}
 
   public execCommand(
@@ -100,12 +100,13 @@ export class NgxWigComponent
     this.container.focus();
 
     // use insertHtml for `createlink` command to account for IE/Edge purposes, in case there is no selection
-    const selection = this.document.getSelection().toString();
+    const selection = this.document.getSelection();
+    const selectionText = selection?.toString() || '';
     const isCreateLink = command === 'createlink';
 
     if (isCreateLink && this.isLinkSelected()) {
       this.document.execCommand('unlink', false);
-    } else if (isCreateLink && !selection) {
+    } else if (isCreateLink && !selectionText) {
       const linkHtml = `<a href="${options}">${options}</a>`;
       this.document.execCommand('insertHtml', false, linkHtml);
     } else {
