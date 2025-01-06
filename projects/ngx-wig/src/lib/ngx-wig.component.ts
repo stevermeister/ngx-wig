@@ -84,12 +84,14 @@ export class NgxWigComponent
       return false;
     }
 
-    if (
-      this.document.queryCommandSupported &&
-      !this.document.queryCommandSupported(command)
-    ) {
+    if (typeof command !== 'string' || !command) {
+      return false;
+    }
+
+    if (!this.isSupportedCommand(command)) {
       throw new Error(`The command "${command}" is not supported`);
     }
+
     if ((command === 'createlink' && !this.isLinkSelected()) || command === 'insertImage') {
       options = window.prompt('Please enter the URL', 'http://') || '';
       if (!options) {
@@ -99,16 +101,8 @@ export class NgxWigComponent
 
     this.container.focus();
 
-    // use insertHtml for `createlink` command to account for IE/Edge purposes, in case there is no selection
-    const selection = this.document.getSelection();
-    const selectionText = selection?.toString() || '';
-    const isCreateLink = command === 'createlink';
-
-    if (isCreateLink && this.isLinkSelected()) {
+    if (command === 'createlink' && this.isLinkSelected()) {
       this.document.execCommand('unlink', false);
-    } else if (isCreateLink && !selectionText) {
-      const linkHtml = `<a href="${options}">${options}</a>`;
-      this.document.execCommand('insertHtml', false, linkHtml);
     } else {
       this.document.execCommand(command, false, options);
     }
@@ -264,6 +258,23 @@ export class NgxWigComponent
         }
       }
     }
+  }
+
+  private isSupportedCommand(command: string): boolean {
+    // List of commonly supported commands across modern browsers
+    const supportedCommands = [
+      'bold', 'italic', 'underline',
+      'strikethrough', 'subscript', 'superscript',
+      'justifycenter', 'justifyfull', 'justifyleft', 'justifyright',
+      'indent', 'outdent',
+      'insertorderedlist', 'insertunorderedlist',
+      'createlink', 'unlink',
+      'inserthtml', 'insertimage',
+      'formatblock',
+      'removeformat'
+    ];
+
+    return supportedCommands.includes(command.toLowerCase());
   }
 
   private propagateChange: any = (_: any) => {};
