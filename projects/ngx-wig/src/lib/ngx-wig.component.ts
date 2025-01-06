@@ -108,7 +108,7 @@ export class NgxWigComponent
     }
 
     if ((command === 'createlink' && !this.isLinkSelected()) || command === 'insertImage') {
-      options = window.prompt('Please enter the URL', 'http://') || '';
+      options = window.prompt('Please enter the URL', 'http://') ?? '';
       if (!options) {
         return false;
       }
@@ -120,7 +120,7 @@ export class NgxWigComponent
     if (command === 'createlink' && this.isLinkSelected()) {
       success = this.executeCommand('unlink');
     } else {
-      success = this.executeCommand(command, options || '');
+      success = this.executeCommand(command, options ?? '');
     }
 
     if (success) {
@@ -175,7 +175,7 @@ export class NgxWigComponent
   onPaste(event: ClipboardEvent) {
     event.preventDefault();
 
-    const text = event.clipboardData?.getData('text/html') || event.clipboardData?.getData('text/plain') || '';
+    const text = event.clipboardData?.getData('text/html') ?? event.clipboardData?.getData('text/plain') ?? '';
 
     if (this._filterService){
       this.pasteHtmlAtCaret(this._filterService.filter(text));
@@ -193,10 +193,7 @@ export class NgxWigComponent
   }
 
   public writeValue(value: any): void {
-    if (!value) {
-      value = '';
-    }
-
+    value = value ?? '';
     this.container.innerHTML = value;
     this.content = value;
   }
