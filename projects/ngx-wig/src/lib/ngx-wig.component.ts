@@ -62,19 +62,36 @@ export class NgxWigComponent
   public toolbarButtons: TButton[] = [];
   public hasFocus = false;
 
-  private _mutationObserver: MutationObserver;
+  private readonly _mutationObserver: MutationObserver;
 
   public constructor(
-    private _ngWigToolbarService: NgxWigToolbarService,
-    @Optional() private _filterService: NgxWigFilterService,
-    @Inject(DOCUMENT) private document: any, // cannot set Document here - Angular issue - https://github.com/angular/angular/issues/20351
-    @Inject('WINDOW') private window
+    private readonly _ngWigToolbarService: NgxWigToolbarService,
+    @Optional() private readonly _filterService: NgxWigFilterService,
+    @Inject(DOCUMENT) private readonly document: Document, // cannot set Document here - Angular issue - https://github.com/angular/angular/issues/20351
+    @Inject('WINDOW') private readonly window
   ) {}
 
-  public execCommand(
-    command: string | CommandFunction,
-    options?: string
-  ): boolean {
+  private executeCommand(command: string, value: string = ''): boolean {
+    try {
+      if (this.container.contentEditable !== 'true') {
+        return false;
+      }
+
+      // For now, use execCommand for backward compatibility
+      // TODO: Replace with modern APIs when execCommand is fully deprecated
+      if (command === 'unlink') {
+        this.document.execCommand(command, false);
+      } else {
+        this.document.execCommand(command, false, value);
+      }
+      return true;
+    } catch (error) {
+      console.warn(`Command execution failed: ${command}`, error);
+      return false;
+    }
+  }
+
+  public execCommand(command: string | CommandFunction, options?: string): boolean {
     if (typeof command === 'function') {
       command(this);
       return true;
@@ -84,14 +101,16 @@ export class NgxWigComponent
       return false;
     }
 
-    if (
-      this.document.queryCommandSupported &&
-      !this.document.queryCommandSupported(command)
-    ) {
+    if (typeof command !== 'string' || !command) {
+      return false;
+    }
+
+    if (!this.isSupportedCommand(command)) {
       throw new Error(`The command "${command}" is not supported`);
     }
+
     if ((command === 'createlink' && !this.isLinkSelected()) || command === 'insertImage') {
-      options = window.prompt('Please enter the URL', 'http://') || '';
+      options = window.prompt('Please enter the URL', 'http://') ?? '';
       if (!options) {
         return false;
       }
@@ -99,21 +118,18 @@ export class NgxWigComponent
 
     this.container.focus();
 
-    // use insertHtml for `createlink` command to account for IE/Edge purposes, in case there is no selection
-    const selection = this.document.getSelection().toString();
-    const isCreateLink = command === 'createlink';
-
-    if (isCreateLink && this.isLinkSelected()) {
-      this.document.execCommand('unlink', false);
-    } else if (isCreateLink && !selection) {
-      const linkHtml = `<a href="${options}">${options}</a>`;
-      this.document.execCommand('insertHtml', false, linkHtml);
+    let success = false;
+    if (command === 'createlink' && this.isLinkSelected()) {
+      success = this.executeCommand('unlink');
     } else {
-      this.document.execCommand(command, false, options);
+      success = this.executeCommand(command, options ?? '');
     }
 
-    this.onContentChange(this.container.innerHTML);
-    return true;
+    if (success) {
+      this.onContentChange(this.container.innerHTML);
+    }
+    
+    return success;
   }
 
   public ngOnInit(): void {
@@ -161,7 +177,7 @@ export class NgxWigComponent
   onPaste(event: ClipboardEvent) {
     event.preventDefault();
 
-    const text = event.clipboardData?.getData('text/html') || event.clipboardData?.getData('text/plain') || '';
+    const text = event.clipboardData?.getData('text/html') ?? event.clipboardData?.getData('text/plain') ?? '';
 
     if (this._filterService){
       this.pasteHtmlAtCaret(this._filterService.filter(text));
@@ -179,10 +195,7 @@ export class NgxWigComponent
   }
 
   public writeValue(value: any): void {
-    if (!value) {
-      value = '';
-    }
-
+    value = value ?? '';
     this.container.innerHTML = value;
     this.content = value;
   }
@@ -263,6 +276,23 @@ export class NgxWigComponent
         }
       }
     }
+  }
+
+  private isSupportedCommand(command: string): boolean {
+    // List of commonly supported commands across modern browsers
+    const supportedCommands = [
+      'bold', 'italic', 'underline',
+      'strikethrough', 'subscript', 'superscript',
+      'justifycenter', 'justifyfull', 'justifyleft', 'justifyright',
+      'indent', 'outdent',
+      'insertorderedlist', 'insertunorderedlist',
+      'createlink', 'unlink',
+      'inserthtml', 'insertimage',
+      'formatblock',
+      'removeformat'
+    ];
+
+    return supportedCommands.includes(command.toLowerCase());
   }
 
   private propagateChange: any = (_: any) => {};
