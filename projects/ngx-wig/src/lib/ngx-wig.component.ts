@@ -71,10 +71,25 @@ export class NgxWigComponent
     @Inject('WINDOW') private readonly window
   ) {}
 
-  public execCommand(
-    command: string | CommandFunction,
-    options?: string
-  ): boolean {
+  private executeCommand(command: string, value: string = ''): boolean {
+    try {
+      // Try modern approach first
+      if (this.container.contentEditable === 'true') {
+        if (command === 'unlink') {
+          this.document.execCommand(command, false);
+        } else {
+          this.document.execCommand(command, false, value);
+        }
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.warn(`Command execution failed: ${command}`, error);
+      return false;
+    }
+  }
+
+  public execCommand(command: string | CommandFunction, options?: string): boolean {
     if (typeof command === 'function') {
       command(this);
       return true;
@@ -101,14 +116,18 @@ export class NgxWigComponent
 
     this.container.focus();
 
+    let success = false;
     if (command === 'createlink' && this.isLinkSelected()) {
-      this.document.execCommand('unlink', false);
+      success = this.executeCommand('unlink');
     } else {
-      this.document.execCommand(command, false, options);
+      success = this.executeCommand(command, options || '');
     }
 
-    this.onContentChange(this.container.innerHTML);
-    return true;
+    if (success) {
+      this.onContentChange(this.container.innerHTML);
+    }
+    
+    return success;
   }
 
   public ngOnInit(): void {
