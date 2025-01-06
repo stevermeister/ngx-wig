@@ -23,18 +23,19 @@ import { NgxWigFilterService } from './ngx-wig-filter.service';
 
 /** @dynamic */
 @Component({
-  selector: 'ngx-wig',
-  templateUrl: './ngx-wig-component.html',
-  styleUrls: ['./ngx-wig-component.css'],
-  providers: [
-    NgxWigToolbarService,
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NgxWigComponent),
-      multi: true,
-    }
-  ],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'ngx-wig',
+    templateUrl: './ngx-wig-component.html',
+    styleUrls: ['./ngx-wig-component.css'],
+    providers: [
+        NgxWigToolbarService,
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => NgxWigComponent),
+            multi: true,
+        }
+    ],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class NgxWigComponent
   implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
