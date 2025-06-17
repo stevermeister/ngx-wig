@@ -143,6 +143,20 @@ export class NgxWigComponent
     }
   }
 
+  public toggleDropdown(button: TButton): void {
+    if (button.isOpenOnMouseOver) {
+      return;
+    }
+
+    const newState = !button.visibleDropdown;
+    this.toolbarButtons.forEach(b => {
+      if (b !== button) {
+        b.visibleDropdown = false;
+      }
+    });
+    button.visibleDropdown = newState;
+  }
+
   public ngOnDestroy(): void {
     if (this._mutationObserver) {
       this._mutationObserver.disconnect();
