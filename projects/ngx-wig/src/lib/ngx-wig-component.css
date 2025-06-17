@@ -317,14 +317,16 @@ div.select-menu>select {
   z-index: 1;
 }
 
-.nwe-dropdown-content a {
+.nwe-dropdown-content button {
   color: black;
   padding: 10px 10px;
   text-decoration: none;
   display: inline-flex;
   width: fit-content;
+  background: none;
+  border: none;
 }
 
-.nwe-dropdown a:hover {background-color: #ddd;}
+.nwe-dropdown button:hover {background-color: #ddd;}
 
 .nwe-show {display: block;}
