@@ -13,11 +13,11 @@ import {
   Inject,
   OnDestroy,
   Optional,
+  DOCUMENT
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
-import { DOCUMENT } from '@angular/common';
 import { TButton, CommandFunction } from './config';
 import { NgxWigFilterService } from './ngx-wig-filter.service';
 
