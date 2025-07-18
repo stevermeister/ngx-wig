@@ -91,7 +91,7 @@ export class NgxWigComponent
     }
   }
 
-  public execCommand(command: string | CommandFunction, options?: string): boolean {
+  public execCommand(command: string | CommandFunction | undefined, options?: string): boolean {
     if (typeof command === 'function') {
       command(this);
       return true;

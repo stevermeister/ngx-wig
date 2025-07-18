@@ -1,89 +1,111 @@
 <div class="ng-wig">
-    <ul class="nw-toolbar">
-      <li *ngFor="let button of toolbarButtons"
-          class="nw-toolbar__item">
-        <div *ngIf="!button?.children ; else selectMenu">
-          <button type="button"
-                  class="nw-button"
-                  [ngClass]="[button.styleClass]"
-                  [title]="button.title"
-                  (click)="execCommand(button.command)"
-                  [disabled]="disabled"
-                  tabindex="-1">
-            <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
-            <div *ngIf="button.icon"
-                 class="nwe-icon"
-                 [ngClass]="[button.icon]">
-            </div>
-          </button>
-        </div>
-        <ng-template #selectMenu>
-          <div class="nwe-dropdown"
-                (mouseenter)="button.isOpenOnMouseOver?button.visibleDropdown = true:true"
-                (mouseleave)="button.isOpenOnMouseOver?button.visibleDropdown = false:true"
-                (click)="!button.isOpenOnMouseOver?button.visibleDropdown = !button.visibleDropdown:true">
-            <button type="button"
-                  class="nw-button"
-                  [ngClass]="[button.styleClass]"
-                  [title]="button.title"
-                  [disabled]="disabled"
-                  tabindex="-1">
-              <ng-container *ngIf="!button.icon">{{ button.label }}</ng-container>
-              <div *ngIf="button.icon"
-                    class="nwe-icon"
-                    [ngClass]="[button.icon]">
-              </div>
+  <ul class="nw-toolbar">
+    @for (button of toolbarButtons; track button) {
+    <li class="nw-toolbar__item">
+      @if (button.children) {
+      <div
+        class="nwe-dropdown"
+        (mouseenter)="button.isOpenOnMouseOver?button.visibleDropdown = true:true"
+        (mouseleave)="button.isOpenOnMouseOver?button.visibleDropdown = false:true"
+        (click)="!button.isOpenOnMouseOver?button.visibleDropdown = !button.visibleDropdown:true"
+      >
+        <button
+          type="button"
+          class="nw-button"
+          [ngClass]="[button.styleClass]"
+          [title]="button.title"
+          [disabled]="disabled"
+          tabindex="-1"
+        >
+          @if (button.icon) {
+          <div class="nwe-icon" [ngClass]="[button.icon]"></div>
+          } @else {<!--
+             -->{{ button.label }}<!--
+          -->}
+        </button>
+        <div
+          class="nwe-dropdown-content"
+          [ngClass]="button.visibleDropdown ? 'nwe-show' : ''"
+        >
+          @for (child of button.children; track child) {
+          <a href="#">
+            <button
+              type="button"
+              class="nw-button"
+              [ngClass]="[child.styleClass]"
+              [title]="child.title"
+              (click)="execCommand(child.command)"
+              [disabled]="disabled"
+              tabindex="-1"
+            >
+              @if (child.icon) {
+              <div class="nwe-icon" [ngClass]="[child.icon]"></div>
+              } @else {<!--
+                -->{{ child.label }}<!--
+              -->}
             </button>
-            <div class="nwe-dropdown-content"
-                  [ngClass]="button.visibleDropdown ? 'nwe-show' : ''">
-              <a *ngFor="let child of button.children"
-                    href="#">
-                <button type="button"
-                      class="nw-button"
-                      [ngClass]="[child.styleClass]"
-                      [title]="child.title"
-                      (click)="execCommand(child.command)"
-                      [disabled]="disabled"
-                      tabindex="-1">
-                  <ng-container *ngIf="!child.icon">{{ child.label }}</ng-container>
-                  <div *ngIf="child.icon"
-                        class="nwe-icon"
-                        [ngClass]="[child.icon]">
-                  </div>
-                </button>
-              </a>
-            </div>
-          </div>
-        </ng-template>
-      </li>
-    </ul>
-
-    <div class="nw-editor-container"
-         (click)="container.focus()"
-         [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }">
-      <div *ngIf="editMode"
-           class="nw-editor__src-container">
-        <textarea [ngModel]="content"
-                  (ngModelChange)="onTextareaChange($event)"
-                  (blur)="propagateTouched()"
-                  class="nw-editor__src">
-        </textarea>
-      </div>
-      <div class="nw-editor"
-           [ngClass]="{ 'nw-disabled': disabled,'nw-invisible': editMode }">
-        <div *ngIf="shouldShowPlaceholder()"
-             class="nw-editor__placeholder"
-             [innerText]="placeholder">
+          </a>
+          }
         </div>
-        <div #ngWigEditable
-             class="nw-editor__res"
-             [attr.contenteditable]="!disabled"
-             [ngClass]="{ disabled: disabled}"
-             (paste)="onPaste($event)"
-             (focus)="hasFocus = true"
-             (blur)="onBlur()"
-             (input)="onContentChange(ngWigEditable.innerHTML)"><!--
-    --></div>
       </div>
+      } @else {
+      <div>
+        <button
+          type="button"
+          class="nw-button"
+          [ngClass]="[button.styleClass]"
+          [title]="button.title"
+          (click)="execCommand(button.command)"
+          [disabled]="disabled"
+          tabindex="-1"
+        >
+          @if (button.icon) {
+          <div class="nwe-icon" [ngClass]="[button.icon]"></div>
+          } @else {<!--
+              -->{{ button.label }}<!--
+          -->}
+        </button>
+      </div>
+      }
+    </li>
+    }
+  </ul>
+
+  <div
+    class="nw-editor-container"
+    (click)="container.focus()"
+    [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }"
+  >
+    @if (editMode) {
+    <div class="nw-editor__src-container">
+      <textarea
+        [ngModel]="content"
+        (ngModelChange)="onTextareaChange($event)"
+        (blur)="propagateTouched()"
+        class="nw-editor__src"
+      >
+      </textarea>
+    </div>
+    }
+    <div
+      class="nw-editor"
+      [ngClass]="{ 'nw-disabled': disabled,'nw-invisible': editMode }"
+    >
+      @if (shouldShowPlaceholder()) {
+      <div class="nw-editor__placeholder" [innerText]="placeholder"></div>
+      }
+      <div
+        #ngWigEditable
+        class="nw-editor__res"
+        [attr.contenteditable]="!disabled"
+        [ngClass]="{ disabled: disabled}"
+        (paste)="onPaste($event)"
+        (focus)="hasFocus = true"
+        (blur)="onBlur()"
+        (input)="onContentChange(ngWigEditable.innerHTML)"
+      >
+        <!--
+      --></div>
     </div>
   </div>
+</div>
