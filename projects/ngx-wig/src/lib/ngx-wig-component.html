@@ -7,7 +7,8 @@
         class="nwe-dropdown"
         (mouseenter)="button.isOpenOnMouseOver?button.visibleDropdown = true:true"
         (mouseleave)="button.isOpenOnMouseOver?button.visibleDropdown = false:true"
-        (click)="!button.isOpenOnMouseOver?button.visibleDropdown = !button.visibleDropdown:true"
+        (click)="onDropdownButtonSelected(button)"
+        (keydown.enter)="onDropdownButtonSelected(button, $event)"
       >
         <button
           type="button"
@@ -74,6 +75,7 @@
   <div
     class="nw-editor-container"
     (click)="container.focus()"
+    (keydown.enter)="container.focus()"
     [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }"
   >
     @if (editMode) {

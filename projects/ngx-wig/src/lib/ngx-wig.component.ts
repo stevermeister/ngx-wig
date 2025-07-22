@@ -243,6 +243,13 @@ export class NgxWigComponent
     );
   }
 
+  public onDropdownButtonSelected(button: TButton, event?: Event): void {
+    event?.preventDefault()
+
+    if (button.isOpenOnMouseOver) return;
+    button.visibleDropdown = !button.visibleDropdown;
+  }
+
   private pasteHtmlAtCaret(html) {
     let sel;
     let range;
