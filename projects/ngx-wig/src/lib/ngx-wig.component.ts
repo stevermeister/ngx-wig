@@ -13,11 +13,11 @@ import {
   Inject,
   OnDestroy,
   Optional,
+  DOCUMENT
 } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
-import { DOCUMENT } from '@angular/common';
 import { TButton, CommandFunction } from './config';
 import { NgxWigFilterService } from './ngx-wig-filter.service';
 
@@ -91,7 +91,7 @@ export class NgxWigComponent
     }
   }
 
-  public execCommand(command: string | CommandFunction, options?: string): boolean {
+  public execCommand(command: string | CommandFunction | undefined, options?: string): boolean {
     if (typeof command === 'function') {
       command(this);
       return true;
@@ -241,6 +241,13 @@ export class NgxWigComponent
       selection.focusNode?.parentNode?.nodeName === 'A' ||
       selection.anchorNode?.parentNode?.nodeName === 'A'
     );
+  }
+
+  public onDropdownButtonSelected(button: TButton, event?: Event): void {
+    event?.preventDefault()
+
+    if (button.isOpenOnMouseOver) return;
+    button.visibleDropdown = !button.visibleDropdown;
   }
 
   private pasteHtmlAtCaret(html) {
