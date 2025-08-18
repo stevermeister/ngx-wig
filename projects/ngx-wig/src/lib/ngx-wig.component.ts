@@ -257,19 +257,40 @@ export class NgxWigComponent
   }
 
   public onToolbarKeydown(event: KeyboardEvent, index: number): void {
-    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') {
-      return;
-    }
-    event.preventDefault();
     const buttons = this.toolbarButtonElems?.toArray();
     if (!buttons || buttons.length === 0) {
       return;
     }
-    if (event.key === 'ArrowRight') {
-      this.toolbarButtonIndex = (index + 1) % buttons.length;
-    } else {
-      this.toolbarButtonIndex = (index - 1 + buttons.length) % buttons.length;
+    const lastIndex = buttons.length - 1;
+
+    switch (event.key) {
+      case 'ArrowRight':
+        event.preventDefault();
+        this.toolbarButtonIndex = (index + 1) % buttons.length;
+        break;
+      case 'ArrowLeft':
+        event.preventDefault();
+        this.toolbarButtonIndex = (index - 1 + buttons.length) % buttons.length;
+        break;
+      case 'Tab':
+        if (event.shiftKey) {
+          if (index === 0) {
+            return;
+          }
+          event.preventDefault();
+          this.toolbarButtonIndex = index - 1;
+        } else {
+          if (index === lastIndex) {
+            return;
+          }
+          event.preventDefault();
+          this.toolbarButtonIndex = index + 1;
+        }
+        break;
+      default:
+        return;
     }
+
     buttons[this.toolbarButtonIndex].nativeElement.focus();
   }
 

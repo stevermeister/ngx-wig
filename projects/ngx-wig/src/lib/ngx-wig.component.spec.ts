@@ -163,6 +163,32 @@ describe('NgxWigComponent', () => {
       expect(document.activeElement).toBe(secondBtn);
     });
 
+    it('should move focus with Tab key and exit at end', () => {
+      const buttons = page.buttons;
+      buttons[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab' }));
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(buttons[1]);
+
+      // move back with shift+Tab
+      buttons[1].dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true }));
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(buttons[0]);
+
+      // navigate to last button
+      for (let i = 0; i < buttons.length - 1; i++) {
+        buttons[i].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+        fixture.detectChanges();
+      }
+      const lastBtn = buttons[buttons.length - 1];
+      expect(document.activeElement).toBe(lastBtn);
+
+      const tabEvent = new KeyboardEvent('keydown', { key: 'Tab' });
+      const preventSpy = spyOn(tabEvent, 'preventDefault');
+      lastBtn.dispatchEvent(tabEvent);
+      fixture.detectChanges();
+      expect(preventSpy).not.toHaveBeenCalled();
+    });
+
     it('should have an editor container', () => {
       expect(page.editContainerDiv.classList.contains('nw-editor-container--with-toolbar')).toBeDefined();
     });
