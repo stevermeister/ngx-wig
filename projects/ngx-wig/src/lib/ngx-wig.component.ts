@@ -8,6 +8,8 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ViewChildren,
+  QueryList,
   ViewEncapsulation,
   forwardRef,
   Inject,
@@ -61,8 +63,12 @@ export class NgxWigComponent
   public container: HTMLElement;
   public toolbarButtons: TButton[] = [];
   public hasFocus = false;
+  public toolbarButtonIndex = 0;
 
   private readonly _mutationObserver: MutationObserver;
+
+  @ViewChildren('toolbarButton', { read: ElementRef })
+  private toolbarButtonElems: QueryList<ElementRef>;
 
   public constructor(
     private readonly _ngWigToolbarService: NgxWigToolbarService,
@@ -248,6 +254,23 @@ export class NgxWigComponent
 
     if (button.isOpenOnMouseOver) return;
     button.visibleDropdown = !button.visibleDropdown;
+  }
+
+  public onToolbarKeydown(event: KeyboardEvent, index: number): void {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') {
+      return;
+    }
+    event.preventDefault();
+    const buttons = this.toolbarButtonElems?.toArray();
+    if (!buttons || buttons.length === 0) {
+      return;
+    }
+    if (event.key === 'ArrowRight') {
+      this.toolbarButtonIndex = (index + 1) % buttons.length;
+    } else {
+      this.toolbarButtonIndex = (index - 1 + buttons.length) % buttons.length;
+    }
+    buttons[this.toolbarButtonIndex].nativeElement.focus();
   }
 
   private pasteHtmlAtCaret(html) {
