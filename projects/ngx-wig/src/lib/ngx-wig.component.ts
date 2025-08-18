@@ -8,6 +8,8 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ViewChildren,
+  QueryList,
   ViewEncapsulation,
   forwardRef,
   Inject,
@@ -61,8 +63,12 @@ export class NgxWigComponent
   public container: HTMLElement;
   public toolbarButtons: TButton[] = [];
   public hasFocus = false;
+  public toolbarButtonIndex = 0;
 
   private readonly _mutationObserver: MutationObserver;
+
+  @ViewChildren('toolbarButton', { read: ElementRef })
+  private toolbarButtonElems: QueryList<ElementRef>;
 
   public constructor(
     private readonly _ngWigToolbarService: NgxWigToolbarService,
@@ -248,6 +254,44 @@ export class NgxWigComponent
 
     if (button.isOpenOnMouseOver) return;
     button.visibleDropdown = !button.visibleDropdown;
+  }
+
+  public onToolbarKeydown(event: KeyboardEvent, index: number): void {
+    const buttons = this.toolbarButtonElems?.toArray();
+    if (!buttons || buttons.length === 0) {
+      return;
+    }
+    const lastIndex = buttons.length - 1;
+
+    switch (event.key) {
+      case 'ArrowRight':
+        event.preventDefault();
+        this.toolbarButtonIndex = (index + 1) % buttons.length;
+        break;
+      case 'ArrowLeft':
+        event.preventDefault();
+        this.toolbarButtonIndex = (index - 1 + buttons.length) % buttons.length;
+        break;
+      case 'Tab':
+        if (event.shiftKey) {
+          if (index === 0) {
+            return;
+          }
+          event.preventDefault();
+          this.toolbarButtonIndex = index - 1;
+        } else {
+          if (index === lastIndex) {
+            return;
+          }
+          event.preventDefault();
+          this.toolbarButtonIndex = index + 1;
+        }
+        break;
+      default:
+        return;
+    }
+
+    buttons[this.toolbarButtonIndex].nativeElement.focus();
   }
 
   private pasteHtmlAtCaret(html) {

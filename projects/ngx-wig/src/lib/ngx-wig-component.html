@@ -1,6 +1,6 @@
 <div class="ng-wig">
   <ul class="nw-toolbar">
-    @for (button of toolbarButtons; track button) {
+    @for (button of toolbarButtons; let i = $index; track button) {
     <li class="nw-toolbar__item">
       @if (button.children) {
       <div
@@ -11,15 +11,19 @@
         (keydown.enter)="onDropdownButtonSelected(button, $event)"
       >
         <button
+          #toolbarButton
           type="button"
           class="nw-button"
           [ngClass]="[button.styleClass]"
           [title]="button.title"
           [disabled]="disabled"
-          tabindex="-1"
+          [attr.tabindex]="toolbarButtonIndex === i ? 0 : -1"
+          (focus)="toolbarButtonIndex = i"
+          (keydown)="onToolbarKeydown($event, i)"
+          [attr.aria-label]="button.ariaLabel || button.title || button.label"
         >
           @if (button.icon) {
-          <div class="nwe-icon" [ngClass]="[button.icon]"></div>
+          <div class="nwe-icon" [ngClass]="[button.icon]" aria-hidden="true" [attr.focusable]="false"></div>
           } @else {<!--
              -->{{ button.label }}<!--
           -->}
@@ -38,9 +42,10 @@
               (click)="execCommand(child.command)"
               [disabled]="disabled"
               tabindex="-1"
+              [attr.aria-label]="child.ariaLabel || child.title || child.label"
             >
               @if (child.icon) {
-              <div class="nwe-icon" [ngClass]="[child.icon]"></div>
+              <div class="nwe-icon" [ngClass]="[child.icon]" aria-hidden="true" [attr.focusable]="false"></div>
               } @else {<!--
                 -->{{ child.label }}<!--
               -->}
@@ -52,16 +57,20 @@
       } @else {
       <div>
         <button
+          #toolbarButton
           type="button"
           class="nw-button"
           [ngClass]="[button.styleClass]"
           [title]="button.title"
           (click)="execCommand(button.command)"
           [disabled]="disabled"
-          tabindex="-1"
+          [attr.tabindex]="toolbarButtonIndex === i ? 0 : -1"
+          (focus)="toolbarButtonIndex = i"
+          (keydown)="onToolbarKeydown($event, i)"
+          [attr.aria-label]="button.ariaLabel || button.title || button.label"
         >
           @if (button.icon) {
-          <div class="nwe-icon" [ngClass]="[button.icon]"></div>
+          <div class="nwe-icon" [ngClass]="[button.icon]" aria-hidden="true" [attr.focusable]="false"></div>
           } @else {<!--
               -->{{ button.label }}<!--
           -->}

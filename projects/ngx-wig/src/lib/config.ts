@@ -7,6 +7,7 @@ export interface TButton {
   label?: string;
   icon?: string;
   title?: string;
+  ariaLabel?: string;
   children?: TButton[];
   command?: string | CommandFunction;
   styleClass?: string;
