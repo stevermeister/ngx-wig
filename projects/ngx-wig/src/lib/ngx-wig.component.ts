@@ -8,13 +8,15 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ViewChildren,
+  QueryList,
   ViewEncapsulation,
   forwardRef,
   Inject,
   OnDestroy,
-  Optional,
-  DOCUMENT
+  Optional
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
@@ -61,8 +63,12 @@ export class NgxWigComponent
   public container: HTMLElement;
   public toolbarButtons: TButton[] = [];
   public hasFocus = false;
+  public toolbarButtonIndex = 0;
 
   private readonly _mutationObserver: MutationObserver;
+
+  @ViewChildren('toolbarButton', { read: ElementRef })
+  private toolbarButtonElems: QueryList<ElementRef>;
 
   public constructor(
     private readonly _ngWigToolbarService: NgxWigToolbarService,
@@ -136,6 +142,12 @@ export class NgxWigComponent
     this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons(
       this.buttons
     );
+    // Initialize dropdown roving tabindex for buttons with children
+    this.toolbarButtons.forEach(button => {
+      if (button.children?.length) {
+        button.dropdownButtonIndex = 0;
+      }
+    });
     this.container = this.ngxWigEditable.nativeElement;
 
     if (this.content) {
@@ -244,10 +256,124 @@ export class NgxWigComponent
   }
 
   public onDropdownButtonSelected(button: TButton, event?: Event): void {
-    event?.preventDefault()
+    event?.preventDefault();
 
     if (button.isOpenOnMouseOver) return;
-    button.visibleDropdown = !button.visibleDropdown;
+    if (button.visibleDropdown) {
+      this.closeDropdown(button);
+      return;
+    }
+    button.visibleDropdown = true;
+    button.dropdownButtonIndex = 0;
+    const dropdown = (event?.currentTarget as HTMLElement)?.querySelector(
+      '.nwe-dropdown-content'
+    );
+    const buttons = Array.from(
+      dropdown?.querySelectorAll('button') ?? []
+    ) as HTMLElement[];
+    buttons[0]?.focus();
+  }
+
+  public onDropdownKeydown(event: KeyboardEvent, button: TButton): void {
+    const dropdown = (event.currentTarget as HTMLElement).closest(
+      '.nwe-dropdown-content'
+    );
+    const buttons = Array.from(
+      dropdown?.querySelectorAll('button') ?? []
+    ) as HTMLElement[];
+    const index = buttons.indexOf(event.currentTarget as HTMLElement);
+    if (index === -1) {
+      return;
+    }
+    const lastIndex = buttons.length - 1;
+    let newIndex = index;
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        newIndex = (index + 1) % buttons.length;
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        newIndex = (index - 1 + buttons.length) % buttons.length;
+        break;
+      case 'Tab':
+        if (event.shiftKey) {
+          if (index === 0) {
+            return;
+          }
+          event.preventDefault();
+          newIndex = index - 1;
+        } else {
+          if (index === lastIndex) {
+            return;
+          }
+          event.preventDefault();
+          newIndex = index + 1;
+        }
+        break;
+      case 'Escape':
+        event.preventDefault();
+        this.closeDropdown(button);
+        return;
+      default:
+        return;
+    }
+    button.dropdownButtonIndex = newIndex;
+    buttons[newIndex].focus();
+  }
+
+  public closeDropdown(button: TButton): void {
+    button.visibleDropdown = false;
+    this.focusToolbarButton(button);
+  }
+
+  private focusToolbarButton(button: TButton): void {
+    const index = this.toolbarButtons.indexOf(button);
+    if (index === -1) {
+      return;
+    }
+    this.toolbarButtonIndex = index;
+    const buttons = this.toolbarButtonElems?.toArray();
+    buttons?.[index]?.nativeElement.focus();
+  }
+
+  public onToolbarKeydown(event: KeyboardEvent, index: number): void {
+    const buttons = this.toolbarButtonElems?.toArray();
+    if (!buttons || buttons.length === 0) {
+      return;
+    }
+    const lastIndex = buttons.length - 1;
+
+    switch (event.key) {
+      case 'ArrowRight':
+        event.preventDefault();
+        this.toolbarButtonIndex = (index + 1) % buttons.length;
+        break;
+      case 'ArrowLeft':
+        event.preventDefault();
+        this.toolbarButtonIndex = (index - 1 + buttons.length) % buttons.length;
+        break;
+      case 'Tab':
+        if (event.shiftKey) {
+          if (index === 0) {
+            return;
+          }
+          event.preventDefault();
+          this.toolbarButtonIndex = index - 1;
+        } else {
+          if (index === lastIndex) {
+            return; // Allow Tab to move focus out of the toolbar
+          }
+          event.preventDefault();
+          this.toolbarButtonIndex = index + 1;
+        }
+        break;
+      default:
+        return;
+    }
+
+    const target = buttons[this.toolbarButtonIndex];
+    target?.nativeElement.focus();
   }
 
   private pasteHtmlAtCaret(html) {
