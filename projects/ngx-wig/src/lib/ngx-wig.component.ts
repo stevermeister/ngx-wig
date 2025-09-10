@@ -142,6 +142,12 @@ export class NgxWigComponent
     this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons(
       this.buttons
     );
+    // Initialize dropdown roving tabindex for buttons with children
+    this.toolbarButtons.forEach(button => {
+      if (button.children?.length) {
+        button.dropdownButtonIndex = 0;
+      }
+    });
     this.container = this.ngxWigEditable.nativeElement;
 
     if (this.content) {
@@ -253,20 +259,22 @@ export class NgxWigComponent
     event?.preventDefault();
 
     if (button.isOpenOnMouseOver) return;
-    button.visibleDropdown = !button.visibleDropdown;
     if (button.visibleDropdown) {
-      const dropdown = (event?.currentTarget as HTMLElement)?.querySelector(
-        '.nwe-dropdown-content'
-      );
-      const buttons = Array.from(
-        dropdown?.querySelectorAll('button') ?? []
-      ) as HTMLElement[];
-      buttons.forEach((btn, idx) => (btn.tabIndex = idx === 0 ? 0 : -1));
-      buttons[0]?.focus();
+      this.closeDropdown(button);
+      return;
     }
+    button.visibleDropdown = true;
+    button.dropdownButtonIndex = 0;
+    const dropdown = (event?.currentTarget as HTMLElement)?.querySelector(
+      '.nwe-dropdown-content'
+    );
+    const buttons = Array.from(
+      dropdown?.querySelectorAll('button') ?? []
+    ) as HTMLElement[];
+    buttons[0]?.focus();
   }
 
-  public onDropdownKeydown(event: KeyboardEvent): void {
+  public onDropdownKeydown(event: KeyboardEvent, button: TButton): void {
     const dropdown = (event.currentTarget as HTMLElement).closest(
       '.nwe-dropdown-content'
     );
@@ -303,12 +311,30 @@ export class NgxWigComponent
           newIndex = index + 1;
         }
         break;
+      case 'Escape':
+        event.preventDefault();
+        this.closeDropdown(button);
+        return;
       default:
         return;
     }
-    buttons[index].tabIndex = -1;
-    buttons[newIndex].tabIndex = 0;
+    button.dropdownButtonIndex = newIndex;
     buttons[newIndex].focus();
+  }
+
+  public closeDropdown(button: TButton): void {
+    button.visibleDropdown = false;
+    this.focusToolbarButton(button);
+  }
+
+  private focusToolbarButton(button: TButton): void {
+    const index = this.toolbarButtons.indexOf(button);
+    if (index === -1) {
+      return;
+    }
+    this.toolbarButtonIndex = index;
+    const buttons = this.toolbarButtonElems?.toArray();
+    buttons?.[index]?.nativeElement.focus();
   }
 
   public onToolbarKeydown(event: KeyboardEvent, index: number): void {

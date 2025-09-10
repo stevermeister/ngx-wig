@@ -32,17 +32,18 @@
           class="nwe-dropdown-content"
           [ngClass]="button.visibleDropdown ? 'nwe-show' : ''"
         >
-          @for (child of button.children; track child) {
+          @for (child of button.children; let j = $index; track child) {
           <a href="#">
             <button
               type="button"
               class="nw-button"
               [ngClass]="[child.styleClass]"
               [title]="child.title"
-              (click)="execCommand(child.command)"
+              (click)="execCommand(child.command); closeDropdown(button)"
               [disabled]="disabled"
-              tabindex="-1"
-              (keydown)="onDropdownKeydown($event)"
+              [attr.tabindex]="button.visibleDropdown && button.dropdownButtonIndex === j ? 0 : -1"
+              (focus)="button.dropdownButtonIndex = j"
+              (keydown)="onDropdownKeydown($event, button)"
               [attr.aria-label]="child.ariaLabel || child.title || child.label"
             >
               @if (child.icon) {

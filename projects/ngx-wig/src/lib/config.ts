@@ -13,6 +13,11 @@ export interface TButton {
   styleClass?: string;
   visibleDropdown?: boolean;
   isOpenOnMouseOver?: boolean;
+  /**
+   * Tracks the currently focusable child button when the toolbar button has a dropdown.
+   * Implements a roving tabindex pattern for dropdown items.
+   */
+  dropdownButtonIndex?: number;
 }
 
 export interface TButtonLibrary {
