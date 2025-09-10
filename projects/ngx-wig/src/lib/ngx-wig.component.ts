@@ -281,7 +281,7 @@ export class NgxWigComponent
           this.toolbarButtonIndex = index - 1;
         } else {
           if (index === lastIndex) {
-            return;
+            return; // Allow Tab to move focus out of the toolbar
           }
           event.preventDefault();
           this.toolbarButtonIndex = index + 1;
