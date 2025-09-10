@@ -14,9 +14,9 @@ import {
   forwardRef,
   Inject,
   OnDestroy,
-  Optional,
-  DOCUMENT
+  Optional
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
@@ -250,10 +250,65 @@ export class NgxWigComponent
   }
 
   public onDropdownButtonSelected(button: TButton, event?: Event): void {
-    event?.preventDefault()
+    event?.preventDefault();
 
     if (button.isOpenOnMouseOver) return;
     button.visibleDropdown = !button.visibleDropdown;
+    if (button.visibleDropdown) {
+      const dropdown = (event?.currentTarget as HTMLElement)?.querySelector(
+        '.nwe-dropdown-content'
+      );
+      const buttons = Array.from(
+        dropdown?.querySelectorAll('button') ?? []
+      ) as HTMLElement[];
+      buttons.forEach((btn, idx) => (btn.tabIndex = idx === 0 ? 0 : -1));
+      buttons[0]?.focus();
+    }
+  }
+
+  public onDropdownKeydown(event: KeyboardEvent): void {
+    const dropdown = (event.currentTarget as HTMLElement).closest(
+      '.nwe-dropdown-content'
+    );
+    const buttons = Array.from(
+      dropdown?.querySelectorAll('button') ?? []
+    ) as HTMLElement[];
+    const index = buttons.indexOf(event.currentTarget as HTMLElement);
+    if (index === -1) {
+      return;
+    }
+    const lastIndex = buttons.length - 1;
+    let newIndex = index;
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        newIndex = (index + 1) % buttons.length;
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        newIndex = (index - 1 + buttons.length) % buttons.length;
+        break;
+      case 'Tab':
+        if (event.shiftKey) {
+          if (index === 0) {
+            return;
+          }
+          event.preventDefault();
+          newIndex = index - 1;
+        } else {
+          if (index === lastIndex) {
+            return;
+          }
+          event.preventDefault();
+          newIndex = index + 1;
+        }
+        break;
+      default:
+        return;
+    }
+    buttons[index].tabIndex = -1;
+    buttons[newIndex].tabIndex = 0;
+    buttons[newIndex].focus();
   }
 
   public onToolbarKeydown(event: KeyboardEvent, index: number): void {
@@ -291,7 +346,8 @@ export class NgxWigComponent
         return;
     }
 
-    buttons[this.toolbarButtonIndex].nativeElement.focus();
+    const target = buttons[this.toolbarButtonIndex];
+    target?.nativeElement.focus();
   }
 
   private pasteHtmlAtCaret(html) {
