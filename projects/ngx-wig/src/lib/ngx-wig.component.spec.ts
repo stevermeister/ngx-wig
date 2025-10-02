@@ -140,8 +140,11 @@ describe('NgxWigComponent', () => {
     it('should have a standard button', () => {
       expect(page.unorderedListBtn.classList.contains('nw-list-ul')).toBe(true);
       expect(page.unorderedListBtn.getAttribute('title')).toBe('Unordered List');
-      expect(page.unorderedListBtn.tabIndex).toBe(-1);
+      expect(page.unorderedListBtn.tabIndex).toBe(0);
+      expect(page.unorderedListBtn.getAttribute('aria-label')).toBe('Unordered List');
       expect(page.iconsEl[0].classList.contains('nwe-icon-list-ul')).toBe(true);
+      expect(page.iconsEl[0].getAttribute('aria-hidden')).toBe('true');
+      expect(page.iconsEl[0].getAttribute('focusable')).toBe('false');
     });
 
     it('should have a standard button without icon', () => {
@@ -149,6 +152,41 @@ describe('NgxWigComponent', () => {
       fixture.detectChanges();
       expect(page.unorderedListBtn.textContent).toBe('UL');
       expect(page.iconsEl[0].classList.contains('nwe-icon-list-ul')).toBe(false);
+    });
+
+    it('should move focus with arrow keys', () => {
+      const secondBtn = page.buttons[1];
+      page.unorderedListBtn.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+      fixture.detectChanges();
+      expect(page.unorderedListBtn.tabIndex).toBe(-1);
+      expect(secondBtn.tabIndex).toBe(0);
+      expect(document.activeElement).toBe(secondBtn);
+    });
+
+    it('should move focus with Tab key and exit at end', () => {
+      const buttons = page.buttons;
+      buttons[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab' }));
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(buttons[1]);
+
+      // move back with shift+Tab
+      buttons[1].dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true }));
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(buttons[0]);
+
+      // navigate to last button
+      for (let i = 0; i < buttons.length - 1; i++) {
+        buttons[i].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+        fixture.detectChanges();
+      }
+      const lastBtn = buttons[buttons.length - 1];
+      expect(document.activeElement).toBe(lastBtn);
+
+      const tabEvent = new KeyboardEvent('keydown', { key: 'Tab' });
+      const preventSpy = spyOn(tabEvent, 'preventDefault');
+      lastBtn.dispatchEvent(tabEvent);
+      fixture.detectChanges();
+      expect(preventSpy).not.toHaveBeenCalled();
     });
 
     it('should have an editor container', () => {
