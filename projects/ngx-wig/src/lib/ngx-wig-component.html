@@ -110,6 +110,8 @@
       <div
         #ngWigEditable
         class="nw-editor__res"
+        role="textbox"
+        aria-multiline="true"
         [attr.contenteditable]="!disabled"
         [ngClass]="{ disabled: disabled}"
         (paste)="onPaste($event)"
