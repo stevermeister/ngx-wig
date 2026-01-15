@@ -213,6 +213,16 @@ describe('NgxWigComponent', () => {
       expect(page.placeholderEl.innerText).toBe('Insert text here');
     });
 
+    describe('accessibility attributes', () => {
+      it('should have role="textbox" on the editable div', () => {
+        expect(page.editableDiv.getAttribute('role')).toBe('textbox');
+      });
+
+      it('should have aria-multiline="true" on the editable div', () => {
+        expect(page.editableDiv.getAttribute('aria-multiline')).toBe('true');
+      });
+    });
+
     describe('focus', () => {
       it('when container click', () => {
         page.editContainerDiv.click();
