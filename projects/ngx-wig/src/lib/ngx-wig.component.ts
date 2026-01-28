@@ -1,27 +1,27 @@
+import { DOCUMENT } from '@angular/common';
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild,
-  ViewChildren,
-  QueryList,
-  ViewEncapsulation,
-  forwardRef,
   Inject,
+  OnChanges,
   OnDestroy,
-  Optional
+  OnInit,
+  Optional,
+  SimpleChanges,
+  ViewEncapsulation,
+  computed,
+  forwardRef,
+  input,
+  model,
+  signal,
+  viewChild,
+  viewChildren
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
-import { TButton, CommandFunction } from './config';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CommandFunction, TButton } from './config';
 import { NgxWigFilterService } from './ngx-wig-filter.service';
+import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
 
 /** @dynamic */
 @Component({
@@ -41,34 +41,36 @@ import { NgxWigFilterService } from './ngx-wig-filter.service';
 })
 export class NgxWigComponent
   implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
-  @Input()
-  public content: string;
+  public readonly content = model<string>();
 
-  @Input()
-  public placeholder: string;
+  
+  public readonly placeholder = input<string>();
 
-  @Input()
-  public buttons: string;
+  public readonly buttons = input<string>();
 
-  @Input()
-  public disabled: boolean;
+  public readonly disabled = model(false);
 
-  @Output()
-  public contentChange = new EventEmitter();
+  public readonly ngxWigEditable = viewChild.required('ngWigEditable', { read: ElementRef });
 
-  @ViewChild('ngWigEditable', { read: ElementRef, static: true })
-  public ngxWigEditable: ElementRef;
+  public readonly editMode = signal(false);
+  
+  public readonly container = computed<HTMLElement>(() => this.ngxWigEditable().nativeElement)
+  public readonly toolbarButtons = computed<TButton[]>(() => {
+    const buttons = this.buttons();
+    const toolbarButtons = this._ngWigToolbarService.getToolbarButtons(buttons);
+    toolbarButtons.forEach(b => {
+      if (!b.children?.length) return;
+      b.dropdownButtonIndex = 0
+    });
 
-  public editMode = false;
-  public container: HTMLElement;
-  public toolbarButtons: TButton[] = [];
-  public hasFocus = false;
-  public toolbarButtonIndex = 0;
+    return toolbarButtons;
+  });
+  public readonly hasFocus = signal(false);
+  public readonly toolbarButtonIndex = signal<number>(0);
 
   private readonly _mutationObserver: MutationObserver;
 
-  @ViewChildren('toolbarButton', { read: ElementRef })
-  private toolbarButtonElems: QueryList<ElementRef>;
+  private readonly toolbarButtonElems = viewChildren('toolbarButton', { read: ElementRef });
 
   public constructor(
     private readonly _ngWigToolbarService: NgxWigToolbarService,
@@ -79,7 +81,7 @@ export class NgxWigComponent
 
   private executeCommand(command: string, value: string = ''): boolean {
     try {
-      if (this.container.contentEditable !== 'true') {
+      if (this.container().contentEditable !== 'true') {
         return false;
       }
 
@@ -103,7 +105,7 @@ export class NgxWigComponent
       return true;
     }
 
-    if (this.editMode) {
+    if (this.editMode()) {
       return false;
     }
 
@@ -122,7 +124,7 @@ export class NgxWigComponent
       }
     }
 
-    this.container.focus();
+    this.container().focus();
 
     let success = false;
     if (command === 'createlink' && this.isLinkSelected()) {
@@ -132,26 +134,16 @@ export class NgxWigComponent
     }
 
     if (success) {
-      this.onContentChange(this.container.innerHTML);
+      this.onContentChange(this.container().innerHTML);
     }
     
     return success;
   }
 
   public ngOnInit(): void {
-    this.toolbarButtons = this._ngWigToolbarService.getToolbarButtons(
-      this.buttons
-    );
-    // Initialize dropdown roving tabindex for buttons with children
-    this.toolbarButtons.forEach(button => {
-      if (button.children?.length) {
-        button.dropdownButtonIndex = 0;
-      }
-    });
-    this.container = this.ngxWigEditable.nativeElement;
-
-    if (this.content) {
-      this.container.innerHTML = this.content;
+    const content = this.content()
+    if (content) {
+      this.container().innerHTML = content;
     }
   }
 
@@ -162,19 +154,20 @@ export class NgxWigComponent
   }
 
   public onContentChange(newContent: string): void {
-    this.content = this.isInnerTextEmpty(newContent) ? '' : newContent;
+    this.content.set(this.isInnerTextEmpty(newContent) ? '' : newContent);
 
-    this.contentChange.emit(this.content);
-    this.propagateChange(this.content);
+    this.propagateChange(this.content());
   }
 
+
   public ngOnChanges(changes: SimpleChanges): void {
-    if (this.container && changes['content']) {
+    const container = this.container();
+    if (container && changes['content']) {
       // we need to focus the container before pasting at the caret
-      this.container.focus();
+      container.focus();
 
       // clear the previous content
-      this.container.innerHTML = '';
+      container.innerHTML = '';
 
       // add the new content
       if (this._filterService){
@@ -197,23 +190,23 @@ export class NgxWigComponent
       this.pasteHtmlAtCaret(text);
     }
 
-    this.onContentChange(this.container.innerHTML);
+    this.onContentChange(this.container().innerHTML);
   }
 
   public onTextareaChange(newContent: string): void {
     // model -> view
-    this.container.innerHTML = newContent;
+    this.container().innerHTML = newContent;
     this.onContentChange(newContent);
   }
 
   public writeValue(value: any): void {
     value = value ?? '';
-    this.container.innerHTML = value;
-    this.content = value;
+    this.container().innerHTML = value;
+    this.content.set(value);
   }
 
   public shouldShowPlaceholder(): boolean {
-    return !!this.placeholder && !this.container.innerText;
+    return !!this.placeholder() && !this.container().innerText;
   }
 
   public registerOnChange(fn: any): void {
@@ -227,12 +220,12 @@ export class NgxWigComponent
   public propagateTouched = () => {};
 
   public onBlur() {
-    this.hasFocus = false;
+    this.hasFocus.set(false);
     this.propagateTouched();
   }
 
   public setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.disabled.set(isDisabled);
   }
 
   public isInnerTextEmpty(content: string): boolean {
@@ -328,17 +321,17 @@ export class NgxWigComponent
   }
 
   private focusToolbarButton(button: TButton): void {
-    const index = this.toolbarButtons.indexOf(button);
+    const index = this.toolbarButtons().indexOf(button);
     if (index === -1) {
       return;
     }
-    this.toolbarButtonIndex = index;
-    const buttons = this.toolbarButtonElems?.toArray();
+    this.toolbarButtonIndex.set(index);
+    const buttons = this.toolbarButtonElems();
     buttons?.[index]?.nativeElement.focus();
   }
 
   public onToolbarKeydown(event: KeyboardEvent, index: number): void {
-    const buttons = this.toolbarButtonElems?.toArray();
+    const buttons = this.toolbarButtonElems();
     if (!buttons || buttons.length === 0) {
       return;
     }
@@ -347,11 +340,11 @@ export class NgxWigComponent
     switch (event.key) {
       case 'ArrowRight':
         event.preventDefault();
-        this.toolbarButtonIndex = (index + 1) % buttons.length;
+        this.toolbarButtonIndex.set((index + 1) % buttons.length);
         break;
       case 'ArrowLeft':
         event.preventDefault();
-        this.toolbarButtonIndex = (index - 1 + buttons.length) % buttons.length;
+        this.toolbarButtonIndex.set((index - 1 + buttons.length) % buttons.length);
         break;
       case 'Tab':
         if (event.shiftKey) {
@@ -359,20 +352,20 @@ export class NgxWigComponent
             return;
           }
           event.preventDefault();
-          this.toolbarButtonIndex = index - 1;
+          this.toolbarButtonIndex.set(index - 1);
         } else {
           if (index === lastIndex) {
             return; // Allow Tab to move focus out of the toolbar
           }
           event.preventDefault();
-          this.toolbarButtonIndex = index + 1;
+          this.toolbarButtonIndex.set(index + 1);
         }
         break;
       default:
         return;
     }
 
-    const target = buttons[this.toolbarButtonIndex];
+    const target = buttons[this.toolbarButtonIndex()];
     target?.nativeElement.focus();
   }
 

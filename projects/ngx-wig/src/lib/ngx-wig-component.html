@@ -1,6 +1,6 @@
 <div class="ng-wig">
   <ul class="nw-toolbar">
-    @for (button of toolbarButtons; let i = $index; track button) {
+    @for (button of toolbarButtons(); let i = $index; track button) {
     <li class="nw-toolbar__item">
       @if (button.children) {
       <div
@@ -16,9 +16,9 @@
           class="nw-button"
           [ngClass]="[button.styleClass]"
           [title]="button.title"
-          [disabled]="disabled"
-          [attr.tabindex]="toolbarButtonIndex === i ? 0 : -1"
-          (focus)="toolbarButtonIndex = i"
+          [disabled]="disabled()"
+          [attr.tabindex]="toolbarButtonIndex() === i ? 0 : -1"
+          (focus)="toolbarButtonIndex.set(i)"
           (keydown)="onToolbarKeydown($event, i)"
           [attr.aria-label]="button.ariaLabel || button.title || button.label"
         >
@@ -40,7 +40,7 @@
               [ngClass]="[child.styleClass]"
               [title]="child.title"
               (click)="execCommand(child.command); closeDropdown(button)"
-              [disabled]="disabled"
+              [disabled]="disabled()"
               [attr.tabindex]="button.visibleDropdown && button.dropdownButtonIndex === j ? 0 : -1"
               (focus)="button.dropdownButtonIndex = j"
               (keydown)="onDropdownKeydown($event, button)"
@@ -65,9 +65,9 @@
           [ngClass]="[button.styleClass]"
           [title]="button.title"
           (click)="execCommand(button.command)"
-          [disabled]="disabled"
-          [attr.tabindex]="toolbarButtonIndex === i ? 0 : -1"
-          (focus)="toolbarButtonIndex = i"
+          [disabled]="disabled()"
+          [attr.tabindex]="toolbarButtonIndex() === i ? 0 : -1"
+          (focus)="toolbarButtonIndex.set(i)"
           (keydown)="onToolbarKeydown($event, i)"
           [attr.aria-label]="button.ariaLabel || button.title || button.label"
         >
@@ -85,14 +85,14 @@
 
   <div
     class="nw-editor-container"
-    (click)="container.focus()"
-    (keydown.enter)="container.focus()"
-    [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons.length }"
+    (click)="container().focus()"
+    (keydown.enter)="container().focus()"
+    [ngClass]="{ 'nw-editor-container--with-toolbar': toolbarButtons().length }"
   >
-    @if (editMode) {
+    @if (editMode()) {
     <div class="nw-editor__src-container">
       <textarea
-        [ngModel]="content"
+        [ngModel]="content()"
         (ngModelChange)="onTextareaChange($event)"
         (blur)="propagateTouched()"
         class="nw-editor__src"
@@ -102,20 +102,20 @@
     }
     <div
       class="nw-editor"
-      [ngClass]="{ 'nw-disabled': disabled,'nw-invisible': editMode }"
+      [ngClass]="{ 'nw-disabled': disabled(),'nw-invisible': editMode() }"
     >
       @if (shouldShowPlaceholder()) {
-      <div class="nw-editor__placeholder" [innerText]="placeholder"></div>
+      <div class="nw-editor__placeholder" [innerText]="placeholder()"></div>
       }
       <div
         #ngWigEditable
         class="nw-editor__res"
         role="textbox"
         aria-multiline="true"
-        [attr.contenteditable]="!disabled"
-        [ngClass]="{ disabled: disabled}"
+        [attr.contenteditable]="!disabled()"
+        [ngClass]="{ disabled: disabled()}"
         (paste)="onPaste($event)"
-        (focus)="hasFocus = true"
+        (focus)="hasFocus.set(true)"
         (blur)="onBlur()"
         (input)="onContentChange(ngWigEditable.innerHTML)"
       >

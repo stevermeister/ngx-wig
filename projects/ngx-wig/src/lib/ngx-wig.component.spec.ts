@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, signal, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
@@ -22,8 +22,7 @@ class TestNgModelHostComponent {
 
 @Component({
     template: `<ngx-wig
-    [content]="text"
-    (contentChange)="text = $event"
+    [(content)]="text"
     placeholder="Enter some text"
     buttons="bold,italic"
     [disabled]="false">
@@ -33,10 +32,10 @@ class TestNgModelHostComponent {
 class TestHostComponent {
   @ViewChild(NgxWigComponent) ngxWigCmp: NgxWigComponent;
 
-  text = 'Fake content';
+  text = signal('Fake content');
 
   getPromiseContent() {
-    Promise.resolve().then(() => this.text = 'Promised content');
+    Promise.resolve().then(() => this.text.set('Promised content'));
   }
 }
 
@@ -122,7 +121,7 @@ describe('NgxWigComponent', () => {
       fixture = TestBed.createComponent(NgxWigComponent);
 
       component = fixture.componentInstance;
-      component.content = '<p>Hello World</p>';
+      component.content.set('<p>Hello World</p>');
 
       page = new Page(fixture);
 
@@ -148,7 +147,13 @@ describe('NgxWigComponent', () => {
     });
 
     it('should have a standard button without icon', () => {
-      component.toolbarButtons[0].icon = undefined;
+      const [first, ...rest] = component.toolbarButtons();
+      const modifiedButtons = [{...first, icon: undefined}, ...rest];
+      
+      spyOn(component['_ngWigToolbarService'], 'getToolbarButtons').and.returnValue(modifiedButtons)
+      // trigger recalculation of toolbarButtons
+      fixture.componentRef.setInput('buttons', ' ');
+      
       fixture.detectChanges();
       expect(page.unorderedListBtn.textContent).toBe('UL');
       expect(page.iconsEl[0].classList.contains('nwe-icon-list-ul')).toBe(false);
@@ -207,7 +212,7 @@ describe('NgxWigComponent', () => {
     });
 
     it('should show a placeholder', () => {
-      component.placeholder = 'Insert text here';
+      fixture.componentRef.setInput('placeholder', 'Insert text here')
       page.editableDiv.innerHTML = '';
       fixture.detectChanges();
       expect(page.placeholderEl.innerText).toBe('Insert text here');
@@ -242,7 +247,7 @@ describe('NgxWigComponent', () => {
       it('lost', () => {
         const propagateSpy = spyOn(component, 'propagateTouched');
         page.editableDiv.dispatchEvent(newEvent('blur'));
-        expect(component.hasFocus).toBe(false);
+        expect(component.hasFocus()).toBe(false);
         expect(propagateSpy.calls.any()).toBe(true);
       });
     });
@@ -327,7 +332,7 @@ describe('NgxWigComponent', () => {
       });
 
       it('should return false', () => {
-        component.editMode = true;
+        component.editMode.set(true);
         expect(component.execCommand('insertunorderedlist', '')).toBe(false);
       });
 
@@ -385,26 +390,33 @@ describe('NgxWigComponent', () => {
       });
     });
 
-    it('should change the content (onContentChange)', () => {
+    it('should change the content (onContentChange)', (done) => {
       const newContent = 'New fake content';
-      const spy = spyOn(component.contentChange, 'emit');
+      
+      component.content.subscribe((v) => {
+        expect(v).toBe(newContent);
+        expect(component.content()).toBe(newContent);
+        done();
+      });
+
       component.onContentChange(newContent);
-      expect(component.content).toBe(newContent);
-      expect(spy.calls.first().args[0]).toBe(newContent);
     });
 
-    it('should emit empty string if content innerText is empty', () => {
+    it('should emit empty string if content innerText is empty', (done) => {
       const newContent = '<br>';
-      const spy = spyOn(component.contentChange, 'emit');
+      component.content.subscribe((v) => {
+        expect(component.content()).toBe('');
+        expect(v).toBe('');
+        done();
+      });
+
       component.onContentChange(newContent);
-      expect(component.content).toBe('');
-      expect(spy.calls.first().args[0]).toBe('');
     });
 
     it('should change the content (onTextareaChange)', () => {
       const newText = '<p>New fake text</p>';
       const spy = spyOn(component, 'onContentChange');
-      component.editMode = true;
+      component.editMode.set(true);
       fixture.detectChanges();
       page.editHTMLTxt.value = newText;
       page.editHTMLTxt.dispatchEvent(newEvent('input'));
@@ -452,32 +464,33 @@ describe('NgxWigComponent', () => {
     });
 
     it('should set the content', () => {
-      expect(component.ngxWigCmp.content).toBe(component.text);
+      expect(component.ngxWigCmp.content()).toBe(component.text());
     });
 
     it('should set the placeholder', () => {
-      expect(component.ngxWigCmp.placeholder).toBe('Enter some text');
+      expect(component.ngxWigCmp.placeholder()).toBe('Enter some text');
     });
 
     it('should set the toolbar buttons', () => {
-      expect(component.ngxWigCmp.toolbarButtons).toEqual([
+      expect(component.ngxWigCmp.toolbarButtons()).toEqual([
         { label: 'B', title: 'Bold', command: 'bold', styleClass: 'nw-bold', icon: 'nwe-icon-bold' },
         { label: 'I', title: 'Italic', command: 'italic', styleClass: 'nw-italic', icon: 'nwe-icon-italic' }
       ]);
     });
 
     it('should set the disabled property', () => {
-      expect(component.ngxWigCmp.disabled).toBe(false);
+      expect(component.ngxWigCmp.disabled()).toBe(false);
     });
 
     it('should emit content', () => {
-      component.ngxWigCmp.contentChange.emit('New fake content');
-      expect(component.text).toBe('New fake content');
+      component.ngxWigCmp.content.set('New fake content');
+      expect(component.text()).toBe('New fake content');
     });
 
     it('should focus the editor', () => {
-      component.text = 'Fake text';
+      component.text.set('Fake text');
       fixture.detectChanges();
+
       expect(page.focusSpy.calls.any()).toBe(true);
     });
 
@@ -514,7 +527,7 @@ describe('NgxWigComponent', () => {
 
     it('should set the content', waitForAsync(() => {
       fixture.whenStable().then(() => {
-        expect(component.ngxWigCmp.content).toBe(component.text);
+        expect(component.ngxWigCmp.content()).toBe(component.text);
       });
     }));
 
@@ -524,6 +537,7 @@ describe('NgxWigComponent', () => {
         editor.textContent = 'New fake content';
         editor.dispatchEvent(newEvent('input'));
         fixture.detectChanges();
+
         expect(component.text).toBe('New fake content');
       }
     });
