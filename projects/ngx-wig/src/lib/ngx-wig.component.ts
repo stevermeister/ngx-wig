@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT } from "@angular/common";
 import {
   Component,
   ElementRef,
@@ -15,52 +15,55 @@ import {
   model,
   signal,
   viewChild,
-  viewChildren
-} from '@angular/core';
-
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CommandFunction, TButton } from './config';
-import { NgxWigFilterService } from './ngx-wig-filter.service';
-import { NgxWigToolbarService } from './ngx-wig-toolbar.service';
+  viewChildren,
+} from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { CommandFunction, TButton } from "./config";
+import { NgxWigFilterService } from "./ngx-wig-filter.service";
+import { NgxWigToolbarService } from "./ngx-wig-toolbar.service";
 
 /** @dynamic */
 @Component({
-    selector: 'ngx-wig',
-    templateUrl: './ngx-wig-component.html',
-    styleUrls: ['./ngx-wig-component.css'],
-    providers: [
-        NgxWigToolbarService,
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => NgxWigComponent),
-            multi: true,
-        }
-    ],
-    encapsulation: ViewEncapsulation.None,
-    standalone: false
+  selector: "ngx-wig",
+  templateUrl: "./ngx-wig-component.html",
+  styleUrls: ["./ngx-wig-component.css"],
+  providers: [
+    NgxWigToolbarService,
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NgxWigComponent),
+      multi: true,
+    },
+  ],
+  encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class NgxWigComponent
-  implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
+  implements OnInit, OnChanges, OnDestroy, ControlValueAccessor
+{
   public readonly content = model<string>();
 
-  
   public readonly placeholder = input<string>();
 
   public readonly buttons = input<string>();
 
   public readonly disabled = model(false);
 
-  public readonly ngxWigEditable = viewChild.required('ngWigEditable', { read: ElementRef });
+  public readonly ngxWigEditable = viewChild.required("ngWigEditable", {
+    read: ElementRef,
+  });
 
   public readonly editMode = signal(false);
-  
-  public readonly container = computed<HTMLElement>(() => this.ngxWigEditable().nativeElement)
+
+  public readonly container = computed<HTMLElement>(
+    () => this.ngxWigEditable().nativeElement,
+  );
   public readonly toolbarButtons = computed<TButton[]>(() => {
     const buttons = this.buttons();
     const toolbarButtons = this._ngWigToolbarService.getToolbarButtons(buttons);
-    toolbarButtons.forEach(b => {
+    toolbarButtons.forEach((b) => {
       if (!b.children?.length) return;
-      b.dropdownButtonIndex = 0
+      b.dropdownButtonIndex = 0;
     });
 
     return toolbarButtons;
@@ -70,24 +73,27 @@ export class NgxWigComponent
 
   private readonly _mutationObserver: MutationObserver;
 
-  private readonly toolbarButtonElems = viewChildren('toolbarButton', { read: ElementRef });
+  private readonly toolbarButtonElems = viewChildren("toolbarButton", {
+    read: ElementRef,
+  });
 
   public constructor(
     private readonly _ngWigToolbarService: NgxWigToolbarService,
     @Optional() private readonly _filterService: NgxWigFilterService,
-    @Inject(DOCUMENT) private readonly document: Document, // cannot set Document here - Angular issue - https://github.com/angular/angular/issues/20351
-    @Inject('WINDOW') private readonly window
+    // cannot set Document here - Angular issue - https://github.com/angular/angular/issues/20351
+    @Inject(DOCUMENT) private readonly document: Document,
+    @Inject("WINDOW") private readonly window,
   ) {}
 
-  private executeCommand(command: string, value: string = ''): boolean {
+  private executeCommand(command: string, value: string = ""): boolean {
     try {
-      if (this.container().contentEditable !== 'true') {
+      if (this.container().contentEditable !== "true") {
         return false;
       }
 
       // For now, use execCommand for backward compatibility
       // TODO: Replace with modern APIs when execCommand is fully deprecated
-      if (command === 'unlink') {
+      if (command === "unlink") {
         this.document.execCommand(command, false);
       } else {
         this.document.execCommand(command, false, value);
@@ -99,8 +105,11 @@ export class NgxWigComponent
     }
   }
 
-  public execCommand(command: string | CommandFunction | undefined, options?: string): boolean {
-    if (typeof command === 'function') {
+  public execCommand(
+    command: string | CommandFunction | undefined,
+    options?: string,
+  ): boolean {
+    if (typeof command === "function") {
       command(this);
       return true;
     }
@@ -109,7 +118,7 @@ export class NgxWigComponent
       return false;
     }
 
-    if (typeof command !== 'string' || !command) {
+    if (typeof command !== "string" || !command) {
       return false;
     }
 
@@ -117,8 +126,11 @@ export class NgxWigComponent
       throw new Error(`The command "${command}" is not supported`);
     }
 
-    if ((command === 'createlink' && !this.isLinkSelected()) || command === 'insertImage') {
-      options = window.prompt('Please enter the URL', 'http://') ?? '';
+    if (
+      (command === "createlink" && !this.isLinkSelected()) ||
+      command === "insertImage"
+    ) {
+      options = window.prompt("Please enter the URL", "http://") ?? "";
       if (!options) {
         return false;
       }
@@ -127,21 +139,21 @@ export class NgxWigComponent
     this.container().focus();
 
     let success = false;
-    if (command === 'createlink' && this.isLinkSelected()) {
-      success = this.executeCommand('unlink');
+    if (command === "createlink" && this.isLinkSelected()) {
+      success = this.executeCommand("unlink");
     } else {
-      success = this.executeCommand(command, options ?? '');
+      success = this.executeCommand(command, options ?? "");
     }
 
     if (success) {
       this.onContentChange(this.container().innerHTML);
     }
-    
+
     return success;
   }
 
   public ngOnInit(): void {
-    const content = this.content()
+    const content = this.content();
     if (content) {
       this.container().innerHTML = content;
     }
@@ -154,37 +166,40 @@ export class NgxWigComponent
   }
 
   public onContentChange(newContent: string): void {
-    this.content.set(this.isInnerTextEmpty(newContent) ? '' : newContent);
+    this.content.set(this.isInnerTextEmpty(newContent) ? "" : newContent);
 
     this.propagateChange(this.content());
   }
 
-
   public ngOnChanges(changes: SimpleChanges): void {
     const container = this.container();
-    if (container && changes['content']) {
+    if (container && changes["content"]) {
       // we need to focus the container before pasting at the caret
       container.focus();
 
       // clear the previous content
-      container.innerHTML = '';
+      container.innerHTML = "";
 
       // add the new content
-      if (this._filterService){
-        this.pasteHtmlAtCaret(this._filterService.filter(changes['content'].currentValue));
+      if (this._filterService) {
+        this.pasteHtmlAtCaret(
+          this._filterService.filter(changes["content"].currentValue),
+        );
       } else {
-        this.pasteHtmlAtCaret(changes['content'].currentValue);
+        this.pasteHtmlAtCaret(changes["content"].currentValue);
       }
-
     }
   }
 
   onPaste(event: ClipboardEvent) {
     event.preventDefault();
 
-    const text = event.clipboardData?.getData('text/html') || event.clipboardData?.getData('text/plain') || '';
+    const text =
+      event.clipboardData?.getData("text/html") ||
+      event.clipboardData?.getData("text/plain") ||
+      "";
 
-    if (this._filterService){
+    if (this._filterService) {
       this.pasteHtmlAtCaret(this._filterService.filter(text));
     } else {
       this.pasteHtmlAtCaret(text);
@@ -200,7 +215,7 @@ export class NgxWigComponent
   }
 
   public writeValue(value: any): void {
-    value = value ?? '';
+    value = value ?? "";
     this.container().innerHTML = value;
     this.content.set(value);
   }
@@ -230,21 +245,20 @@ export class NgxWigComponent
 
   public isInnerTextEmpty(content: string): boolean {
     const parser = new DOMParser();
-    const htmlDoc = parser.parseFromString(content, 'text/html');
+    const htmlDoc = parser.parseFromString(content, "text/html");
 
-    return htmlDoc.documentElement?.innerText === '';
+    return htmlDoc.documentElement?.innerText === "";
   }
 
   public isLinkSelected(): boolean {
-    if (window.getSelection()?.toString() === '')
-      return false;
+    if (window.getSelection()?.toString() === "") return false;
 
     const selection = window.getSelection();
     if (!selection) return false;
 
     return (
-      selection.focusNode?.parentNode?.nodeName === 'A' ||
-      selection.anchorNode?.parentNode?.nodeName === 'A'
+      selection.focusNode?.parentNode?.nodeName === "A" ||
+      selection.anchorNode?.parentNode?.nodeName === "A"
     );
   }
 
@@ -259,20 +273,20 @@ export class NgxWigComponent
     button.visibleDropdown = true;
     button.dropdownButtonIndex = 0;
     const dropdown = (event?.currentTarget as HTMLElement)?.querySelector(
-      '.nwe-dropdown-content'
+      ".nwe-dropdown-content",
     );
     const buttons = Array.from(
-      dropdown?.querySelectorAll('button') ?? []
+      dropdown?.querySelectorAll("button") ?? [],
     ) as HTMLElement[];
     buttons[0]?.focus();
   }
 
   public onDropdownKeydown(event: KeyboardEvent, button: TButton): void {
     const dropdown = (event.currentTarget as HTMLElement).closest(
-      '.nwe-dropdown-content'
+      ".nwe-dropdown-content",
     );
     const buttons = Array.from(
-      dropdown?.querySelectorAll('button') ?? []
+      dropdown?.querySelectorAll("button") ?? [],
     ) as HTMLElement[];
     const index = buttons.indexOf(event.currentTarget as HTMLElement);
     if (index === -1) {
@@ -281,15 +295,15 @@ export class NgxWigComponent
     const lastIndex = buttons.length - 1;
     let newIndex = index;
     switch (event.key) {
-      case 'ArrowDown':
+      case "ArrowDown":
         event.preventDefault();
         newIndex = (index + 1) % buttons.length;
         break;
-      case 'ArrowUp':
+      case "ArrowUp":
         event.preventDefault();
         newIndex = (index - 1 + buttons.length) % buttons.length;
         break;
-      case 'Tab':
+      case "Tab":
         if (event.shiftKey) {
           if (index === 0) {
             return;
@@ -304,7 +318,7 @@ export class NgxWigComponent
           newIndex = index + 1;
         }
         break;
-      case 'Escape':
+      case "Escape":
         event.preventDefault();
         this.closeDropdown(button);
         return;
@@ -338,15 +352,17 @@ export class NgxWigComponent
     const lastIndex = buttons.length - 1;
 
     switch (event.key) {
-      case 'ArrowRight':
+      case "ArrowRight":
         event.preventDefault();
         this.toolbarButtonIndex.set((index + 1) % buttons.length);
         break;
-      case 'ArrowLeft':
+      case "ArrowLeft":
         event.preventDefault();
-        this.toolbarButtonIndex.set((index - 1 + buttons.length) % buttons.length);
+        this.toolbarButtonIndex.set(
+          (index - 1 + buttons.length) % buttons.length,
+        );
         break;
-      case 'Tab':
+      case "Tab":
         if (event.shiftKey) {
           if (index === 0) {
             return;
@@ -380,7 +396,7 @@ export class NgxWigComponent
         range.deleteContents();
 
         // append the content in a temporary div
-        const el = this.document.createElement('div');
+        const el = this.document.createElement("div");
         el.innerHTML = html;
 
         const frag = this.document.createDocumentFragment();
@@ -407,15 +423,26 @@ export class NgxWigComponent
   private isSupportedCommand(command: string): boolean {
     // List of commonly supported commands across modern browsers
     const supportedCommands = [
-      'bold', 'italic', 'underline',
-      'strikethrough', 'subscript', 'superscript',
-      'justifycenter', 'justifyfull', 'justifyleft', 'justifyright',
-      'indent', 'outdent',
-      'insertorderedlist', 'insertunorderedlist',
-      'createlink', 'unlink',
-      'inserthtml', 'insertimage',
-      'formatblock',
-      'removeformat'
+      "bold",
+      "italic",
+      "underline",
+      "strikethrough",
+      "subscript",
+      "superscript",
+      "justifycenter",
+      "justifyfull",
+      "justifyleft",
+      "justifyright",
+      "indent",
+      "outdent",
+      "insertorderedlist",
+      "insertunorderedlist",
+      "createlink",
+      "unlink",
+      "inserthtml",
+      "insertimage",
+      "formatblock",
+      "removeformat",
     ];
 
     return supportedCommands.includes(command.toLowerCase());

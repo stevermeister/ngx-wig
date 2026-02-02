@@ -7,7 +7,7 @@
         class="nwe-dropdown"
         (mouseenter)="button.isOpenOnMouseOver?button.visibleDropdown = true:true"
         (mouseleave)="button.isOpenOnMouseOver?button.visibleDropdown = false:true"
-          (click)="onDropdownButtonSelected(button, $event)"
+        (click)="onDropdownButtonSelected(button, $event)"
         (keydown.enter)="onDropdownButtonSelected(button, $event)"
       >
         <button
@@ -23,7 +23,12 @@
           [attr.aria-label]="button.ariaLabel || button.title || button.label"
         >
           @if (button.icon) {
-          <div class="nwe-icon" [ngClass]="[button.icon]" aria-hidden="true" [attr.focusable]="false"></div>
+          <div
+            class="nwe-icon"
+            [ngClass]="[button.icon]"
+            aria-hidden="true"
+            [attr.focusable]="false"
+          ></div>
           } @else {<!--
              -->{{ button.label }}<!--
           -->}
@@ -47,7 +52,12 @@
               [attr.aria-label]="child.ariaLabel || child.title || child.label"
             >
               @if (child.icon) {
-              <div class="nwe-icon" [ngClass]="[child.icon]" aria-hidden="true" [attr.focusable]="false"></div>
+              <div
+                class="nwe-icon"
+                [ngClass]="[child.icon]"
+                aria-hidden="true"
+                [attr.focusable]="false"
+              ></div>
               } @else {<!--
                 -->{{ child.label }}<!--
               -->}
@@ -72,7 +82,12 @@
           [attr.aria-label]="button.ariaLabel || button.title || button.label"
         >
           @if (button.icon) {
-          <div class="nwe-icon" [ngClass]="[button.icon]" aria-hidden="true" [attr.focusable]="false"></div>
+          <div
+            class="nwe-icon"
+            [ngClass]="[button.icon]"
+            aria-hidden="true"
+            [attr.focusable]="false"
+          ></div>
           } @else {<!--
               -->{{ button.label }}<!--
           -->}
