@@ -11,8 +11,9 @@
 
 ## Angular Support (older than the latest version)
 
-For **Angular 20** `ngx-wig@20`
+For **Angular 21** `ngx-wig@21`
 
+For **Angular 20** `ngx-wig@20`
 
 For **Angular 19** `ngx-wig@19`
 

@@ -74,7 +74,7 @@ export const CUSTOM_LIBRARY_BUTTONS: TButtonLibrary = {
     label: 'Edit HTML',
     title: 'Edit HTML',
     command: (ctx: NgxWigComponent) => {
-      ctx.editMode = !ctx.editMode;
+      ctx.editMode.update(e => !e);
     },
     styleClass: 'nw-button--source',
     icon: '',

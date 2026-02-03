@@ -12,21 +12,17 @@
     "importHelpers": true,
     "strictNullChecks": true,
     "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
-      "ngx-wig": [
-        "dist/ngx-wig"
-      ],
-      "ngx-wig/*": [
-        "dist/ngx-wig/*"
-      ]
+      "ngx-wig": ["dist/ngx-wig"],
+      "ngx-wig/*": ["dist/ngx-wig/*"]
     },
     "useDefineForClassFields": false
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }
